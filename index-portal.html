@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Managament Production Multicorp Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1c1c20;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-accent: #e5c158;
+      --text-main: #ffffff;
+      --text-muted: #d1d5db;
+      --border-gold: rgba(212, 175, 55, 0.4);
+    }
+
+    body { 
+      background-color: var(--bg-dark);
+      background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a1d 100%);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    .text-gold { color: var(--gold-primary) !important; }
+    .text-muted-clear { color: var(--text-muted) !important; }
+
+    /* ===== NAVBAR ===== */
+    .navbar-stripe {
+      background: rgba(10, 10, 11, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-stripe .navbar-brand {
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: -0.5px;
+      color: var(--gold-primary) !important;
+    }
+
+    .navbar-stripe .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 18px !important;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .navbar-stripe .nav-link:hover {
+      color: var(--gold-primary) !important;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -200px;
+      right: -200px;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: -150px;
+      left: -150px;
+      animation: float 25s infinite ease-in-out reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, -20px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-content p {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-hero {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+      border: none;
+      color: var(--bg-dark);
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-hero:hover {
+      background: linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-primary) 100%);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.3);
+      transform: translateY(-3px);
+      color: var(--bg-dark);
+    }
+
+    .btn-outline-hero {
+      border: 2px solid var(--gold-primary);
+      color: var(--gold-primary);
+      background: transparent;
+    }
+
+    .btn-outline-hero:hover {
+      background: var(--gold-primary);
+      color: var(--bg-dark);
+    }
+
+    /* ===== FEATURES GRID ===== */
+    .features-section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+      transform: translateY(-8px);
+      border-color: var(--gold-primary);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--gold-primary);
+      margin-bottom: 15px;
+    }
+
+    .feature-card h5 {
+      color: var(--gold-primary);
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ===== PAGE LINKS SECTION ===== */
+    .links-section {
+      padding: 80px 0;
+      background: rgba(10, 10, 11, 0.5);
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .link-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.3s ease;
+    }
+
+    .link-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-primary);
+      box-shadow: 0 16px 40px rgba(212, 175, 55, 0.25);
+      transform: translateY(-10px);
+    }
+
+    .link-card i {
+      font-size: 3rem;
+      color: var(--gold-primary);
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .link-card h4 {
+      color: var(--gold-primary);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .link-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    .link-badge {
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-primary);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    /* ===== STATS SECTION ===== */
+    .stats-section {
+      padding: 60px 0;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 20px;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-section {
+      background: rgba(10, 10, 11, 0.8);
+      border-top: 1px solid var(--border-gold);
+      padding: 40px 0 20px;
+      margin-top: 80px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--gold-primary);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .links-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-stripe navbar-expand-lg sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#home">
+      <i class="fas fa-building"></i> Managament Production Multicorp
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
+        <li class="nav-item"><a class="nav-link" href="#halaman">Halaman</a></li>
+        <li class="nav-item"><a class="nav-link" href="#info">Info</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-section" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <h1><i class="fas fa-crown"></i> Managament Production Multicorp</h1>
+      <p>Solusi Enterprise Terpadu - Teknologi, Jaringan & Kuliner Nusantara</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="login.html" class="btn btn-hero">
+          <i class="fas fa-sign-in-alt"></i> Login Admin
+        </a>
+        <a href="index-portal.html" class="btn btn-hero btn-outline-hero">
+          <i class="fas fa-globe"></i> Jelajahi Portal
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section class="features-section" id="fitur">
+  <div class="container">
+    <h2 class="section-title">10 Fitur Utama</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-video"></i></div>
+        <h5>Video & Testimoni</h5>
+        <p>Konten video divisi dan testimoni pelanggan dari Google Drive</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-user"></i></div>
+        <h5>Contact Person</h5>
+        <p>Informasi kontak lengkap perusahaan dan divisi</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-share-alt"></i></div>
+        <h5>Social Media</h5>
+        <p>Link media sosial per divisi (YouTube, FB, IG, TikTok)</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-comments"></i></div>
+        <h5>Live Chat 24/7</h5>
+        <p>Admin support 24 jam dengan auto-translate</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-box"></i></div>
+        <h5>Katalog Produk</h5>
+        <p>Daftar produk dan harga per divisi</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+        <h5>Metode Pembayaran</h5>
+        <p>Rekening bank dan e-wallet lengkap</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-book"></i></div>
+        <h5>Company Profile</h5>
+        <p>Visi, Misi, Tujuan & Tahun Berdiri</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+        <h5>Grafik Data</h5>
+        <p>Pencapaian penjualan harian, bulanan, tahunan</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-code"></i></div>
+        <h5>Developer Info</h5>
+        <p>Informasi pembuat website dan tahun pembuatan</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-list"></i></div>
+        <h5>Panduan Order</h5>
+        <p>Langkah-langkah cara pemesanan customer</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGES SECTION -->
+<section class="links-section" id="halaman">
+  <div class="container">
+    <h2 class="section-title">📍 Semua Halaman Website</h2>
+    <div class="links-grid">
+      <!-- Homepage -->
+      <a href="index-portal.html" class="link-card">
+        <i class="fas fa-home"></i>
+        <h4>Home Portal</h4>
+        <p>Halaman utama website dengan informasi perusahaan</p>
+        <span class="link-badge">Public</span>
+      </a>
+
+      <!-- Login -->
+      <a href="login.html" class="link-card">
+        <i class="fas fa-lock"></i>
+        <h4>Login Admin</h4>
+        <p>Halaman login untuk admin dan staff perusahaan</p>
+        <span class="link-badge">Secure</span>
+      </a>
+
+      <!-- Dashboard -->
+      <a href="dashboard.html?user=superadmin" class="link-card">
+        <i class="fas fa-chart-line"></i>
+        <h4>Dashboard Admin</h4>
+        <p>Panel admin dengan analytics dan manajemen pesan</p>
+        <span class="link-badge">Private</span>
+      </a>
+
+      <!-- Demo Login Cepat -->
+      <a href="javascript:void(0)" onclick="autoLogin('superadmin', 'admin123')" class="link-card">
+        <i class="fas fa-bolt"></i>
+        <h4>Demo Super Admin</h4>
+        <p>Login cepat dengan akun Super Administrator</p>
+        <span class="link-badge">Demo</span>
+      </a>
+
+      <!-- Demo Admin IT -->
+      <a href="javascript:void(0)" onclick="autoLogin('admin_it', 'it123')" class="link-card">
+        <i class="fas fa-laptop"></i>
+        <h4>Demo Admin IT</h4>
+        <p>Login cepat dengan akun Admin IT Program</p>
+        <span class="link-badge">Demo</span>
+      </a>
+
+      <!-- Demo Admin Network -->
+      <a href="javascript:void(0)" onclick="autoLogin('admin_net', 'net123')" class="link-card">
+        <i class="fas fa-wifi"></i>
+        <h4>Demo Admin Network</h4>
+        <p>Login cepat dengan akun Admin Network</p>
+        <span class="link-badge">Demo</span>
+      </a>
+
+      <!-- Demo Admin Food -->
+      <a href="javascript:void(0)" onclick="autoLogin('admin_food', 'food123')" class="link-card">
+        <i class="fas fa-utensils"></i>
+        <h4>Demo Admin Food</h4>
+        <p>Login cepat dengan akun Admin Nusantara Food</p>
+        <span class="link-badge">Demo</span>
+      </a>
+
+      <!-- Documentation -->
+      <a href="README.md" target="_blank" class="link-card">
+        <i class="fas fa-book"></i>
+        <h4>Dokumentasi</h4>
+        <p>Dokumentasi lengkap project dan API</p>
+        <span class="link-badge">Docs</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="stats-section" id="info">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-item">
+          <div class="stat-number">10</div>
+          <div class="stat-label">Fitur Utama</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-item">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Divisi Bisnis</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-item">
+          <div class="stat-number">4</div>
+          <div class="stat-label">Demo Accounts</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="stat-item">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Dukungan 24/7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO CARDS -->
+<section class="links-section">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="link-card" style="display: block; text-align: left;">
+          <h4 class="text-gold mb-3"><i class="fas fa-users"></i> Demo Accounts</h4>
+          <table style="width: 100%; color: var(--text-muted); font-size: 0.9rem;">
+            <tr>
+              <td style="padding: 8px 0;"><strong>👑 Super Admin</strong></td>
+              <td style="text-align: right;">superadmin / admin123</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>💻 Admin IT</strong></td>
+              <td style="text-align: right;">admin_it / it123</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>🌐 Admin Network</strong></td>
+              <td style="text-align: right;">admin_net / net123</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0;"><strong>🍜 Admin Food</strong></td>
+              <td style="text-align: right;">admin_food / food123</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="link-card" style="display: block; text-align: left;">
+          <h4 class="text-gold mb-3"><i class="fas fa-info-circle"></i> Informasi Kontak</h4>
+          <div style="color: var(--text-muted); font-size: 0.95rem;">
+            <p style="margin-bottom: 8px;"><strong>Hotline:</strong> 0812-6263-9095</p>
+            <p style="margin-bottom: 8px;"><strong>Email:</strong> support@multicorp.com</p>
+            <p style="margin-bottom: 8px;"><strong>Lokasi:</strong> Gd. Managament Production Multicorp Lt. 10, Jakarta</p>
+            <p><strong>Jam Operasional:</strong> 24 Jam Sehari</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <h5 class="text-gold mb-3">Managament Production Multicorp</h5>
+        <p class="text-muted-clear small">Solusi enterprise terpadu untuk bisnis Anda.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <h5 class="text-gold mb-3">Halaman Penting</h5>
+        <ul class="list-unstyled">
+          <li><a href="index-portal.html" class="footer-link">Home</a></li>
+          <li><a href="login.html" class="footer-link">Login</a></li>
+          <li><a href="dashboard.html" class="footer-link">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 mb-4">
+        <h5 class="text-gold mb-3">Divisi</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="footer-link">IT Program</a></li>
+          <li><a href="#" class="footer-link">Network</a></li>
+          <li><a href="#" class="footer-link">Nusantara Food</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr style="border-color: rgba(255,255,255,0.1);">
+    <div class="text-center text-muted-clear small">
+      <p>&copy; 2026 Managament Production Multicorp. All rights reserved. | Designed by Managament Production Multicorp IT Team</p>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function autoLogin(username, password) {
+    // Redirect ke login dengan pre-filled credentials
+    window.location.href = `login.html?auto=true&user=${username}&pass=${password}`;
+  }
+</script>
+</body>
+</html>

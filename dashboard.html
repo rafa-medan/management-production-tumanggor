@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Management Production Tumanggor - Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1c1c20;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-accent: #e5c158;
+      --text-main: #ffffff;
+      --text-muted: #dfe7f5;
+      --text-soft: #eef3ff;
+      --border-gold: rgba(212, 175, 55, 0.45);
+      --success: #51cf66;
+      --danger: #ff6b6b;
+      --warning: #ffd93d;
+      --panel-soft: rgba(20, 20, 22, 0.9);
+    }
+
+    body {
+      background: linear-gradient(rgba(10, 10, 11, 0.78), rgba(10, 10, 11, 0.86)), url('background-mpt-resized.png') center / cover fixed;
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar-dashboard {
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar-brand-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-dark);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .user-role {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      background: var(--bg-card);
+      border-right: 1px solid var(--border-gold);
+      min-height: calc(100vh - 70px);
+      padding: 30px 0;
+      position: sticky;
+      top: 70px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar-menu li {
+      margin: 0;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 25px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover {
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+      border-left-color: var(--gold-primary);
+    }
+
+    .sidebar-menu a.active {
+      color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+      border-left-color: var(--gold-primary);
+    }
+
+    .sidebar-menu a i {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--border-gold);
+      margin: 20px 0;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      padding: 40px 30px;
+      min-height: calc(100vh - 70px);
+    }
+
+    .page-header {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+      color: var(--text-soft);
+    }
+
+    /* ===== CARD ===== */
+    .card-dashboard {
+      background: var(--panel-soft);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .card-dashboard:hover {
+      background: var(--bg-card-hover);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+    }
+
+    /* ===== STAT CARD ===== */
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .stat-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      color: var(--gold-primary);
+      margin-bottom: 15px;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .stat-change {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      color: var(--success);
+    }
+
+    /* ===== TABLE ===== */
+    .table-responsive {
+      margin-top: 20px;
+    }
+
+    table {
+      color: var(--text-main);
+    }
+
+    table thead {
+      background: rgba(212, 175, 55, 0.1);
+      border: none;
+    }
+
+    table thead th {
+      color: var(--gold-primary);
+      font-weight: 700;
+      border: none;
+      padding: 15px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    table tbody td {
+      border-color: var(--border-gold);
+      padding: 15px;
+      vertical-align: middle;
+    }
+
+    table tbody tr:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    /* ===== BADGE ===== */
+    .badge-status {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .badge-new {
+      background: rgba(255, 215, 0, 0.2);
+      color: var(--warning);
+    }
+
+    .badge-processing {
+      background: rgba(81, 207, 102, 0.2);
+      color: var(--success);
+    }
+
+    .badge-completed {
+      background: rgba(81, 207, 102, 0.2);
+      color: var(--success);
+    }
+
+    /* ===== BUTTON ===== */
+    .btn-dashboard {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+      border: none;
+      color: var(--bg-dark);
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .btn-dashboard:hover {
+      background: linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-primary) 100%);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* ===== CHART ===== */
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin: 20px 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        width: 250px;
+        height: 100vh;
+        z-index: 100;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.show {
+        left: 0;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dashboard sticky-top">
+  <div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-link text-gold d-lg-none" id="sidebarToggle">
+          <i class="fas fa-bars" style="font-size: 1.3rem;"></i>
+        </button>
+        <span class="navbar-brand-text d-flex align-items-center gap-2">
+          <img src="logo-mpt-resized.png" alt="Management Production Tumanggor" style="height: 38px; width: auto;"> Management Production Tumanggor
+        </span>
+      </div>
+
+      <div class="user-profile">
+        <div class="user-avatar" id="userAvatar">M</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">Managament Production Multicorp User</div>
+          <div class="user-role" id="userRole">Admin</div>
+        </div>
+        <button class="btn btn-link text-gold" onclick="handleLogout()">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="d-flex">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <ul class="sidebar-menu">
+      <li><a href="#" class="active" onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      <li><a href="#" onclick="showSection('livechat')"><i class="fas fa-comments"></i> Live Chat</a></li>
+      <li><a href="#" onclick="showSection('pesan')"><i class="fas fa-envelope"></i> Pesan Masuk</a></li>
+      <li><a href="#" onclick="showSection('produk')"><i class="fas fa-box"></i> Katalog Produk</a></li>
+      <li id="adminProdukMenu" style="display: none;"><a href="admin-products.html"><i class="fas fa-cogs"></i> Admin Produk</a></li>
+      <li><a href="#" onclick="showSection('pembayaran')"><i class="fas fa-credit-card"></i> Pembayaran</a></li>
+      <li><a href="#" onclick="showSection('analytics')"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+      <div class="sidebar-divider"></div>
+      <li><a href="#" onclick="showSection('profil')"><i class="fas fa-user-circle"></i> Profil Saya</a></li>
+      <li><a href="#" onclick="showSection('pengaturan')"><i class="fas fa-cog"></i> Pengaturan</a></li>
+      <li><a href="#" onclick="handleLogout()"><i class="fas fa-door-open"></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content flex-grow-1">
+    <!-- DASHBOARD SECTION -->
+    <div id="dashboard-section" class="section-content">
+      <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="card-dashboard stat-card">
+            <div class="stat-content">
+              <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+              <div class="stat-label">Total Pesan</div>
+              <div class="stat-value" id="totalPesan">24</div>
+              <div class="stat-change"><i class="fas fa-arrow-up"></i> +5 bulan ini</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="card-dashboard stat-card">
+            <div class="stat-content">
+              <div class="stat-icon" style="color: #51cf66;"><i class="fas fa-check-circle"></i></div>
+              <div class="stat-label">Selesai</div>
+              <div class="stat-value" id="totalSelesai">18</div>
+              <div class="stat-change" style="color: #51cf66;"><i class="fas fa-arrow-up"></i> 75% completion</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="card-dashboard stat-card">
+            <div class="stat-content">
+              <div class="stat-icon" style="color: #ffd93d;"><i class="fas fa-hourglass-half"></i></div>
+              <div class="stat-label">Proses</div>
+              <div class="stat-value" id="totalProses">4</div>
+              <div class="stat-change" style="color: #ffd93d;"><i class="fas fa-minus"></i> Dalam penanganan</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="card-dashboard stat-card">
+            <div class="stat-content">
+              <div class="stat-icon" style="color: #ff6b6b;"><i class="fas fa-users"></i></div>
+              <div class="stat-label">Klien</div>
+              <div class="stat-value" id="totalKlien">12</div>
+              <div class="stat-change" style="color: #51cf66;"><i class="fas fa-arrow-up"></i> +2 klien baru</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+          <div class="card-dashboard">
+            <h5 class="text-gold mb-4">Penjualan Harian</h5>
+            <div class="chart-container">
+              <canvas id="dailyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-dashboard">
+            <h5 class="text-gold mb-4">Distribusi Per Divisi</h5>
+            <div class="chart-container">
+              <canvas id="divisiChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT MESSAGES -->
+      <div class="card-dashboard">
+        <h5 class="text-gold mb-4">Pesan Terbaru</h5>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Pengirim</th>
+                <th>Divisi</th>
+                <th>Pesan</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="recentMessagesTable">
+              <tr>
+                <td colspan="6" class="text-center text-muted">Loading data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE CHAT SECTION -->
+    <div id="livechat-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title"><i class="fas fa-comments me-2"></i>Live Chat 24/7 Management</h1>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card-dashboard">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="text-gold fw-bold mb-0">Chat Messages</h4>
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-outline-danger" onclick="clearChatMessages()" title="Hapus seluruh riwayat chat">
+                  <i class="fas fa-trash"></i> Hapus Semua
+                </button>
+                <button type="button" class="btn btn-outline-gold" id="aiModeToggle" onclick="toggleAIMode()" title="Gunakan AI untuk generate reply">
+                  <i class="fas fa-robot"></i> AI Mode
+                </button>
+              </div>
+            </div>
+            <div id="adminChatThread" style="height: 400px; overflow-y: auto; border: 1px solid var(--border-gold); border-radius: 8px; padding: 15px; background: rgba(0,0,0,0.3);">
+              <p class="text-muted text-center">Belum ada pesan chat</p>
+            </div>
+            <form id="adminChatForm" class="mt-3" onsubmit="handleAdminChatReply(event)">
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" id="adminChatInput" placeholder="Ketik balasan Anda..." style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);">
+                <button type="submit" class="btn btn-dashboard"><i class="fas fa-paper-plane"></i> Kirim</button>
+                <button type="button" class="btn btn-outline-gold" id="aiGenerateBtn" title="Generate AI reply" style="display:none;" onclick="generateAIDashboardReply()"><i class="fas fa-wand-magic-sparkles"></i></button>
+              </div>
+              <div id="aiSuggestion" class="p-2 rounded" style="background: rgba(212,175,55,0.1); border-left: 3px solid #d4af37; display: none;">
+                <small class="text-gold"><strong>AI Suggestion:</strong></small>
+                <p id="aiSuggestionText" class="text-light-muted mt-1 mb-0" style="font-size: 0.9rem;"></p>
+                <button type="button" class="btn btn-sm btn-gold mt-2" onclick="acceptAISuggestion()">Gunakan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-dashboard">
+            <h4 class="text-gold fw-bold mb-3">Quick Response Templates</h4>
+            <div class="d-grid gap-2">
+              <button type="button" class="btn btn-outline-gold btn-sm" onclick="insertQuickResponse('Terima kasih atas pertanyaan Anda. Tim kami akan segera merespons.')">Terima Kasih</button>
+              <button type="button" class="btn btn-outline-gold btn-sm" onclick="insertQuickResponse('Untuk info lebih lanjut, silakan hubungi customer service kami di WhatsApp.')">Hubung CS</button>
+              <button type="button" class="btn btn-outline-gold btn-sm" onclick="insertQuickResponse('Kami sedang memproses permintaan Anda. Mohon tunggu.')">Proses Lanjut</button>
+              <button type="button" class="btn btn-outline-gold btn-sm" onclick="insertQuickResponse('Selesai! Terima kasih telah menjadi pelanggan Management Production Tumanggor.')">Selesai</button>
+            </div>
+          </div>
+
+          <div class="card-dashboard mt-3">
+            <h4 class="text-gold fw-bold mb-3">Chat Statistics</h4>
+            <div class="mb-2">
+              <small class="text-muted">Total Chat:</small>
+              <h5 class="text-gold" id="chatStatTotal">0</h5>
+            </div>
+            <div class="mb-2">
+              <small class="text-muted">Belum Dibalas:</small>
+              <h5 class="text-warning" id="chatStatPending">0</h5>
+            </div>
+            <div>
+              <small class="text-muted">Sudah Dibalas:</small>
+              <h5 class="text-success" id="chatStatReplied">0</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESAN SECTION -->
+    <div id="pesan-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title">Pesan Masuk</h1>
+      </div>
+
+      <div class="card-dashboard">
+        <div class="text-end mb-3">
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearMessages()" title="Hapus semua pesan">
+            <i class="fas fa-trash"></i> Hapus Semua Pesan
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Pengirim</th>
+                <th>Divisi</th>
+                <th>Kontak</th>
+                <th>Pesan</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pesanTable">
+              <tr>
+                <td colspan="8" class="text-center text-muted">Loading data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUK SECTION -->
+    <div id="produk-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title">Katalog Produk</h1>
+        <button class="btn btn-dashboard" onclick="alert('Fitur edit produk akan segera hadir')">
+          <i class="fas fa-plus"></i> Tambah Produk
+        </button>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card-dashboard">
+            <div style="height: 200px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; margin-bottom: 15px;"></div>
+            <h5 class="text-gold">Konsultasi IT</h5>
+            <p class="text-muted">Layanan konsultasi teknologi informasi</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="h5 text-gold">Rp 500K</span>
+              <button class="btn btn-sm btn-dashboard">Edit</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="card-dashboard">
+            <div style="height: 200px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; margin-bottom: 15px;"></div>
+            <h5 class="text-gold">Setup Network</h5>
+            <p class="text-muted">Konfigurasi infrastruktur jaringan</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="h5 text-gold">Rp 2.5M</span>
+              <button class="btn btn-sm btn-dashboard">Edit</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="card-dashboard">
+            <div style="height: 200px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; margin-bottom: 15px;"></div>
+            <h5 class="text-gold">Catering Nusantara</h5>
+            <p class="text-muted">Layanan katering makanan Nusantara</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="h5 text-gold">Rp 200K/pax</span>
+              <button class="btn btn-sm btn-dashboard">Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEMBAYARAN SECTION -->
+    <div id="pembayaran-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title">Pembayaran</h1>
+      </div>
+
+      <div class="card-dashboard">
+        <h5 class="text-gold mb-4">Metode Pembayaran Tersedia</h5>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div style="padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border: 1px solid var(--border-gold);">
+              <h6 class="text-gold mb-2"><i class="fas fa-bank"></i> Transfer Bank</h6>
+              <small class="text-muted d-block">BCA: 123-456-7890</small>
+              <small class="text-muted d-block">BRI: 0987-6543-21</small>
+              <small class="text-muted d-block">BNI: 555-444-333</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="padding: 15px; background: rgba(212, 175, 55, 0.1); border-radius: 8px; border: 1px solid var(--border-gold);">
+              <h6 class="text-gold mb-2"><i class="fas fa-wallet"></i> E-Wallet</h6>
+              <small class="text-muted d-block">GoPay: 0812-6263-9095</small>
+              <small class="text-muted d-block">DANA: 0812-6263-9095</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-dashboard mt-4">
+        <h5 class="text-gold mb-4">Riwayat Pembayaran</h5>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Jumlah</th>
+                <th>Metode</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>BAY-001</td>
+                <td>Rp 500.000</td>
+                <td>Transfer BCA</td>
+                <td>2026-08-30</td>
+                <td><span class="badge badge-status badge-completed">Terverifikasi</span></td>
+              </tr>
+              <tr>
+                <td>BAY-002</td>
+                <td>Rp 2.500.000</td>
+                <td>Transfer BRI</td>
+                <td>2026-08-29</td>
+                <td><span class="badge badge-status badge-completed">Terverifikasi</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYTICS SECTION -->
+    <div id="analytics-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title">Analytics & Laporan</h1>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12">
+          <div class="card-dashboard">
+            <h5 class="text-gold mb-4">Grafik Penjualan Bulanan</h5>
+            <div class="chart-container">
+              <canvas id="monthlyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-dashboard">
+            <h5 class="text-gold mb-4">Kategori Layanan</h5>
+            <div class="chart-container">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-dashboard">
+            <h5 class="text-gold mb-4">Status Pesanan</h5>
+            <div class="chart-container">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFIL SECTION -->
+    <div id="profil-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title">Profil Saya</h1>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card-dashboard">
+            <div style="text-align: center; margin-bottom: 30px;">
+              <div class="user-avatar" style="width: 100px; height: 100px; font-size: 2.5rem; margin: 0 auto;">M</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Nama Lengkap</label>
+              <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" id="profileName" value="Super Administrator" readonly>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Username</label>
+              <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="superadmin" readonly>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Email</label>
+              <input type="email" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="superadmin@multicorp.com" readonly>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Divisi</label>
+              <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="ALL" readonly>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Role</label>
+              <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="SUPER_ADMIN" readonly>
+            </div>
+
+            <button class="btn btn-dashboard w-100">
+              <i class="fas fa-edit"></i> Edit Profil
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-dashboard">
+            <h5 class="text-gold mb-4">Ubah Password</h5>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Password Lama</label>
+              <input type="password" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Masukkan password lama">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Password Baru</label>
+              <input type="password" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Masukkan password baru">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Konfirmasi Password</label>
+              <input type="password" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Konfirmasi password baru">
+            </div>
+
+            <button class="btn btn-dashboard w-100">
+              <i class="fas fa-key"></i> Ubah Password
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENGATURAN SECTION -->
+    <div id="pengaturan-section" class="section-content" style="display: none;">
+      <div class="page-header">
+        <h1 class="page-title">Pengaturan</h1>
+      </div>
+
+      <div class="card-dashboard">
+        <h5 class="text-gold mb-4">Preferensi Sistem</h5>
+
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="notifEmail" checked>
+            <label class="form-check-label" for="notifEmail">
+              Terima notifikasi via Email
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="notifSMS" checked>
+            <label class="form-check-label" for="notifSMS">
+              Terima notifikasi via SMS
+            </label>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="notifWhatsapp" checked>
+            <label class="form-check-label" for="notifWhatsapp">
+              Terima notifikasi via WhatsApp
+            </label>
+          </div>
+        </div>
+
+        <hr style="border-color: var(--border-gold);">
+
+        <h5 class="text-gold mb-4 mt-4">Keamanan</h5>
+
+        <div class="mb-3">
+          <label class="form-label text-gold">Login Terakhir</label>
+          <p class="text-muted">2026-08-31 10:30:45</p>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-gold">Perangkat Aktif</label>
+          <p class="text-muted">
+            <i class="fas fa-desktop"></i> Windows - Chrome
+          </p>
+        </div>
+
+        <button class="btn btn-outline-danger">
+          <i class="fas fa-sign-out-alt"></i> Logout dari Semua Perangkat
+        </button>
+      </div>
+    </div>
+
+    <!-- ADMIN / UPLOAD / SETTINGS CONTENT -->
+    <div class="mt-4">
+      <div id="adminVideoUploadCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-video me-2"></i>Upload Video / Berkas Divisi</h4>
+        <form id="videoUploadForm" class="row g-3" onsubmit="return false;">
+          <div class="col-md-4">
+            <label class="form-label text-gold">Divisi Target</label>
+            <select class="form-select" id="uploadDivisiSelect">
+              <option value="IT Program">IT Program</option>
+              <option value="Network">Network</option>
+              <option value="Nusantara Food">Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label text-gold">File / Video</label>
+            <input type="file" class="form-control" id="upFile" accept="video/*,application/pdf,image/*">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-gold">Keterangan</label>
+            <input type="text" class="form-control" id="upKet" placeholder="Contoh: Demo produk">
+          </div>
+          <div class="col-12 text-end">
+            <button type="button" class="btn btn-dashboard" onclick="handleUploadFile(event)"><i class="fa-solid fa-upload me-1"></i> Upload Berkas</button>
+          </div>
+        </form>
+        <div class="mt-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="text-gold mb-0">Daftar Berkas</h6>
+            <div class="d-flex gap-2">
+              <input type="text" class="form-control w-auto" id="searchFilesInput" placeholder="Cari berkas..." style="max-width: 220px;" oninput="filterFilesTable()">
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearFiles()" title="Hapus semua berkas"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Waktu</th>
+                  <th>Uploader</th>
+                  <th>Role</th>
+                  <th>Nama File</th>
+                  <th>Keterangan</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="filesTableBody">
+                <tr><td colspan="6" class="text-center text-muted">Belum ada berkas</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="adminContactSocmedCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-address-book me-2"></i>Pengaturan Contact Person & URL Sosial Media</h4>
+        <form id="contactSocmedForm" class="row g-3" onsubmit="handleSaveContactSocmed(event)">
+          <div class="col-md-12">
+            <label class="form-label text-gold">Info Contact Person Perusahaan</label>
+            <input type="text" class="form-control" id="inputContactPerson" placeholder="Hotline: 0812... | Email: support@..." required>
+          </div>
+          <div class="col-12">
+            <h6 class="text-gold mt-2">URL Sosial Media</h6>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-gold">Target Sosmed</label>
+            <select class="form-select" id="socmedTargetSelect" onchange="loadSocmedInputs()">
+              <option value="SOCMED_PUBLIC">Publik / Utama</option>
+              <option value="SOCMED_IT Program">Divisi IT Program</option>
+              <option value="SOCMED_Network">Divisi Network</option>
+              <option value="SOCMED_Nusantara Food">Divisi Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-2"><label class="form-label text-gold">YouTube</label><input type="url" class="form-control" id="smYT"></div>
+          <div class="col-md-2"><label class="form-label text-gold">Facebook</label><input type="url" class="form-control" id="smFB"></div>
+          <div class="col-md-2"><label class="form-label text-gold">Instagram</label><input type="url" class="form-control" id="smIG"></div>
+          <div class="col-md-3"><label class="form-label text-gold">TikTok</label><input type="url" class="form-control" id="smTT"></div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Kontak & Sosial Media</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="adminProductsCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-tags me-2"></i>Manajemen Product & Harga Per Divisi</h4>
+        <form id="productForm" class="row g-3" onsubmit="handleSaveProduct(event)">
+          <input type="hidden" id="prdEditId">
+          <div class="col-md-3">
+            <label class="form-label text-gold">Divisi</label>
+            <select class="form-select" id="prdDivisi">
+              <option value="IT Program">IT Program</option>
+              <option value="Network">Network</option>
+              <option value="Nusantara Food">Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-gold">Nama Produk / Layanan</label>
+            <input type="text" class="form-control" id="prdNama" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-gold">Harga (Rp)</label>
+            <input type="number" class="form-control" id="prdHarga" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label text-gold">Deskripsi Singkat</label>
+            <input type="text" class="form-control" id="prdKet" required>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-plus me-1"></i> Simpan Produk / Harga</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="rekeningAdminCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-credit-card me-2"></i>Pengaturan Rekening & Metode Pembayaran</h4>
+        <form id="rekeningForm" class="row g-3" onsubmit="handleUpdateRekening(event)">
+          <div class="col-md-12">
+            <label class="form-label text-gold">Info Rekening / E-Wallet</label>
+            <textarea class="form-control" id="inputRekeningInfo" rows="4" required></textarea>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Rekening</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="adminCompanyProfileCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-landmark me-2"></i>Company Profile & Web Developer</h4>
+        <form id="companyProfileForm" class="row g-3" onsubmit="handleSaveCompanyProfile(event)">
+          <div class="col-md-3"><label class="form-label text-gold">Tahun Berdiri</label><input type="text" class="form-control" id="cpInpTahun" required></div>
+          <div class="col-md-9"><label class="form-label text-gold">Profil Perusahaan</label><input type="text" class="form-control" id="cpInpProfile" required></div>
+          <div class="col-md-4"><label class="form-label text-gold">Visi</label><textarea class="form-control" id="cpInpVisi" rows="3"></textarea></div>
+          <div class="col-md-4"><label class="form-label text-gold">Misi</label><textarea class="form-control" id="cpInpMisi" rows="3"></textarea></div>
+          <div class="col-md-4"><label class="form-label text-gold">Tujuan</label><textarea class="form-control" id="cpInpTujuan" rows="3"></textarea></div>
+          <div class="col-md-6"><label class="form-label text-gold">Nama Developer</label><input type="text" class="form-control" id="devInpNama" required></div>
+          <div class="col-md-6"><label class="form-label text-gold">Tahun Pembuatan</label><input type="text" class="form-control" id="devInpTahun" required></div>
+          <div class="col-12 text-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Profile & Developer</button></div>
+        </form>
+      </div>
+
+      <div id="adminSalesCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-chart-column me-2"></i>Tambah Data Penjualan</h4>
+        <form id="salesForm" class="row g-3" onsubmit="handleAddSalesData(event)">
+          <div class="col-md-4"><label class="form-label text-gold">Divisi</label><select class="form-select" id="salesDivisi"><option value="IT Program">IT Program</option><option value="Network">Network</option><option value="Nusantara Food">Nusantara Food</option></select></div>
+          <div class="col-md-4"><label class="form-label text-gold">Total Penjualan (Rp)</label><input type="number" class="form-control" id="salesAmount" required></div>
+          <div class="col-md-4 d-grid align-items-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-plus me-1"></i> Simpan Data</button></div>
+        </form>
+      </div>
+
+      <div id="brandingAdminCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-palette me-2"></i>Kustomisasi Logo & Background</h4>
+        <form id="brandingForm" class="row g-3" onsubmit="handleSaveBranding(event)">
+          <div class="col-md-5"><label class="form-label text-gold">Upload Logo</label><input type="file" class="form-control" id="upLogoFile" accept="image/png, image/jpeg"></div>
+          <div class="col-md-5"><label class="form-label text-gold">Upload Background</label><input type="file" class="form-control" id="upBgFile" accept="image/png, image/jpeg"></div>
+          <div class="col-md-2 d-grid align-items-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Branding</button></div>
+        </form>
+      </div>
+
+      <div id="divisiLogoAdminCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-sitemap me-2"></i>Logo Khusus Divisi</h4>
+        <form id="divisiLogoForm" class="row g-3" onsubmit="handleUpdateDivisionLogo(event)">
+          <div class="col-md-4"><label class="form-label text-gold">Target Divisi</label><select class="form-select" id="selectTargetDivisi"><option value="IT Program">IT Program</option><option value="Network">Network</option><option value="Nusantara Food">Nusantara Food</option></select></div>
+          <div class="col-md-6"><label class="form-label text-gold">Upload File Logo Baru</label><input type="file" class="form-control" id="upDivisiLogoFile" accept="image/png, image/jpeg" required></div>
+          <div class="col-md-2 d-grid align-items-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-upload me-1"></i> Update Logo</button></div>
+        </form>
+      </div>
+
+      <div id="paymentUploadCard" class="card-dashboard d-none mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-receipt me-2"></i>Upload Bukti Pembayaran</h4>
+        <div class="alert alert-dark border-gold text-gold-light mb-3">
+          <i class="fa-solid fa-info-circle me-1"></i> <strong>Tujuan Pembayaran:</strong> <span id="displayRekeningInfo" class="text-white">Memuat info rekening...</span>
+        </div>
+        <form id="paymentForm" class="row g-3" onsubmit="handleUploadPayment(event)">
+          <div class="col-md-3"><label class="form-label text-gold">Jumlah (Rp)</label><input type="number" class="form-control" id="payAmount" required></div>
+          <div class="col-md-3"><label class="form-label text-gold">Metode</label><select class="form-select" id="payMethod"><option value="DANA">DANA</option><option value="GOPAY">GoPay</option><option value="Bank BCA">Bank BCA</option><option value="Bank BRI">Bank BRI</option><option value="Bank BNI">Bank BNI</option></select></div>
+          <div class="col-md-3"><label class="form-label text-gold">File Bukti</label><input type="file" class="form-control" id="payFile" accept="image/*,application/pdf" required></div>
+          <div class="col-md-3"><label class="form-label text-gold">Catatan</label><input type="text" class="form-control" id="payKet" placeholder="Contoh: DP Invoice #123"></div>
+          <div class="col-12 text-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-paper-plane me-1"></i> Kirim Bukti Pembayaran</button></div>
+        </form>
+      </div>
+
+      <div id="paymentListCard" class="card-dashboard d-none mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-gold fw-bold mb-0"><i class="fa-solid fa-list me-2"></i>Daftar Bukti Pembayaran</h4>
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearPayments()" title="Hapus semua bukti pembayaran">
+            <i class="fas fa-trash"></i> Hapus Semua
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Waktu</th>
+                <th>Pengirim</th>
+                <th>Role</th>
+                <th>Jumlah</th>
+                <th>Metode</th>
+                <th>Keterangan</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsTableBody">
+              <tr><td colspan="8" class="text-center text-muted">Belum ada bukti pembayaran</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ===== PAGE INITIALIZATION =====
+  document.addEventListener('DOMContentLoaded', () => {
+    // Load user info from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('user') || 'superadmin';
+
+    const registeredUsers = (() => {
+      try {
+        const data = JSON.parse(localStorage.getItem('multicorp_registered_users') || '{}');
+        return {
+          ...(data.PARTNER || {}),
+          ...(data.CUSTOMER || {})
+        };
+      } catch (e) {
+        return {};
+      }
+    })();
+
+    // Mock user data
+    const userData = {
+      'superadmin': {
+        name: 'Super Administrator',
+        role: 'SUPER_ADMIN',
+        divisi: 'ALL',
+        avatar: 'S'
+      },
+      'admin_it': {
+        name: 'Admin IT Program',
+        role: 'ADMIN_DIVISI',
+        divisi: 'IT Program',
+        avatar: 'A'
+      },
+      'admin_net': {
+        name: 'Admin Network',
+        role: 'ADMIN_DIVISI',
+        divisi: 'Network',
+        avatar: 'A'
+      },
+      'admin_food': {
+        name: 'Admin Nusantara Food',
+        role: 'ADMIN_DIVISI',
+        divisi: 'Nusantara Food',
+        avatar: 'A'
+      },
+      'partner_jaya': {
+        name: 'Mitra Bisnis Jaya',
+        role: 'PARTNER',
+        divisi: 'PARTNER',
+        avatar: 'P'
+      },
+      'cust_budi': {
+        name: 'Budi Santoso',
+        role: 'CUSTOMER',
+        divisi: 'CUSTOMER',
+        avatar: 'C'
+      },
+      ...Object.fromEntries(Object.entries(registeredUsers).map(([key, value]) => [key, {
+        name: value.name || key,
+        role: value.role || 'CUSTOMER',
+        divisi: value.divisi || value.role || 'CUSTOMER',
+        avatar: (value.name || key).charAt(0).toUpperCase(),
+        phone: value.phone || '',
+        email: value.email || '',
+        company: value.company || ''
+      }]))
+    };
+
+    const storedSession = (() => {
+      try {
+        return JSON.parse(localStorage.getItem('management_production_user') || 'null');
+      } catch (e) {
+        return null;
+      }
+    })();
+
+    const isPublicDeployment = !['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isPublicDeployment && (!storedSession || storedSession.username !== username)) {
+      window.location.replace('login.html');
+      return;
+    }
+
+    const user = storedSession && storedSession.username === username
+      ? {
+          name: storedSession.name || storedSession.username,
+          role: storedSession.role || 'CUSTOMER',
+          divisi: storedSession.divisi || 'CUSTOMER',
+          avatar: (storedSession.name || storedSession.username).charAt(0).toUpperCase()
+        }
+      : userData[username] || userData['superadmin'];
+
+    // Update UI with user info
+    document.getElementById('userName').textContent = user.name;
+    document.getElementById('userRole').textContent = user.role;
+    document.getElementById('userAvatar').textContent = user.avatar;
+    document.getElementById('profileName').value = user.name;
+
+    // Load dashboard data
+    loadDashboardData();
+    applyRoleAccess(user.role);
+    loadSavedSettings();
+    renderPaymentList();
+    renderFilesList();
+    enablePasswordToggles();
+
+    // Initialize charts
+    initCharts();
+
+    // Sidebar toggle untuk mobile
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('show');
+    });
+
+    // Close sidebar ketika item diklik
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 992) {
+          document.getElementById('sidebar').classList.remove('show');
+        }
+      });
+    });
+  });
+
+  // ===== NAVIGATION =====
+  function enablePasswordToggles() {
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+      if (input.dataset.passwordToggleReady) return;
+      input.dataset.passwordToggleReady = 'true';
+      const wrapper = input.parentElement;
+      wrapper.style.position = 'relative';
+      input.style.paddingRight = '42px';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn-link position-absolute top-50 end-0 translate-middle-y text-gold';
+      button.style.textDecoration = 'none';
+      button.setAttribute('aria-label', 'Tampilkan password');
+      button.innerHTML = '<i class="fas fa-eye"></i>';
+      button.addEventListener('click', () => {
+        const visible = input.type === 'password';
+        input.type = visible ? 'text' : 'password';
+        button.setAttribute('aria-label', visible ? 'Sembunyikan password' : 'Tampilkan password');
+        button.innerHTML = visible ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+      });
+      wrapper.appendChild(button);
+    });
+  }
+
+  function showSection(sectionName) {
+    event.preventDefault();
+
+    // Hide all sections
+    document.querySelectorAll('.section-content').forEach(section => {
+      section.style.display = 'none';
+    });
+
+    // Remove active from all menu items
+    document.querySelectorAll('.sidebar-menu a').forEach(link => {
+      link.classList.remove('active');
+    });
+
+    // Show selected section
+    document.getElementById(sectionName + '-section').style.display = 'block';
+
+    // Add active to current menu item
+    event.target.closest('a').classList.add('active');
+  }
+
+  // ===== LOAD DASHBOARD DATA =====
+  function loadDashboardData() {
+    // Simulasi data
+    const deletedMessages = JSON.parse(localStorage.getItem('multicorp_deleted_messages') || '[]');
+    const data = {
+      totalPesan: 24,
+      totalSelesai: 18,
+      totalProses: 4,
+      totalKlien: 12,
+      messages: [
+        {id: 'MSG-001', nama: 'Budi Santoso', divisi: 'IT Program', pesan: 'Konsultasi sistem', tanggal: '2026-08-31', status: 'NEW'},
+        {id: 'MSG-002', nama: 'Siti Nurhaliza', divisi: 'Network', pesan: 'Setup jaringan', tanggal: '2026-08-30', status: 'PROCESSING'},
+        {id: 'MSG-003', nama: 'Rezza Habibi', divisi: 'Nusantara Food', pesan: 'Catering acara', tanggal: '2026-08-29', status: 'COMPLETED'}
+      ].filter(message => !deletedMessages.includes(message.id))
+    };
+
+    // Update stat cards
+    document.getElementById('totalPesan').textContent = data.totalPesan;
+    document.getElementById('totalSelesai').textContent = data.totalSelesai;
+    document.getElementById('totalProses').textContent = data.totalProses;
+    document.getElementById('totalKlien').textContent = data.totalKlien;
+
+    // Update messages table
+    const tableHtml = data.messages.map(msg => `
+      <tr>
+        <td>${msg.id}</td>
+        <td>${msg.nama}</td>
+        <td>${msg.divisi}</td>
+        <td>${msg.pesan}</td>
+        <td>${msg.tanggal}</td>
+        <td><span class="badge badge-status badge-${msg.status.toLowerCase()}">${msg.status}</span></td>
+      </tr>
+    `).join('');
+
+    document.getElementById('recentMessagesTable').innerHTML = tableHtml;
+
+    // Update pesan section
+    const pesanTableHtml = data.messages.map(msg => `
+      <tr>
+        <td>${msg.id}</td>
+        <td>${msg.nama}</td>
+        <td>${msg.divisi}</td>
+        <td>${msg.nama}</td>
+        <td>${msg.pesan}</td>
+        <td>${msg.tanggal}</td>
+        <td><span class="badge badge-status badge-${msg.status.toLowerCase()}">${msg.status}</span></td>
+        <td>
+          <button class="btn btn-sm btn-dashboard">Detail</button>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteMessage('${msg.id}')" title="Hapus pesan"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+
+    document.getElementById('pesanTable').innerHTML = pesanTableHtml;
+  }
+
+  // ===== INITIALIZE CHARTS =====
+  function initCharts() {
+    const chartColor = {
+      primary: '#d4af37',
+      accent: '#e5c158',
+      text: '#ffffff',
+      grid: 'rgba(212, 175, 55, 0.1)'
+    };
+
+    // Daily Chart
+    const dailyCtx = document.getElementById('dailyChart');
+    if (dailyCtx) {
+      new Chart(dailyCtx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Pesanan',
+            data: [3, 5, 4, 7, 5, 8, 6],
+            borderColor: chartColor.primary,
+            backgroundColor: 'rgba(212, 175, 55, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              grid: { color: chartColor.grid },
+              ticks: { color: chartColor.text }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: chartColor.text }
+            }
+          }
+        }
+      });
+    }
+
+    // Divisi Chart
+    const divisiCtx = document.getElementById('divisiChart');
+    if (divisiCtx) {
+      new Chart(divisiCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['IT Program', 'Network', 'Nusantara Food'],
+          datasets: [{
+            data: [8, 10, 6],
+            backgroundColor: ['#d4af37', '#e5c158', '#c9b233']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: chartColor.text }
+            }
+          }
+        }
+      });
+    }
+
+    // Monthly Chart
+    const monthlyCtx = document.getElementById('monthlyChart');
+    if (monthlyCtx) {
+      new Chart(monthlyCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          datasets: [{
+            label: 'Penjualan',
+            data: [12, 19, 8, 15, 23, 16, 20, 24],
+            backgroundColor: chartColor.primary
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: chartColor.text } } },
+          scales: {
+            y: {
+              grid: { color: chartColor.grid },
+              ticks: { color: chartColor.text }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: chartColor.text }
+            }
+          }
+        }
+      });
+    }
+
+    // Category Chart
+    const categoryCtx = document.getElementById('categoryChart');
+    if (categoryCtx) {
+      new Chart(categoryCtx, {
+        type: 'pie',
+        data: {
+          labels: ['Konsultasi', 'Setup', 'Support', 'Training'],
+          datasets: [{
+            data: [30, 25, 20, 25],
+            backgroundColor: ['#d4af37', '#e5c158', '#c9b233', '#f3e5ab']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: chartColor.text } } }
+        }
+      });
+    }
+
+    // Status Chart
+    const statusCtx = document.getElementById('statusChart');
+    if (statusCtx) {
+      new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Selesai', 'Proses', 'Pending'],
+          datasets: [{
+            data: [18, 4, 2],
+            backgroundColor: ['#51cf66', '#ffd93d', '#ff6b6b']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: chartColor.text } } }
+        }
+      });
+    }
+  }
+
+  function getSavedSettings() {
+    try {
+      return JSON.parse(localStorage.getItem('management_production_settings') || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveSettings(nextSettings) {
+    const current = getSavedSettings();
+    const merged = { ...current, ...nextSettings };
+    localStorage.setItem('management_production_settings', JSON.stringify(merged));
+    return merged;
+  }
+
+  function applyRoleAccess(role) {
+    const adminCards = [
+      'adminVideoUploadCard',
+      'adminContactSocmedCard',
+      'adminProductsCard',
+      'rekeningAdminCard',
+      'adminCompanyProfileCard',
+      'adminSalesCard',
+      'brandingAdminCard',
+      'divisiLogoAdminCard'
+    ];
+
+    const partnerCustomerCards = ['paymentUploadCard', 'paymentListCard'];
+
+    const setCardVisible = (id, visible) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = visible ? 'block' : 'none';
+      el.classList.toggle('d-none', !visible);
+    };
+
+    const allCards = [...adminCards, ...partnerCustomerCards];
+    allCards.forEach(id => setCardVisible(id, false));
+
+    // Show Admin Produk menu for ADMIN_DIVISI
+    const adminProdukMenu = document.getElementById('adminProdukMenu');
+    if (adminProdukMenu) {
+      adminProdukMenu.style.display = (role === 'ADMIN_DIVISI') ? 'block' : 'none';
+    }
+
+    if (role === 'SUPER_ADMIN') {
+      [...adminCards, ...partnerCustomerCards].forEach(id => setCardVisible(id, true));
+      return;
+    }
+
+    if (role === 'ADMIN_DIVISI') {
+      ['adminVideoUploadCard', 'adminContactSocmedCard', 'adminProductsCard', 'adminCompanyProfileCard', 'adminSalesCard', 'divisiLogoAdminCard', 'rekeningAdminCard'].forEach(id => setCardVisible(id, true));
+      return;
+    }
+
+    if (role === 'PARTNER' || role === 'CUSTOMER') {
+      partnerCustomerCards.forEach(id => setCardVisible(id, true));
+    }
+  }
+
+  function loadSavedSettings() {
+    const settings = getSavedSettings();
+
+    const passwordInfo = settings.REKENING_INFO || 'GOPAY: 0812-6263-9095 | DANA: 0812-6263-9095 | BCA: 123-456-7890 (a.n Management Production) | BRI: 0987-6543-21 (a.n Management Production) | BNI: 555-444-333';
+    const contactPerson = settings.CONTACT_PERSON || 'Hotline: 0812-6263-9095 | Email: support@managementproduction.com | Alamat HQ: Gd. Management Production Lt. 10, Jakarta';
+
+    const companyProfile = typeof settings.COMPANY_PROFILE === 'string' ? JSON.parse(settings.COMPANY_PROFILE || '{}') : (settings.COMPANY_PROFILE || {});
+    const developerInfo = typeof settings.WEB_DEVELOPER_INFO === 'string' ? JSON.parse(settings.WEB_DEVELOPER_INFO || '{}') : (settings.WEB_DEVELOPER_INFO || {});
+
+    const displayRekening = document.getElementById('displayRekeningInfo');
+    if (displayRekening) displayRekening.textContent = passwordInfo;
+
+    const contactInput = document.getElementById('inputContactPerson');
+    if (contactInput) contactInput.value = contactPerson;
+
+    const rekeningInput = document.getElementById('inputRekeningInfo');
+    if (rekeningInput) rekeningInput.value = passwordInfo;
+
+    const companyValues = {
+      cpInpTahun: companyProfile.tahun || '2018',
+      cpInpProfile: companyProfile.profile || 'Menjadi penyedia layanan teknologi dan kuliner terdepan yang terpercaya.',
+      cpInpVisi: companyProfile.visi || 'Menjadi penyedia layanan teknologi dan kuliner terdepan yang terpercaya.',
+      cpInpMisi: companyProfile.misi || 'Memberikan pelayanan prima, inovasi berkelanjutan, serta kepuasan bagi seluruh customer.',
+      cpInpTujuan: companyProfile.tujuan || 'Membangun ekosistem bisnis digital dan layanan terpadu yang handal.',
+      devInpNama: developerInfo.nama || 'MultiCorp IT System Team',
+      devInpTahun: developerInfo.tahun || '2026'
+    };
+
+    Object.entries(companyValues).forEach(([id, value]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = value;
+    });
+
+    const logoUrl = settings.LOGO_URL || '';
+    const bgUrl = settings.BG_URL || '';
+    const body = document.body;
+    if (logoUrl) {
+      body.style.backgroundImage = bgUrl ? `url('${bgUrl}')` : 'none';
+    }
+
+    if (bgUrl) {
+      body.style.backgroundImage = `url('${bgUrl}')`;
+    }
+
+    const targetSelect = document.getElementById('socmedTargetSelect');
+    if (targetSelect) {
+      targetSelect.value = targetSelect.value || 'SOCMED_PUBLIC';
+      loadSocmedInputs();
+    }
+  }
+
+  function loadSocmedInputs() {
+    const target = document.getElementById('socmedTargetSelect')?.value || 'SOCMED_PUBLIC';
+    const settings = getSavedSettings();
+    const targetValue = typeof settings[target] === 'string' ? JSON.parse(settings[target] || '{}') : (settings[target] || {});
+    document.getElementById('smYT').value = targetValue.yt || '';
+    document.getElementById('smFB').value = targetValue.fb || '';
+    document.getElementById('smIG').value = targetValue.ig || '';
+    document.getElementById('smTT').value = targetValue.tiktok || '';
+  }
+
+  function handleSaveContactSocmed(event) {
+    event.preventDefault();
+    const target = document.getElementById('socmedTargetSelect').value;
+    const payload = {
+      yt: document.getElementById('smYT').value,
+      fb: document.getElementById('smFB').value,
+      ig: document.getElementById('smIG').value,
+      tiktok: document.getElementById('smTT').value
+    };
+
+    saveSettings({
+      CONTACT_PERSON: document.getElementById('inputContactPerson').value,
+      [target]: JSON.stringify(payload)
+    });
+
+    alert('Kontak dan sosial media berhasil disimpan.');
+  }
+
+  function handleSaveProduct(event) {
+    event.preventDefault();
+    const products = JSON.parse(localStorage.getItem('multicorp_products') || '[]');
+    products.push({
+      id: Date.now(),
+      divisi: document.getElementById('prdDivisi').value,
+      nama: document.getElementById('prdNama').value,
+      harga: Number(document.getElementById('prdHarga').value),
+      deskripsi: document.getElementById('prdKet').value
+    });
+    localStorage.setItem('multicorp_products', JSON.stringify(products));
+    event.target.reset();
+    alert('Produk berhasil disimpan.');
+  }
+
+  function handleSaveCompanyProfile(event) {
+    event.preventDefault();
+    const companyProfile = {
+      tahun: document.getElementById('cpInpTahun').value,
+      profile: document.getElementById('cpInpProfile').value,
+      visi: document.getElementById('cpInpVisi').value,
+      misi: document.getElementById('cpInpMisi').value,
+      tujuan: document.getElementById('cpInpTujuan').value
+    };
+
+    const developerInfo = {
+      nama: document.getElementById('devInpNama').value,
+      tahun: document.getElementById('devInpTahun').value
+    };
+
+    saveSettings({
+      COMPANY_PROFILE: JSON.stringify(companyProfile),
+      WEB_DEVELOPER_INFO: JSON.stringify(developerInfo)
+    });
+
+    alert('Profil perusahaan dan developer info berhasil disimpan.');
+  }
+
+  function handleUpdateRekening(event) {
+    event.preventDefault();
+    const info = document.getElementById('inputRekeningInfo').value;
+    saveSettings({ REKENING_INFO: info });
+    const rekeningBadge = document.getElementById('displayRekeningInfo');
+    if (rekeningBadge) rekeningBadge.textContent = info;
+    alert('Info rekening berhasil disimpan.');
+  }
+
+  function handleSaveBranding(event) {
+    event.preventDefault();
+    const files = {
+      logo: document.getElementById('upLogoFile').files[0],
+      bg: document.getElementById('upBgFile').files[0]
+    };
+
+    const readAsDataURL = (file) => new Promise((resolve, reject) => {
+      if (!file) return resolve('');
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    Promise.all([
+      readAsDataURL(files.logo),
+      readAsDataURL(files.bg)
+    ]).then(([logoData, bgData]) => {
+      saveSettings({
+        LOGO_URL: logoData,
+        BG_URL: bgData
+      });
+
+      if (logoData) document.body.style.backgroundImage = bgData ? `url('${bgData}')` : 'none';
+      if (bgData) document.body.style.backgroundImage = `url('${bgData}')`;
+      alert('Branding berhasil diupdate.');
+      event.target.reset();
+    }).catch(() => alert('Gagal membaca file branding.'));
+  }
+
+  function handleUpdateDivisionLogo(event) {
+    event.preventDefault();
+    const file = document.getElementById('upDivisiLogoFile').files[0];
+    if (!file) return alert('Pilih file logo divisi terlebih dahulu.');
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const target = document.getElementById('selectTargetDivisi').value;
+      const key = target.replace(/\s+/g, '_').toUpperCase();
+      saveSettings({ [`LOGO_${key}`]: reader.result });
+      alert('Logo divisi berhasil diupdate.');
+      event.target.reset();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleAddSalesData(event) {
+    event.preventDefault();
+    const sales = JSON.parse(localStorage.getItem('multicorp_sales') || '[]');
+    sales.push({
+      tanggal: new Date().toISOString().slice(0, 10),
+      divisi: document.getElementById('salesDivisi').value,
+      total: Number(document.getElementById('salesAmount').value)
+    });
+    localStorage.setItem('multicorp_sales', JSON.stringify(sales));
+    alert('Data penjualan berhasil ditambahkan.');
+    event.target.reset();
+  }
+
+  function handleUploadPayment(event) {
+    event.preventDefault();
+    const file = document.getElementById('payFile').files[0];
+    if (!file) return alert('Silakan pilih bukti pembayaran.');
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const payments = JSON.parse(localStorage.getItem('multicorp_payments') || '[]');
+      payments.push({
+        id: 'PAY-' + Date.now(),
+        waktu: new Date().toLocaleString('sv-SE'),
+        pengirim: document.getElementById('userName').textContent,
+        role: document.getElementById('userRole').textContent,
+        jumlah: Number(document.getElementById('payAmount').value),
+        metode: document.getElementById('payMethod').value,
+        keterangan: document.getElementById('payKet').value,
+        file: reader.result
+      });
+      localStorage.setItem('multicorp_payments', JSON.stringify(payments));
+      renderPaymentList();
+      alert('Bukti pembayaran berhasil dikirim.');
+      event.target.reset();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function renderPaymentList() {
+    const tableBody = document.getElementById('paymentsTableBody');
+    if (!tableBody) return;
+
+    const payments = JSON.parse(localStorage.getItem('multicorp_payments') || '[]');
+    if (!payments.length) {
+      tableBody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Belum ada bukti pembayaran</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = payments.map(item => `
+      <tr>
+        <td>${item.id}</td>
+        <td>${item.waktu}</td>
+        <td>${item.pengirim}</td>
+        <td>${item.role}</td>
+        <td>Rp ${Number(item.jumlah).toLocaleString('id-ID')}</td>
+        <td>${item.metode}</td>
+        <td>${item.keterangan || '-'}</td>
+        <td>
+          <a href="${item.file}" target="_blank" class="btn btn-sm btn-dashboard">Lihat</a>
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="deletePayment('${item.id}')" title="Hapus bukti pembayaran"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function handleUploadFile(event) {
+    event.preventDefault();
+    const file = document.getElementById('upFile').files[0];
+    if (!file) return alert('Pilih berkas terlebih dahulu.');
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const files = JSON.parse(localStorage.getItem('multicorp_files') || '[]');
+      files.push({
+        id: 'FILE-' + Date.now(),
+        waktu: new Date().toLocaleString('sv-SE'),
+        uploader: document.getElementById('userName').textContent,
+        role: document.getElementById('userRole').textContent,
+        nama: file.name,
+        keterangan: document.getElementById('upKet').value,
+        link: reader.result
+      });
+      localStorage.setItem('multicorp_files', JSON.stringify(files));
+      renderFilesList();
+      alert('Berkas berhasil diupload.');
+      event.target.reset();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function renderFilesList() {
+    const tableBody = document.getElementById('filesTableBody');
+    if (!tableBody) return;
+
+    const files = JSON.parse(localStorage.getItem('multicorp_files') || '[]');
+    if (!files.length) {
+      tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Belum ada berkas yang diupload</td></tr>';
+      return;
+    }
+
+    const normalizedFiles = files.map((file, index) => ({
+      ...file,
+      id: file.id || `FILE-LEGACY-${index}`
+    }));
+    if (normalizedFiles.some((file, index) => file.id !== files[index].id)) {
+      localStorage.setItem('multicorp_files', JSON.stringify(normalizedFiles));
+    }
+
+    tableBody.innerHTML = normalizedFiles.map(file => `
+      <tr>
+        <td>${file.waktu}</td>
+        <td>${file.uploader}</td>
+        <td>${file.role}</td>
+        <td>${file.nama}</td>
+        <td>${file.keterangan || '-'}</td>
+        <td>
+          <a href="${file.link}" target="_blank" class="btn btn-sm btn-dashboard">Buka</a>
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteFile('${file.id}')" title="Hapus berkas"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function filterFilesTable() {
+    const keyword = document.getElementById('searchFilesInput')?.value.toLowerCase() || '';
+    const rows = Array.from(document.querySelectorAll('#filesTableBody tr'));
+    rows.forEach(row => {
+      const txt = row.textContent.toLowerCase();
+      row.style.display = txt.includes(keyword) ? '' : 'none';
+    });
+  }
+
+  function deleteMessage(id) {
+    if (!confirm('Hapus pesan ini?')) return;
+    const deleted = JSON.parse(localStorage.getItem('multicorp_deleted_messages') || '[]');
+    if (!deleted.includes(id)) deleted.push(id);
+    localStorage.setItem('multicorp_deleted_messages', JSON.stringify(deleted));
+    loadDashboardData();
+  }
+
+  function clearMessages() {
+    if (!confirm('Hapus semua pesan yang tampil?')) return;
+    const ids = ['MSG-001', 'MSG-002', 'MSG-003'];
+    localStorage.setItem('multicorp_deleted_messages', JSON.stringify(ids));
+    loadDashboardData();
+  }
+
+  function deletePayment(id) {
+    if (!confirm('Hapus bukti pembayaran ini?')) return;
+    const payments = JSON.parse(localStorage.getItem('multicorp_payments') || '[]');
+    localStorage.setItem('multicorp_payments', JSON.stringify(payments.filter(item => item.id !== id)));
+    renderPaymentList();
+  }
+
+  function clearPayments() {
+    if (!confirm('Hapus semua bukti pembayaran lokal?')) return;
+    localStorage.removeItem('multicorp_payments');
+    renderPaymentList();
+  }
+
+  function deleteFile(id) {
+    if (!confirm('Hapus berkas ini?')) return;
+    const files = JSON.parse(localStorage.getItem('multicorp_files') || '[]');
+    localStorage.setItem('multicorp_files', JSON.stringify(files.filter(file => file.id !== id)));
+    renderFilesList();
+  }
+
+  function clearFiles() {
+    if (!confirm('Hapus semua berkas lokal?')) return;
+    localStorage.removeItem('multicorp_files');
+    renderFilesList();
+  }
+
+  // ===== LIVE CHAT MANAGEMENT =====
+  let currentChatSession = null;
+  let aiModeActive = false;
+  let lastCustomerMessage = null;
+
+  function toggleAIMode() {
+    aiModeActive = !aiModeActive;
+    const btn = document.getElementById('aiModeToggle');
+    const genBtn = document.getElementById('aiGenerateBtn');
+    
+    if (aiModeActive) {
+      btn.classList.add('active');
+      genBtn.style.display = 'block';
+    } else {
+      btn.classList.remove('active');
+      genBtn.style.display = 'none';
+      document.getElementById('aiSuggestion').style.display = 'none';
+    }
+  }
+
+  function generateAIDashboardReply() {
+    if (!lastCustomerMessage) {
+      alert('Tidak ada pesan customer terbaru untuk di-reply');
+      return;
+    }
+
+    const aiSuggestions = {
+      'harga': 'Untuk detail harga, kami akan menyesuaikan dengan kebutuhan Anda. Silakan jelaskan kebutuhan bisnis Anda lebih detail, dan kami akan memberikan penawaran terbaik.',
+      'konsultasi': 'Tentu, kami siap memberikan konsultasi gratis untuk menganalisis kebutuhan bisnis Anda. Tim ahli kami akan menghubungi Anda dalam 24 jam.',
+      'customer service': 'Baik, saya akan menghubungkan Anda ke customer service kami. Mohon bersiap untuk berbagi detail kebutuhan Anda.',
+      'bantuan': 'Kami siap membantu Anda. Tim support kami tersedia 24/7 untuk menjawab pertanyaan dan memberikan solusi terbaik.',
+      'default': 'Terima kasih atas pertanyaan Anda. Tim kami akan segera merespons permintaan Anda. Untuk informasi lebih lanjut, silakan hubungi customer service kami.'
+    };
+
+    let suggestion = aiSuggestions.default;
+    const msg = lastCustomerMessage.toLowerCase();
+    
+    for (const [key, val] of Object.entries(aiSuggestions)) {
+      if (key !== 'default' && msg.includes(key)) {
+        suggestion = val;
+        break;
+      }
+    }
+
+    document.getElementById('aiSuggestionText').textContent = suggestion;
+    document.getElementById('aiSuggestion').style.display = 'block';
+  }
+
+  function acceptAISuggestion() {
+    const text = document.getElementById('aiSuggestionText').textContent;
+    document.getElementById('adminChatInput').value = text;
+    document.getElementById('aiSuggestion').style.display = 'none';
+    document.getElementById('adminChatInput').focus();
+  }
+
+  function loadChatMessages() {
+    const chats = JSON.parse(localStorage.getItem('multicorp_chats') || '[]');
+    return chats.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  }
+
+  function saveChatMessage(sender, text, senderType = 'customer') {
+    const chats = loadChatMessages();
+    chats.push({
+      id: 'CHAT-' + Date.now(),
+      sender,
+      senderType,
+      text,
+      timestamp: new Date().toISOString(),
+      replied: false
+    });
+    localStorage.setItem('multicorp_chats', JSON.stringify(chats));
+    return chats[chats.length - 1];
+  }
+
+  function renderAdminChatThread() {
+    const chats = loadChatMessages();
+    const thread = document.getElementById('adminChatThread');
+    
+    if (!chats.length) {
+      thread.innerHTML = '<p class="text-muted text-center">Belum ada pesan chat</p>';
+      return;
+    }
+
+    // Find last customer message for AI mode
+    lastCustomerMessage = chats.reverse().find(c => c.senderType === 'customer')?.text || null;
+    chats.reverse();
+
+    thread.innerHTML = chats.map(chat => {
+      const isAdmin = chat.senderType === 'admin';
+      return `
+        <div class="mb-3" style="text-align: ${isAdmin ? 'right' : 'left'};">
+          <div style="display: inline-block; max-width: 70%; background: ${isAdmin ? '#d4af37' : 'rgba(255,255,255,0.1)'}; padding: 10px 15px; border-radius: 12px; color: ${isAdmin ? '#000' : '#fff'};">
+            <strong style="font-size: 0.85rem; opacity: 0.7;">${chat.sender}</strong><br>
+            ${chat.text}
+            <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 5px;">
+              ${new Date(chat.timestamp).toLocaleTimeString('id-ID')}
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="deleteChatMessage('${chat.id}')" title="Hapus chat"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    thread.scrollTop = thread.scrollHeight;
+    updateChatStats();
+  }
+
+  function deleteChatMessage(id) {
+    if (!confirm('Hapus pesan chat ini?')) return;
+    const chats = loadChatMessages().filter(chat => chat.id !== id);
+    localStorage.setItem('multicorp_chats', JSON.stringify(chats));
+    renderAdminChatThread();
+  }
+
+  function clearChatMessages() {
+    if (!confirm('Hapus seluruh riwayat chat?')) return;
+    localStorage.removeItem('multicorp_chats');
+    renderAdminChatThread();
+  }
+
+  function handleAdminChatReply(event) {
+    event.preventDefault();
+    const input = document.getElementById('adminChatInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const user = document.getElementById('userName').textContent;
+    saveChatMessage(user, text, 'admin');
+    renderAdminChatThread();
+    input.value = '';
+  }
+
+  function insertQuickResponse(text) {
+    const input = document.getElementById('adminChatInput');
+    input.value = text;
+    input.focus();
+  }
+
+  function updateChatStats() {
+    const chats = loadChatMessages();
+    const total = chats.length;
+    const pending = chats.filter(c => c.senderType === 'customer' && !c.replied).length;
+    const replied = total - pending;
+
+    document.getElementById('chatStatTotal').textContent = total;
+    document.getElementById('chatStatPending').textContent = pending;
+    document.getElementById('chatStatReplied').textContent = replied;
+  }
+
+  // Load chat messages on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      renderAdminChatThread();
+    }, 500);
+  });
+
+  // ===== LOGOUT HANDLER =====
+  function handleLogout() {
+    if (confirm('Apakah Anda yakin ingin logout?')) {
+      sessionStorage.removeItem('multicorp_session');
+      window.location.href = 'login.html';
+    }
+  }
+</script>
+</body>
+</html>

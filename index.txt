@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultiCorp Enterprise Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Chart.js untuk Grafik Pencapaian Penjualan -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1c1c20;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-accent: #e5c158;
+      --text-main: #ffffff;
+      --text-muted: #d1d5db;
+      --border-gold: rgba(212, 175, 55, 0.4);
+    }
+
+    body { 
+      background-color: var(--bg-dark); 
+      background-position: center !important;
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+      background-attachment: fixed !important;
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    .text-gold { color: var(--gold-primary) !important; }
+    .text-gold-light { color: var(--gold-light) !important; }
+    .text-clearly-muted { color: var(--text-muted) !important; }
+
+    ./* ===== NAVBAR STRIPE STYLE ===== */
+    .navbar-stripe {
+      background: rgba(10, 10, 11, 0.6); /* Transparan gelap seperti kaca */
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-brand-img {
+      max-height: 40px;
+      object-fit: contain;
+    }
+
+    .navbar-stripe .navbar-brand {
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar-stripe .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 18px !important;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .navbar-stripe .nav-link:hover, 
+    .navbar-stripe .nav-link.active {
+      color: #ffffff !important;
+      opacity: 1;
+    }
+
+    .navbar-stripe .nav-link .chevron-icon {
+      font-size: 0.65rem;
+      opacity: 0.6;
+    }
+
+    .navbar-stripe-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stripe-link-text {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+    
+    .stripe-link-text:hover {
+      color: #ffffff;
+      opacity: 0.8;
+    }
+    
+    .stripe-link-text i {
+      font-size: 0.7rem;
+    }
+
+    .stripe-btn-pill {
+      background-color: #ffffff;
+      color: #000000 !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .stripe-btn-pill:hover {
+      background-color: rgba(255, 255, 255, 0.85);
+      transform: scale(1.02);
+    }
+    
+    .stripe-btn-pill i {
+      font-size: 0.7rem;
+    }
+    /* =============================== */
+    .navbar-brand-img {
+      max-height: 40px;
+      object-fit: contain;
+    }
+
+    .divisi-logo-img {
+      max-height: 90px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+
+    .apple-hero {
+      padding: 60px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 35vh;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-gold);
+      background: linear-gradient(145deg, rgba(24, 24, 28, 0.9) 0%, rgba(13, 13, 15, 0.9) 100%);
+      backdrop-filter: blur(10px);
+    }
+
+    .apple-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 50%, var(--gold-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .apple-subtitle { font-size: 1.2rem; color: var(--text-muted); max-width: 700px; }
+    .apple-icon-wrapper { font-size: 4.5rem; color: var(--gold-primary); margin-bottom: 15px; }
+
+    .form-container-apple, .gold-card {
+      background-color: rgba(20, 20, 22, 0.92);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid var(--border-gold);
+      margin-bottom: 25px;
+    }
+    
+    label { color: var(--gold-light) !important; font-weight: 600; margin-bottom: 6px; }
+    .form-control, .form-select {
+      background-color: #080809 !important;
+      border: 1px solid #44444a !important;
+      color: #ffffff !important;
+      border-radius: 10px;
+      padding: 12px 15px;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--gold-primary) !important;
+      box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, #b8901c 100%);
+      color: #000000;
+      font-weight: 700;
+      border: none;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+      color: #000000;
+    }
+
+    .portal-card {
+      background-color: rgba(20, 20, 22, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .portal-card:hover {
+      transform: translateY(-5px);
+      background-color: var(--bg-card-hover);
+      border-color: var(--gold-primary);
+    }
+
+    .nav-tabs { border-bottom: 1px solid var(--border-gold) !important; }
+    .nav-tabs .nav-link { color: var(--text-muted); font-weight: 600; border: none; cursor: pointer; }
+    .nav-tabs .nav-link.active {
+      border-bottom: 3px solid var(--gold-primary) !important;
+      color: var(--gold-primary) !important;
+      background: transparent !important;
+    }
+
+    .table-gold { --bs-table-bg: transparent !important; color: #ffffff !important; }
+    .table-gold thead th { background-color: #09090b !important; color: var(--gold-light) !important; border-bottom: 2px solid var(--border-gold) !important; padding: 12px; }
+    .table-gold tbody td { background-color: rgba(18, 18, 21, 0.85) !important; border-bottom: 1px solid #2a2a32 !important; padding: 12px; }
+    
+    #loadingOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Floating Live Chat Widget */
+    #liveChatWidget {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999;
+    }
+    #chatBoxWindow {
+      width: 350px;
+      height: 480px;
+      background: #141416;
+      border: 1px solid var(--gold-primary);
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING SPINNER OVERLAY -->
+  <div id="loadingOverlay" class="d-none">
+    <div class="spinner-border text-gold mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+    <h5 class="text-gold fw-bold" id="loadingText">Sedang memproses...</h5>
+  </div>
+
+ <!-- NAVBAR METADATA & SOSMED (STRIPE STYLE DENGAN DROPDOWN) -->
+  <nav class="navbar navbar-expand-lg navbar-stripe sticky-top">
+    <div class="container px-3 px-lg-4">
+      
+      <!-- KIRI: BRAND/LOGO -->
+      <a class="navbar-brand text-white d-flex align-items-center me-lg-5" onclick="showPage('publicPortalPage')" style="cursor: pointer;">
+        <span id="brandLogoContainer"><i class="fa-solid fa-crown me-2 text-gold"></i></span>
+        <span id="brandTitleText">MultiCorp</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        
+        <!-- TENGAH: CENTER LINKS DENGAN DROPDOWN -->
+        <ul class="navbar-nav mx-auto align-items-center">
+          
+          <!-- Menu Public Portal dengan Dropdown (Berisi Company Profile & Langkah Order) -->
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" id="publicDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Public Portal <i class="fa-solid fa-chevron-down chevron-icon"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark shadow border-0 py-2" style="background: rgba(18, 18, 20, 0.95); backdrop-filter: blur(12px); border-radius: 12px;">
+              <li>
+                <a class="dropdown-item py-2 px-3 text-white d-flex align-items-center gap-2" onclick="showPage('publicPortalPage')" style="cursor: pointer;">
+                  <i class="fa-solid fa-house text-gold fs-6"></i> Beranda Utama
+                </a>
+              </li>
+              <li><hr class="dropdown-divider border-secondary opacity-25"></li>
+              <li>
+                <a class="dropdown-item py-2 px-3 text-white d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#companyProfileModal" style="cursor: pointer;">
+                  <i class="fa-solid fa-building text-gold fs-6"></i> Company Profile
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item py-2 px-3 text-white d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#stepsModal" style="cursor: pointer;">
+                  <i class="fa-solid fa-list-check text-gold fs-6"></i> Langkah-Langkah Order
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" onclick="showPage('itPage')">IT Program <i class="fa-solid fa-chevron-down chevron-icon"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="showPage('networkPage')">Network <i class="fa-solid fa-chevron-down chevron-icon"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="showPage('foodPage')">Nusantara Food <i class="fa-solid fa-chevron-down chevron-icon"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="showPage('partnerPortalPage')">Partner <i class="fa-solid fa-chevron-down chevron-icon"></i></a>
+          </li>
+        </ul>
+        
+        <!-- KANAN: RIGHT ACTIONS -->
+        <div class="navbar-stripe-actions ms-auto mt-3 mt-lg-0 pb-3 pb-lg-0 justify-content-center">
+          
+          <a class="stripe-link-text" id="loginNavLink" onclick="showPage('loginSection')">
+            Login Admin <i class="fa-solid fa-chevron-right"></i>
+          </a>
+          
+          <a class="stripe-link-text text-gold d-none" id="dashboardNavLink" onclick="showPage('dashboardSection')">
+            Dashboard <i class="fa-solid fa-chevron-right"></i>
+          </a>
+
+          <a class="stripe-btn-pill" onclick="showPage('customerPortalPage')" id="ctaCustomerBtn">
+            Portal Customer <i class="fa-solid fa-chevron-right"></i>
+          </a>
+
+          <a class="stripe-link-text text-danger d-none ms-lg-2" id="logoutNavLink" onclick="handleLogout()" title="Logout">
+            <i class="fa-solid fa-power-off fs-5 mb-0"></i>
+          </a>
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MODAL UNTUK COMPANY PROFILE & LANGKAH ORDER -->
+  <!-- Modal Company Profile -->
+  <div class="modal fade" id="companyProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-white border-0" style="background: rgba(20, 20, 24, 0.95); backdrop-filter: blur(16px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1) !important;">
+        <div class="modal-header border-bottom border-secondary opacity-75">
+          <h5 class="modal-title text-gold fw-bold"><i class="fa-solid fa-building me-2"></i> Company Profile MultiCorp</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p><strong>Visi:</strong> Menjadi penyedia layanan teknologi dan kuliner terdepan yang terpercaya.</p>
+          <p><strong>Misi:</strong> Memberikan pelayanan prima, inovasi berkelanjutan, serta kepuasan bagi seluruh customer.</p>
+          <p class="mb-4"><strong>Tujuan:</strong> Membangun ekosistem bisnis digital dan layanan terpadu yang handal.</p>
+          <div class="p-3 rounded bg-dark border border-secondary text-center">
+            <span class="text-muted small d-block">Tahun Berdiri Perusahaan</span>
+            <span class="fs-3 fw-bold text-gold">2018</span>
+            <span class="d-block text-muted small mt-1">Terpercaya & Berkelanjutan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Langkah-Langkah Order -->
+  <div class="modal fade" id="stepsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-white border-0" style="background: rgba(20, 20, 24, 0.95); backdrop-filter: blur(16px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1) !important;">
+        <div class="modal-header border-bottom border-secondary opacity-75">
+          <h5 class="modal-title text-gold fw-bold"><i class="fa-solid fa-list-check me-2"></i> Langkah-Langkah Order</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <ol class="ps-3 mb-0" style="line-height: 2.2;">
+            <li>Isi formulir pendaftaran customer.</li>
+            <li>Dapatkan kode verifikasi dari email untuk akses login.</li>
+            <li>Silahkan login customer.</li>
+            <li>Isi keperluan pelayanan yang dipesan.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-4">
+
+    <!-- 1. PUBLIC PORTAL PAGE -->
+    <div id="publicPortalPage" class="page-section">
+      <div class="text-center mb-4">
+        <h1 class="apple-title">Selamat Datang di MultiCorp Portal</h1>
+        <p class="apple-subtitle mx-auto">Solusi Terpadu Enterprise, Infrastruktur Network, & Kuliner Nusantara.</p>
+        <div id="publicContactBox" class="mt-2 text-gold-light small"></div>
+        <div id="publicSocmedIcons" class="d-flex justify-content-center gap-3 fs-5 my-3"></div>
+      </div>
+
+      <!-- GRAFIK PENCAPAAN PENJUALAN (POIN 8) -->
+      <div class="gold-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="text-gold fw-bold mb-0"><i class="fa-solid fa-chart-line me-2"></i>Grafik Pencapaian Penjualan Product Per Divisi</h4>
+          <select id="salesFilterPeriod" class="form-select form-select-sm w-auto" onchange="renderSalesChart()">
+            <option value="daily">Harian</option>
+            <option value="monthly" selected>Bulanan</option>
+            <option value="yearly">Tahunan</option>
+          </select>
+        </div>
+        <div style="position: relative; height:280px;">
+          <canvas id="salesChartCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- DIVISI PORTAL CARDS -->
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-md-4">
+          <div class="portal-card h-100" onclick="showPage('itPage')">
+            <div id="cardLogoIT"><i class="fa-solid fa-code fa-3x text-gold mb-3"></i></div>
+            <h3 class="text-white fw-bold mb-2">IT Program</h3>
+            <p class="text-clearly-muted small">Software enterprise, sistem informasi, & mobile apps.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="portal-card h-100" onclick="showPage('networkPage')">
+            <div id="cardLogoNetwork"><i class="fa-solid fa-network-wired fa-3x text-gold mb-3"></i></div>
+            <h3 class="text-white fw-bold mb-2">Network</h3>
+            <p class="text-clearly-muted small">Infrastruktur jaringan, keamanan firewall, & cloud.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="portal-card h-100" onclick="showPage('foodPage')">
+            <div id="cardLogoFood"><i class="fa-solid fa-utensils fa-3x text-gold mb-3"></i></div>
+            <h3 class="text-white fw-bold mb-2">Nusantara Food</h3>
+            <p class="text-clearly-muted small">Katering industri, bahan baku kuliner & F&B.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO TESTIMONI CLIENT PUBLIC (POIN 1) -->
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-video me-2"></i>Video Testimoni Pelanggan / Partner</h4>
+        <div class="row g-3" id="publicTestimonialVideos"></div>
+      </div>
+
+      <!-- ACCESS PORTALS -->
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+          <div class="portal-card border-warning h-100" onclick="showPage('partnerPortalPage')">
+            <i class="fa-solid fa-handshake fa-2x text-gold mb-2"></i>
+            <h4 class="text-white fw-bold">Portal Partner Bisnis</h4>
+            <p class="text-clearly-muted small mb-0">Login & Registrasi Mandiri Khusus Mitra Partner</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="portal-card border-warning h-100" onclick="showPage('customerPortalPage')">
+            <i class="fa-solid fa-users fa-2x text-gold mb-2"></i>
+            <h4 class="text-white fw-bold">Portal Customer / Klien</h4>
+            <p class="text-clearly-muted small mb-0">Login & Registrasi Mandiri Khusus Pelanggan</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="portal-card border-warning h-100" onclick="showPage('loginSection')">
+            <i class="fa-solid fa-user-plus fa-2x text-gold mb-2"></i>
+            <h4 class="text-white fw-bold">Pendaftaran Anggota / Admin</h4>
+            <p class="text-clearly-muted small mb-0">Daftar Mandiri Admin Utama, Admin Divisi & Staff Berverifikasi Email</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. DIVISI PAGES (DILENGKAPI VIDEO DIVISI, PRODUCT LIST, SOSMED PER DIVISI) -->
+    <div id="itPage" class="page-section d-none">
+      <section class="apple-hero">
+        <div id="heroLogoIT"><div class="apple-icon-wrapper"><i class="fa-solid fa-code"></i></div></div>
+        <h1 class="apple-title">IT Program Division</h1>
+        <p class="apple-subtitle">Inovasi Perangkat Lunak Enterprise & Sistem Informasi Custom.</p>
+        <div class="divisi-socmed-box d-flex gap-3 fs-5 mt-2" id="socmedIT"></div>
+      </section>
+      
+      <!-- DAFTAR PRODUK DIVISI (POIN 5) -->
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-boxes-stacked me-2"></i>Daftar Layanan & Harga Product IT Program</h4>
+        <div class="row g-3" id="productListIT"></div>
+      </div>
+
+      <!-- VIDEO DIVISI (POIN 1) -->
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-play me-2"></i>Video Showcase IT Program</h4>
+        <div class="row g-3" id="videoListIT"></div>
+      </div>
+
+      <div id="formITArea"></div>
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-secondary rounded-pill px-4" onclick="showPage('publicPortalPage')">
+          <i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Beranda Utama
+        </button>
+      </div>
+    </div>
+
+    <div id="networkPage" class="page-section d-none">
+      <section class="apple-hero">
+        <div id="heroLogoNetwork"><div class="apple-icon-wrapper"><i class="fa-solid fa-network-wired"></i></div></div>
+        <h1 class="apple-title">Network Division</h1>
+        <p class="apple-subtitle">Konektivitas Tanpa Batas, Keamanan Jaringan, & Cloud Solutions.</p>
+        <div class="divisi-socmed-box d-flex gap-3 fs-5 mt-2" id="socmedNetwork"></div>
+      </section>
+
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-boxes-stacked me-2"></i>Daftar Layanan & Harga Product Network</h4>
+        <div class="row g-3" id="productListNetwork"></div>
+      </div>
+
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-play me-2"></i>Video Showcase Network</h4>
+        <div class="row g-3" id="videoListNetwork"></div>
+      </div>
+
+      <div id="formNetworkArea"></div>
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-secondary rounded-pill px-4" onclick="showPage('publicPortalPage')">
+          <i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Beranda Utama
+        </button>
+      </div>
+    </div>
+
+    <div id="foodPage" class="page-section d-none">
+      <section class="apple-hero">
+        <div id="heroLogoFood"><div class="apple-icon-wrapper"><i class="fa-solid fa-utensils"></i></div></div>
+        <h1 class="apple-title">Nusantara Food Division</h1>
+        <p class="apple-subtitle">Katering Industri, Pasokan Bahan Kuliner, & Manajemen F&B Terpercaya.</p>
+        <div class="divisi-socmed-box d-flex gap-3 fs-5 mt-2" id="socmedFood"></div>
+      </section>
+
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-boxes-stacked me-2"></i>Daftar Layanan & Harga Product Nusantara Food</h4>
+        <div class="row g-3" id="productListFood"></div>
+      </div>
+
+      <div class="gold-card">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-play me-2"></i>Video Showcase Nusantara Food</h4>
+        <div class="row g-3" id="videoListFood"></div>
+      </div>
+
+      <div id="formFoodArea"></div>
+      <div class="text-center mt-4">
+        <button class="btn btn-outline-secondary rounded-pill px-4" onclick="showPage('publicPortalPage')">
+          <i class="fa-solid fa-arrow-left me-2"></i>Kembali ke Beranda Utama
+        </button>
+      </div>
+    </div>
+
+    <!-- SHARED FORM TEMPLATE -->
+    <div id="sharedFormTemplate" class="d-none">
+      <div class="row justify-content-center my-3">
+        <div class="col-lg-8">
+          <div class="form-container-apple">
+            <h3 class="text-center fw-bold mb-3 text-gold">Form Layanan Pengajuan</h3>
+            <form class="dynamicForm" onsubmit="handlePublicFormSubmit(event)">
+              <input type="hidden" class="pDivisiVal">
+              <div class="mb-3">
+                <label class="form-label">Pilih Layanan Spesifik:</label>
+                <div class="serviceCheckboxes p-3 border rounded bg-black"></div>
+              </div>
+              <div class="mb-3"><label>Nama Lengkap</label><input type="text" class="form-control pNama" required></div>
+              <div class="mb-3"><label>Email (Untuk Konfirmasi)</label><input type="email" class="form-control pEmail" required></div>
+              <div class="mb-3"><label>Nomor WhatsApp</label><input type="tel" class="form-control pTelepon" required></div>
+              <div class="mb-3"><label>Catatan Tambahan</label><textarea class="form-control pPesan" rows="3"></textarea></div>
+              <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Kirim Pengajuan Layanan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. PARTNER PORTAL -->
+    <div id="partnerPortalPage" class="page-section d-none">
+      <div class="row justify-content-center py-4">
+        <div class="col-md-6">
+          <div class="form-container-apple">
+            <div class="text-center mb-4">
+              <i class="fa-solid fa-handshake fa-3x text-gold mb-2"></i>
+              <h3 class="text-white fw-bold">Portal Partner Bisnis</h3>
+              <p class="text-clearly-muted small">Login atau Daftar Akun Partner Secara Mandiri</p>
+            </div>
+            
+            <ul class="nav nav-tabs mb-4 justify-content-center" id="partnerTabs">
+              <li class="nav-item"><a class="nav-link active" onclick="switchAuthTab('partnerLoginSection', this)">Login Partner</a></li>
+              <li class="nav-item"><a class="nav-link" onclick="switchAuthTab('partnerRegSection', this)">Daftar Mandiri Partner</a></li>
+            </ul>
+
+            <div id="partnerLoginSection">
+              <form onsubmit="handleUniversalLogin(event)">
+                <div class="mb-3"><label>Username Partner</label><input type="text" class="form-control" id="lUserPartner" autocomplete="off" required></div>
+                <div class="mb-2"><label>Password</label><input type="password" class="form-control" id="lPassPartner" autocomplete="new-password" required></div>
+                <div class="text-end mb-4">
+                  <a href="#" class="small text-gold text-decoration-none" onclick="openForgotPasswordModal()">Lupa Password?</a>
+                </div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Masuk ke Portal Partner</button>
+              </form>
+            </div>
+
+            <div id="partnerRegSection" class="d-none">
+              <form onsubmit="handleMandiriRegister(event, 'PARTNER')">
+                <h5 class="text-gold mb-3 border-bottom pb-2">Informasi Akun</h5>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Buat Username</label><input type="text" class="form-control" id="regUserP" required></div>
+                  <div class="col-md-6"><label>Buat Password</label><input type="password" class="form-control" id="regPassP" minlength="6" required></div>
+                </div>
+                <h5 class="text-gold mb-3 border-bottom pb-2">Data Pribadi & Perusahaan</h5>
+                <div class="mb-3"><label>Nama Lengkap Penanggung Jawab</label><input type="text" class="form-control" id="regNamaP" required></div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Email Aktif</label><input type="email" class="form-control" id="regEmailP" required></div>
+                  <div class="col-md-6"><label>Nomor WhatsApp</label><input type="tel" class="form-control" id="regTelpP" required></div>
+                </div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Nama Perusahaan / Institusi</label><input type="text" class="form-control" id="regInstP" required></div>
+                  <div class="col-md-6"><label>Jabatan / Posisi</label><input type="text" class="form-control" id="regJabP" required></div>
+                </div>
+                <div class="mb-4"><label>Alamat Lengkap Kantor</label><textarea class="form-control" id="regAlamatP" rows="2" required></textarea></div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Daftar & Send Kode Email</button>
+              </form>
+            </div>
+
+            <div class="text-center mt-4">
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="showPage('publicPortalPage')">
+                <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Beranda Utama
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. CUSTOMER PORTAL -->
+    <div id="customerPortalPage" class="page-section d-none">
+      <div class="row justify-content-center py-4">
+        <div class="col-md-6">
+          <div class="form-container-apple">
+            <div class="text-center mb-4">
+              <i class="fa-solid fa-users fa-3x text-gold mb-2"></i>
+              <h3 class="text-white fw-bold">Portal Customer / Klien</h3>
+              <p class="text-clearly-muted small">Login atau Daftar Akun Customer Secara Mandiri</p>
+            </div>
+            
+            <ul class="nav nav-tabs mb-4 justify-content-center" id="custTabs">
+              <li class="nav-item"><a class="nav-link active" onclick="switchAuthTab('custLoginSection', this)">Login Customer</a></li>
+              <li class="nav-item"><a class="nav-link" onclick="switchAuthTab('custRegSection', this)">Daftar Mandiri Customer</a></li>
+            </ul>
+
+            <div id="custLoginSection">
+              <form onsubmit="handleUniversalLogin(event)">
+                <div class="mb-3"><label>Username Customer</label><input type="text" class="form-control" id="lUserCust" autocomplete="off" required></div>
+                <div class="mb-2"><label>Password</label><input type="password" class="form-control" id="lPassCust" autocomplete="new-password" required></div>
+                <div class="text-end mb-4">
+                  <a href="#" class="small text-gold text-decoration-none" onclick="openForgotPasswordModal()">Lupa Password?</a>
+                </div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Masuk ke Portal Customer</button>
+              </form>
+            </div>
+
+            <div id="custRegSection" class="d-none">
+              <form onsubmit="handleMandiriRegister(event, 'CUSTOMER')">
+                <h5 class="text-gold mb-3 border-bottom pb-2">Informasi Akun</h5>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Buat Username</label><input type="text" class="form-control" id="regUserC" required></div>
+                  <div class="col-md-6"><label>Buat Password</label><input type="password" class="form-control" id="regPassC" minlength="6" required></div>
+                </div>
+                <h5 class="text-gold mb-3 border-bottom pb-2">Data Pribadi Klien</h5>
+                <div class="mb-3"><label>Nama Lengkap</label><input type="text" class="form-control" id="regNamaC" required></div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Email Aktif</label><input type="email" class="form-control" id="regEmailC" required></div>
+                  <div class="col-md-6"><label>Nomor WhatsApp</label><input type="tel" class="form-control" id="regTelpC" required></div>
+                </div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Nama Perusahaan / Organisasi</label><input type="text" class="form-control" id="regInstC" placeholder="Kosongkan jika perorangan"></div>
+                  <div class="col-md-6"><label>Jabatan</label><input type="text" class="form-control" id="regJabC" placeholder="Kosongkan jika perorangan"></div>
+                </div>
+                <div class="mb-4"><label>Alamat Lengkap</label><textarea class="form-control" id="regAlamatC" rows="2" required></textarea></div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Daftar & Send Kode Email</button>
+              </form>
+            </div>
+
+            <div class="text-center mt-4">
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="showPage('publicPortalPage')">
+                <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Beranda Utama
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. LOGIN & PENDAFTARAN MANDIRI ADMIN SECTION -->
+    <div id="loginSection" class="page-section d-none">
+      <div class="row justify-content-center py-4">
+        <div class="col-md-6">
+          <div class="form-container-apple">
+            <div class="text-center mb-4">
+              <i class="fa-solid fa-shield-halved fa-3x text-gold mb-2"></i>
+              <h3 class="text-white fw-bold">Portal Internal Staff & Admin</h3>
+              <p class="text-clearly-muted small">Login atau Pendaftaran Mandiri Anggota Admin & Staff (Verifikasi Email)</p>
+            </div>
+
+            <ul class="nav nav-tabs mb-4 justify-content-center" id="adminAuthTabs">
+              <li class="nav-item"><a class="nav-link active" onclick="switchAdminAuthTab('loginTabContent', this)">Login Anggota</a></li>
+              <li class="nav-item"><a class="nav-link" onclick="switchAdminAuthTab('regTabContent', this)">Daftar Mandiri Anggota/Admin</a></li>
+            </ul>
+
+            <div id="loginTabContent">
+              <form id="mainLoginForm" onsubmit="handleUniversalLogin(event, true)">
+                <div class="mb-3">
+                  <label>Username</label>
+                  <input type="text" class="form-control" id="lUsername" autocomplete="off" placeholder="Masukkan username" required>
+                </div>
+                <div class="mb-2">
+                  <label>Password</label>
+                  <input type="password" class="form-control" id="lPassword" autocomplete="new-password" placeholder="Masukkan password" required>
+                </div>
+                <div class="text-end mb-4">
+                  <a href="#" class="small text-gold text-decoration-none" onclick="openForgotPasswordModal()">Lupa Password?</a>
+                </div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Masuk ke Dashboard</button>
+              </form>
+
+              <form id="verificationForm" class="d-none" onsubmit="handleVerificationSubmit(event)">
+                <div class="alert alert-warning text-center small mb-3">
+                  <i class="fa-solid fa-triangle-exclamation me-1"></i> Akun Anda memerlukan verifikasi. Masukkan 4 digit angka kode verifikasi yang telah dikirim ke Email Anda.
+                </div>
+                <input type="hidden" id="pendingVerifyUsername">
+                <div class="mb-3 text-center">
+                  <label class="d-block mb-2 text-gold">Kode Verifikasi Email (4 Angka)</label>
+                  <input type="text" class="form-control text-center fs-3 tracking-widest fw-bold" id="verifyCodeInput" maxlength="4" placeholder="0000" required style="letter-spacing: 8px;">
+                </div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill mb-2">Verifikasi & Masuk</button>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-sm btn-outline-warning w-50 rounded-pill" onclick="handleResendCode()"><i class="fa-solid fa-rotate-right me-1"></i> Kirim Ulang Kode</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary w-50 rounded-pill" onclick="cancelVerification()">Kembali ke Login</button>
+                </div>
+              </form>
+            </div>
+
+            <div id="regTabContent" class="d-none">
+              <form onsubmit="handleMandiriAnggotaSubmit(event)">
+                <h5 class="text-gold mb-3 border-bottom pb-2">Pengaturan Peran & Kredensial</h5>
+                <div class="mb-3">
+                  <label class="form-label">Peran (Role) Pendaftaran</label>
+                  <select class="form-select" id="mRegRole" onchange="toggleRegDivisiSelect(this.value)">
+                    <option value="STAFF">Staff / Anggota Divisi</option>
+                    <option value="ADMIN_DIVISI">Admin Divisi</option>
+                    <option value="SUPER_ADMIN">Anggota Admin Utama (Administrator)</option>
+                  </select>
+                </div>
+                <div class="mb-3" id="mRegDivisiWrapper">
+                  <label class="form-label">Pilih Divisi</label>
+                  <select class="form-select" id="mRegDivisi">
+                    <option value="IT Program">IT Program</option>
+                    <option value="Network">Network</option>
+                    <option value="Nusantara Food">Nusantara Food</option>
+                  </select>
+                </div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Buat Username</label><input type="text" class="form-control" id="mRegUsername" required></div>
+                  <div class="col-md-6"><label>Buat Password</label><input type="password" class="form-control" id="mRegPassword" minlength="6" required></div>
+                </div>
+
+                <h5 class="text-gold mb-3 border-bottom pb-2">Data Pribadi Lengkap</h5>
+                <div class="mb-3"><label>Nama Lengkap</label><input type="text" class="form-control" id="mRegNama" required></div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Email Aktif (Verifikasi Kode)</label><input type="email" class="form-control" id="mRegEmail" required></div>
+                  <div class="col-md-6"><label>Nomor WhatsApp</label><input type="tel" class="form-control" id="mRegTelp" required></div>
+                </div>
+                <div class="row g-2 mb-3">
+                  <div class="col-md-6"><label>Perusahaan / Cabang</label><input type="text" class="form-control" id="mRegInst" placeholder="Contoh: MultiCorp HQ"></div>
+                  <div class="col-md-6"><label>Jabatan / Position</label><input type="text" class="form-control" id="mRegJab" placeholder="Contoh: Senior Staff IT"></div>
+                </div>
+                <div class="mb-4"><label>Alamat Tinggal</label><textarea class="form-control" id="mRegAlamat" rows="2" required></textarea></div>
+                <button type="submit" class="btn btn-gold w-100 py-3 rounded-pill">Daftar & Kirim Kode Verifikasi Email</button>
+              </form>
+            </div>
+
+            <div class="text-center mt-4">
+              <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="showPage('publicPortalPage')">
+                <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Beranda Utama
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. DASHBOARD SECTION -->
+    <div id="dashboardSection" class="page-section d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
+        <div>
+          <h2 class="text-white fw-bold mb-0">Dashboard Panel</h2>
+          <small class="text-gold-light" id="userInfoSub"></small>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-gold rounded-pill" onclick="loadDashboardData()" title="Refresh Data"><i class="fa-solid fa-rotate-right"></i></button>
+          <div id="userInfo" class="badge bg-black text-gold border border-gold p-2"></div>
+        </div>
+      </div>
+
+      <!-- MANAJEMEN UPLOAD VIDEO DIVISI & TESTIMONI (POIN 1) -->
+      <div id="adminVideoUploadCard" class="gold-card d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-video me-2"></i>Upload Video Divisi & Testimoni Client (Admin Divisi & Super Admin)</h4>
+        <form onsubmit="handleUploadVideo(event)" class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Divisi</label>
+            <select class="form-select" id="vUploadDivisi">
+              <option value="IT Program">IT Program</option>
+              <option value="Network">Network</option>
+              <option value="Nusantara Food">Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Kategori Video</label>
+            <select class="form-select" id="vUploadKategori">
+              <option value="Showcase Divisi">Showcase Divisi</option>
+              <option value="Testimoni Customer">Testimoni Customer/Client</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Judul Video</label>
+            <input type="text" class="form-control" id="vUploadJudul" placeholder="Contoh: Testimoni PT Jaya Abadi" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">File Video (MP4/WebM)</label>
+            <input type="file" class="form-control" id="vUploadFile" accept="video/*" required>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-gold px-4 py-2"><i class="fa-solid fa-upload me-1"></i> Unggah Video ke Sistem</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- EDIT CONTACT PERSON & SOSIAL MEDIA (POIN 2 & 3) -->
+      <div id="adminContactSocmedCard" class="gold-card d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-address-book me-2"></i>Pengaturan Contact Person & URL Sosial Media Perusahaan</h4>
+        <form onsubmit="handleSaveContactSocmed(event)" class="row g-3">
+          <div class="col-md-12">
+            <label class="form-label">Info Contact Person Perusahaan</label>
+            <input type="text" class="form-control" id="inputContactPerson" placeholder="Hotline: 0812... | Email: support@..." required>
+          </div>
+          <div class="col-12">
+            <h6 class="text-gold mt-2">URL Sosial Media (Pilih Target Pengaturan)</h6>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Target Sosmed</label>
+            <select class="form-select" id="socmedTargetSelect" onchange="loadSocmedInputs()">
+              <option value="SOCMED_PUBLIC">Publik / Utama</option>
+              <option value="SOCMED_IT Program">Divisi IT Program</option>
+              <option value="SOCMED_Network">Divisi Network</option>
+              <option value="SOCMED_Nusantara Food">Divisi Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-2"><label class="form-label">YouTube</label><input type="url" class="form-control" id="smYT"></div>
+          <div class="col-md-2"><label class="form-label">Facebook</label><input type="url" class="form-control" id="smFB"></div>
+          <div class="col-md-2"><label class="form-label">Instagram</label><input type="url" class="form-control" id="smIG"></div>
+          <div class="col-md-3"><label class="form-label">TikTok</label><input type="url" class="form-control" id="smTT"></div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-gold px-4"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Kontak & Sosial Media</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- EDIT PRODUK & HARGA (POIN 5) -->
+      <div id="adminProductsCard" class="gold-card d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-tags me-2"></i>Manajemen Product & Harga Per Divisi</h4>
+        <form onsubmit="handleSaveProduct(event)" class="row g-3">
+          <input type="hidden" id="prdEditId">
+          <div class="col-md-3">
+            <label class="form-label">Divisi</label>
+            <select class="form-select" id="prdDivisi">
+              <option value="IT Program">IT Program</option>
+              <option value="Network">Network</option>
+              <option value="Nusantara Food">Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Nama Produk / Layanan</label>
+            <input type="text" class="form-control" id="prdNama" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Harga (Rp)</label>
+            <input type="number" class="form-control" id="prdHarga" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Deskripsi Singkat</label>
+            <input type="text" class="form-control" id="prdKet" required>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-gold px-4"><i class="fa-solid fa-plus me-1"></i> Simpan Produk / Harga</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- EDIT REKENING & E-WALLET LENGKAP (POIN 6) -->
+      <div id="rekeningAdminCard" class="gold-card mb-4 d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-wallet me-2"></i>Pengaturan Nomor Rekening & E-Wallet Pembayaran (DANA, GOPAY, BRI, BNI, BCA, dll)</h4>
+        <form onsubmit="handleUpdateRekening(event)" class="row g-3">
+          <div class="col-md-10">
+            <label class="form-label">Info Rekening Lengkap</label>
+            <input type="text" class="form-control" id="inputRekeningInfo" placeholder="Contoh: DANA/GOPAY: 0812... | BCA: 123... | BRI: 098... | BNI: 555..." required>
+          </div>
+          <div class="col-md-2 d-grid align-items-end">
+            <button type="submit" class="btn btn-gold py-2.5"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Rekening</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- COMPANY PROFILE & VISI MISI & PEMBUAT WEBSITE (POIN 7 & 9) -->
+      <div id="adminCompanyProfileCard" class="gold-card d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-landmark me-2"></i>Pengaturan Company Profile, Visi Misi, & Web Developer Info</h4>
+        <form onsubmit="handleSaveCompanyProfile(event)" class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Tahun Berdiri Perusahaan</label>
+            <input type="text" class="form-control" id="cpInpTahun" required>
+          </div>
+          <div class="col-md-9">
+            <label class="form-label">Profil Perusahaan Singkat</label>
+            <input type="text" class="form-control" id="cpInpProfile" required>
+          </div>
+          <div class="col-md-4"><label class="form-label">Visi Perusahaan</label><textarea class="form-control" id="cpInpVisi" rows="2"></textarea></div>
+          <div class="col-md-4"><label class="form-label">Misi Perusahaan</label><textarea class="form-control" id="cpInpMisi" rows="2"></textarea></div>
+          <div class="col-md-4"><label class="form-label">Tujuan Perusahaan</label><textarea class="form-control" id="cpInpTujuan" rows="2"></textarea></div>
+          <div class="col-md-6">
+            <label class="form-label">Nama Pembuat Website (Web Developer)</label>
+            <input type="text" class="form-control" id="devInpNama" placeholder="Contoh: MultiCorp IT Team" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Tahun Pembuatan Website</label>
+            <input type="text" class="form-control" id="devInpTahun" placeholder="Contoh: 2026" required>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-gold px-4"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Profile & Developer Info</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- TAMBAH DATA PENJUALAN UNTUK GRAFIK (POIN 8) -->
+      <div id="adminSalesCard" class="gold-card d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-chart-column me-2"></i>Input Pencapaian Penjualan Produk Per Divisi</h4>
+        <form onsubmit="handleAddSalesData(event)" class="row g-3">
+          <div class="col-md-5">
+            <label class="form-label">Divisi</label>
+            <select class="form-select" id="salesDivisi">
+              <option value="IT Program">IT Program</option>
+              <option value="Network">Network</option>
+              <option value="Nusantara Food">Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Total Penjualan Hari Ini (Rp)</label>
+            <input type="number" class="form-control" id="salesAmount" placeholder="Contoh: 10000000" required>
+          </div>
+          <div class="col-md-2 d-grid align-items-end">
+            <button type="submit" class="btn btn-gold py-2.5"><i class="fa-solid fa-plus me-1"></i> Tambah Data</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- KUSTOMISASI LOGO UTAMA & BACKGROUND (SUPER ADMIN) -->
+      <div id="brandingAdminCard" class="gold-card mb-4 d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-palette me-2"></i>Kustomisasi Logo Perusahaan & Background Website</h4>
+        <form onsubmit="handleSaveBranding(event)" class="row g-3">
+          <div class="col-md-5">
+            <label class="form-label">Upload Logo Utama Perusahaan (PNG/JPG)</label>
+            <input type="file" class="form-control" id="upLogoFile" accept="image/png, image/jpeg">
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Upload Gambar Background (PNG/JPG)</label>
+            <input type="file" class="form-control" id="upBgFile" accept="image/png, image/jpeg">
+          </div>
+          <div class="col-md-2 d-grid align-items-end">
+            <button type="submit" class="btn btn-gold py-2.5"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan Branding</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- MENGGANTI LOGO DIVISI -->
+      <div id="divisiLogoAdminCard" class="gold-card mb-4 d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-sitemap me-2"></i>Pengaturan Logo Khusus Per Divisi (Khusus Administrator)</h4>
+        <form onsubmit="handleUpdateDivisionLogo(event)" class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Pilih Divisi Target</label>
+            <select class="form-select" id="selectTargetDivisi" required>
+              <option value="IT Program">IT Program</option>
+              <option value="Network">Network</option>
+              <option value="Nusantara Food">Nusantara Food</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Upload File Logo Divisi Baru (PNG/JPG)</label>
+            <input type="file" class="form-control" id="upDivisiLogoFile" accept="image/png, image/jpeg" required>
+          </div>
+          <div class="col-md-2 d-grid align-items-end">
+            <button type="submit" class="btn btn-gold py-2.5"><i class="fa-solid fa-upload me-1"></i> Update Logo</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- UPLOAD BUKTI PEMBAYARAN (PARTNER & CUSTOMER) -->
+      <div id="paymentUploadCard" class="gold-card mb-4 d-none">
+        <h4 class="text-gold fw-bold mb-2"><i class="fa-solid fa-receipt me-2"></i>Upload Bukti Pembayaran / Transfer</h4>
+        <div class="alert alert-dark border-gold text-gold-light mb-3">
+          <i class="fa-solid fa-info-circle me-1"></i> <strong>Tujuan Pembayaran:</strong> <span id="displayRekeningInfo" class="text-white">Memuat info rekening...</span>
+        </div>
+        <form onsubmit="handleUploadPayment(event)" class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Jumlah Pembayaran (Rp)</label>
+            <input type="number" class="form-control" id="payAmount" placeholder="Contoh: 500000" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Metode Pembayaran</label>
+            <select class="form-select" id="payMethod">
+              <option value="DANA">E-Wallet DANA</option>
+              <option value="GOPAY">E-Wallet GOPAY</option>
+              <option value="Bank BCA">Transfer Bank BCA</option>
+              <option value="Bank BRI">Transfer Bank BRI</option>
+              <option value="Bank BNI">Transfer Bank BNI</option>
+              <option value="Bank Lain">Transfer Bank Lain</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">File Bukti (Gambar/PDF)</label>
+            <input type="file" class="form-control" id="payFile" accept="image/*, application/pdf" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Keterangan / Catatan</label>
+            <input type="text" class="form-control" id="payKet" placeholder="Contoh: DP Invoice #123">
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-gold px-4 py-2 rounded-pill"><i class="fa-solid fa-paper-plane me-1"></i> Kirim Bukti Pembayaran ke Administrator</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- TABEL DAFTAR BUKTI PEMBAYARAN -->
+      <div id="paymentListCard" class="gold-card mb-4 d-none">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-file-invoice-dollar me-2"></i>Daftar Bukti Pembayaran Tervalidasi</h4>
+        <div class="table-responsive">
+          <table class="table table-gold align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Waktu</th>
+                <th>Pengirim</th>
+                <th>Role</th>
+                <th>Jumlah</th>
+                <th>Metode</th>
+                <th>Keterangan</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FITUR UPLOAD BERKAS -->
+      <div class="gold-card mb-4">
+        <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Upload Berkas & Dokumen</h4>
+        <form onsubmit="handleUploadFile(event)" class="row g-3">
+          <div class="col-md-5">
+            <label class="form-label">Pilih Berkas</label>
+            <input type="file" class="form-control" id="upFile" required>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Keterangan Dokumen</label>
+            <input type="text" class="form-control" id="upKet" placeholder="Contoh: Proposal, Invoice, Laporan" required>
+          </div>
+          <div class="col-md-2 d-grid align-items-end">
+            <button type="submit" class="btn btn-gold py-2.5"><i class="fa-solid fa-upload me-1"></i> Upload</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- TABEL DAFTAR BERKAS -->
+      <div class="gold-card mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+          <h4 class="text-gold fw-bold mb-0"><i class="fa-solid fa-folder-open me-2"></i>Daftar Berkas Tersimpan</h4>
+          <div style="max-width: 300px; width: 100%;">
+            <input type="text" class="form-control form-control-sm" id="searchFilesInput" placeholder="🔍 Cari berkas..." oninput="filterFilesTable()">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-gold align-middle">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Uploader</th>
+                <th>Role</th>
+                <th>Nama Berkas</th>
+                <th>Keterangan</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="filesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MANAJEMEN AKUN TERPUSAT -->
+      <div id="superAdminContainer" class="row mb-4 d-none">
+        <div id="colDaftarAdmin" class="col-12">
+          <div class="gold-card h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="text-gold fw-bold mb-0"><i class="fa-solid fa-users-gear me-2"></i>Manajemen Akun Terpusat</h4>
+              <button id="btnTambahAkunSuper" class="btn btn-sm btn-gold d-none" onclick="openTambahAkunModal()"><i class="fa-solid fa-plus me-1"></i> Tambah Akun Baru</button>
+            </div>
+            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+              <div id="usersCardsContainer" class="d-flex flex-column gap-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESAN & PENGAJUAN -->
+      <div id="adminPesanContainer" class="gold-card d-none">
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="gold-card p-3 text-center mb-0">
+              <small class="text-clearly-muted">Total Pengajuan</small>
+              <h3 class="text-gold fw-bold mb-0" id="statTotalCount">0</h3>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gold-card p-3 text-center mb-0">
+              <small class="text-clearly-muted">Status Pending / Proses</small>
+              <h3 class="text-warning fw-bold mb-0" id="statPendingCount">0</h3>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="gold-card p-3 text-center mb-0">
+              <small class="text-clearly-muted">Status Selesai</small>
+              <h3 class="text-success fw-bold mb-0" id="statDoneCount">0</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
+          <h4 class="text-gold fw-bold mb-0"><i class="fa-solid fa-inbox me-2"></i>Daftar Pesan & Pengajuan Layanan</h4>
+          <div class="d-flex gap-2 align-items-center">
+            <input type="text" class="form-control form-control-sm" id="searchPesanInput" placeholder="🔍 Cari pesan..." oninput="filterPesanTable()" style="max-width: 220px;">
+            <button class="btn btn-success btn-sm rounded-pill px-3 text-nowrap" onclick="exportPesanToCSV()"><i class="fa-solid fa-file-excel me-1"></i> Export CSV</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-gold align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Waktu</th>
+                <th>Divisi</th>
+                <th>Pengirim</th>
+                <th>Kontak</th>
+                <th>Pesan</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pesanTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FLOATING LIVE CHAT WIDGET (POIN 4) -->
+  <div id="liveChatWidget">
+    <button class="btn btn-gold rounded-circle p-3 shadow-lg fs-4" onclick="toggleChatWindow()">
+      <i class="fa-solid fa-headset"></i>
+    </button>
+    <div id="chatBoxWindow" class="d-none mt-2">
+      <div class="bg-dark p-3 border-bottom border-gold d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="text-gold fw-bold mb-0"><i class="fa-solid fa-comments me-1"></i> Live Chat 24 Jam</h6>
+          <small class="text-muted" style="font-size: 10px;">Translation Auto Global</small>
+        </div>
+        <button class="btn-close btn-close-white" onclick="toggleChatWindow()"></button>
+      </div>
+      <div class="p-2 bg-black border-bottom border-secondary d-flex gap-2">
+        <select id="chatTranslateLang" class="form-select form-select-sm">
+          <option value="id">Bahasa Indonesia</option>
+          <option value="en">English (US)</option>
+          <option value="zh">Mandarin (中文)</option>
+          <option value="ar">Arabic (العربية)</option>
+          <option value="ja">Japanese (日本語)</option>
+        </select>
+      </div>
+      <div id="chatBody" class="p-3 flex-grow-1 overflow-auto text-white small" style="background:#0a0a0b;"></div>
+      <div class="p-2 bg-dark border-top border-secondary">
+        <form onsubmit="handleSendLiveChat(event)">
+          <div class="row g-1 mb-1">
+            <div class="col-6"><input type="text" class="form-control form-control-sm" id="cNama" placeholder="Nama Anda" required></div>
+            <div class="col-6"><input type="tel" class="form-control form-control-sm" id="cHP" placeholder="No WhatsApp/HP" required></div>
+          </div>
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" id="cPesan" placeholder="Ketik pesan..." required>
+            <button class="btn btn-gold btn-sm" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER TERMASUK INFO WEB DEVELOPER (POIN 9) -->
+  <footer class="text-center py-4 text-clearly-muted border-top border-gold mt-5" style="background: rgba(10,10,11,0.95);">
+    <div class="container">
+      <p class="mb-1">&copy; <span id="footerYear">2026</span> MultiCorp Enterprise. All Rights Reserved.</p>
+      <small id="webDevInfo" class="text-gold"></small>
+    </div>
+  </footer>
+
+  <!-- MODAL EDIT AKUN -->
+  <div class="modal fade" id="editAdminModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark border border-gold text-white">
+        <div class="modal-header border-bottom border-secondary">
+          <h5 class="modal-title text-gold"><i class="fa-solid fa-user-pen me-2"></i>Ubah Kredensial Akun</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="handleUpdateAdmin(event)">
+            <input type="hidden" id="editTargetUsername">
+            <div class="mb-3">
+              <label>Username (Tetap)</label>
+              <input type="text" class="form-control" id="editUsernameDisplay" disabled>
+            </div>
+            <div class="mb-3">
+              <label>Password Baru (Kosongkan jika tidak diubah)</label>
+              <input type="password" class="form-control" id="editNewPassword" placeholder="Masukkan password baru">
+            </div>
+            <div class="mb-3">
+              <label>Nomor WhatsApp / Telepon</label>
+              <input type="tel" class="form-control" id="editNewTelp" required>
+            </div>
+            <button type="submit" class="btn btn-gold w-100 py-2 rounded-pill">Simpan Perubahan</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TAMBAH AKUN -->
+  <div class="modal fade" id="tambahAkunModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark border border-gold text-white">
+        <div class="modal-header border-bottom border-secondary">
+          <h5 class="modal-title text-gold"><i class="fa-solid fa-user-plus me-2"></i>Tambah Akun Pengguna Baru</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="handleTambahAkunOlehAdmin(event)">
+            <div class="mb-3">
+              <label>Role Akun</label>
+              <select class="form-select" id="tRole" onchange="toggleTambahDivisi(this.value)">
+                <option value="SUPER_ADMIN">Anggota Admin Utama</option>
+                <option value="ADMIN_DIVISI">Admin Divisi</option>
+                <option value="STAFF">Staff Divisi</option>
+                <option value="PARTNER">Partner Bisnis</option>
+                <option value="CUSTOMER">Customer / Klien</option>
+              </select>
+            </div>
+            <div class="mb-3" id="tDivisiWrap" style="display:none;">
+              <label>Divisi</label>
+              <select class="form-select" id="tDivisi">
+                <option value="IT Program">IT Program</option>
+                <option value="Network">Network</option>
+                <option value="Nusantara Food">Nusantara Food</option>
+              </select>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-md-6"><label>Username</label><input type="text" class="form-control" id="tUser" required></div>
+              <div class="col-md-6"><label>Password</label><input type="password" class="form-control" id="tPass" minlength="6" required></div>
+            </div>
+            <div class="mb-3"><label>Nama Lengkap</label><input type="text" class="form-control" id="tNama" required></div>
+            <div class="row g-2 mb-3">
+              <div class="col-md-6"><label>Email</label><input type="email" class="form-control" id="tEmail" required></div>
+              <div class="col-md-6"><label>Nomor WhatsApp</label><input type="tel" class="form-control" id="tTelp" required></div>
+            </div>
+            <button type="submit" class="btn btn-gold w-100 py-2 rounded-pill">Simpan Akun Baru</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL LUPA PASSWORD -->
+  <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content bg-dark border border-gold text-white">
+        <div class="modal-header border-bottom border-secondary">
+          <h5 class="modal-title text-gold"><i class="fa-solid fa-key me-2"></i>Reset Password Mandiri</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-clearly-muted">Masukkan Username atau Email Anda yang terdaftar. Sistem akan mereset dan mengirimkan password baru langsung ke alamat email pribadi Anda.</p>
+          <form onsubmit="handleForgotPasswordSubmit(event)">
+            <div class="mb-3">
+              <label>Username atau Email Terdaftar</label>
+              <input type="text" class="form-control" id="forgotInput" placeholder="Masukkan username atau email" required>
+            </div>
+            <button type="submit" class="btn btn-gold w-100 py-2 rounded-pill">Kirim Password Baru ke Email</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let currentToken = null;
+    let currentUser = null;
+    let rawMessagesData = [];
+    let rawFilesData = [];
+    let salesChartInstance = null;
+    let publicDataCache = null;
+
+    const servicesByDivision = {
+      'IT Program': ['Web Enterprise', 'Mobile Apps', 'ERP/CRM System'],
+      'Network': ['Instalasi LAN/WAN', 'Firewall & Keamanan', 'Cloud Server'],
+      'Nusantara Food': ['Katering Industri', 'Groceries & Bahan Baku', 'Event Lunch Box']
+    };
+
+    window.onload = function() {
+      initDivisiForms();
+      loadPublicPortalData();
+
+      var savedToken = sessionStorage.getItem('multicorp_token');
+      var savedUser = sessionStorage.getItem('multicorp_user');
+      if (savedToken && savedUser) {
+        currentToken = savedToken;
+        currentUser = JSON.parse(savedUser);
+        setupDashboard();
+      }
+    };
+
+    function showLoading(text = "Sedang memproses...") {
+      document.getElementById('loadingText').innerText = text;
+      document.getElementById('loadingOverlay').classList.remove('d-none');
+      document.querySelectorAll('button, input[type="submit"]').forEach(el => el.disabled = true);
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingOverlay').classList.add('d-none');
+      document.querySelectorAll('button, input[type="submit"]').forEach(el => el.disabled = false);
+    }
+
+    function initDivisiForms() {
+      ['IT Program', 'Network', 'Nusantara Food'].forEach(divisi => {
+        let targetId = divisi === 'IT Program' ? 'formITArea' : (divisi === 'Network' ? 'formNetworkArea' : 'formFoodArea');
+        let template = document.getElementById('sharedFormTemplate').firstElementChild.cloneNode(true);
+        template.querySelector('.pDivisiVal').value = divisi;
+        let container = template.querySelector('.serviceCheckboxes');
+        container.innerHTML = '';
+        servicesByDivision[divisi].forEach((srv, idx) => {
+          container.innerHTML += `
+            <div class="form-check">
+              <input class="form-check-input serviceCheck" type="checkbox" value="${srv}" id="chk_${divisi.replace(/\s+/g, '')}_${idx}">
+              <label class="form-check-label text-white" for="chk_${divisi.replace(/\s+/g, '')}_${idx}">${srv}</label>
+            </div>
+          `;
+        });
+        document.getElementById(targetId).appendChild(template);
+      });
+    }
+
+    // LOAD DYNAMIC PUBLIC PORTAL DATA (POIN 1,2,3,5,7,8,9,10)
+    function loadPublicPortalData() {
+      google.script.run.withSuccessHandler(function(res) {
+        if (!res || !res.success) return;
+        publicDataCache = res;
+
+        // Render Contact Person (Poin 2)
+        if (res.settings.CONTACT_PERSON) {
+          document.getElementById('publicContactBox').innerText = res.settings.CONTACT_PERSON;
+        }
+
+        // Render Sosmed Publik (Poin 3)
+        if (res.settings.SOCMED_PUBLIC) {
+          renderSocmedIcons(JSON.parse(res.settings.SOCMED_PUBLIC), 'publicSocmedIcons');
+        }
+
+        // Render Company Profile (Poin 7)
+        if (res.settings.COMPANY_PROFILE) {
+          let cp = JSON.parse(res.settings.COMPANY_PROFILE);
+          document.getElementById('cpTahunBerdiri').innerText = cp.tahunBerdiri || '2018';
+          document.getElementById('cpProfileText').innerText = cp.profile || '';
+          document.getElementById('cpVisiText').innerText = cp.visi || '';
+          document.getElementById('cpMisiText').innerText = cp.misi || '';
+          document.getElementById('cpTujuanText').innerText = cp.tujuan || '';
+        }
+
+        // Render Developer Info (Poin 9)
+        if (res.settings.WEB_DEVELOPER_INFO) {
+          let dev = JSON.parse(res.settings.WEB_DEVELOPER_INFO);
+          document.getElementById('webDevInfo').innerText = `Website dikembangkan oleh: ${dev.nama} (${dev.tahun})`;
+        }
+
+        // Render Cara Order (Poin 10)
+        if (res.settings.CARA_ORDER) {
+          let list = JSON.parse(res.settings.CARA_ORDER);
+          let html = '';
+          list.forEach(item => html += `<li class="mb-1">${item}</li>`);
+          document.getElementById('caraOrderList').innerHTML = html;
+        }
+
+        // Render Logos
+        if (res.settings.LOGO_URL) {
+          document.getElementById('brandLogoContainer').innerHTML = `<img src="${res.settings.LOGO_URL}" class="navbar-brand-img me-2">`;
+        }
+        if (res.settings.BG_URL) {
+          document.body.style.backgroundImage = `url('${res.settings.BG_URL}')`;
+        }
+
+        // Render Products (Poin 5)
+        renderPublicProducts(res.products);
+
+        // Render Videos (Poin 1)
+        renderPublicVideos(res.videos);
+
+        // Render Grafik Sales (Poin 8)
+        renderSalesChart();
+
+      }).getPublicPortalData();
+    }
+
+    function renderSocmedIcons(dataObj, elementId) {
+      let el = document.getElementById(elementId);
+      if (!el) return;
+      el.innerHTML = '';
+      if (dataObj.yt) el.innerHTML += `<a href="${dataObj.yt}" target="_blank" class="text-gold"><i class="fa-brands fa-youtube"></i></a>`;
+      if (dataObj.fb) el.innerHTML += `<a href="${dataObj.fb}" target="_blank" class="text-gold"><i class="fa-brands fa-facebook"></i></a>`;
+      if (dataObj.ig) el.innerHTML += `<a href="${dataObj.ig}" target="_blank" class="text-gold"><i class="fa-brands fa-instagram"></i></a>`;
+      if (dataObj.tiktok) el.innerHTML += `<a href="${dataObj.tiktok}" target="_blank" class="text-gold"><i class="fa-brands fa-tiktok"></i></a>`;
+    }
+
+    function renderPublicProducts(products) {
+      ['IT Program', 'Network', 'Nusantara Food'].forEach(div => {
+        let targetId = div === 'IT Program' ? 'productListIT' : (div === 'Network' ? 'productListNetwork' : 'productListFood');
+        let container = document.getElementById(targetId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        let filtered = products.filter(p => p.divisi === div);
+        if (filtered.length === 0) {
+          container.innerHTML = '<div class="col-12 text-muted small">Belum ada produk untuk divisi ini.</div>';
+          return;
+        }
+
+        filtered.forEach(p => {
+          container.innerHTML += `
+            <div class="col-md-4">
+              <div class="gold-card h-100 p-3 text-center border-gold">
+                <h5 class="text-gold fw-bold">${p.nama}</h5>
+                <h4 class="text-white my-2">Rp ${Number(p.harga).toLocaleString('id-ID')}</h4>
+                <p class="text-clearly-muted small">${p.deskripsi}</p>
+                <button class="btn btn-sm btn-gold rounded-pill w-100 mt-2" onclick="showPage('${div === 'IT Program' ? 'itPage' : (div === 'Network' ? 'networkPage' : 'foodPage')}')">Pesan Sekarang</button>
+              </div>
+            </div>
+          `;
+        });
+      });
+    }
+
+    function renderPublicVideos(videos) {
+      let testContainer = document.getElementById('publicTestimonialVideos');
+      testContainer.innerHTML = '';
+
+      let testVideos = videos.filter(v => v.kategori === 'Testimoni Customer');
+      if (testVideos.length === 0) {
+        testContainer.innerHTML = '<div class="col-12 text-muted small">Belum ada video testimoni.</div>';
+      } else {
+        testVideos.forEach(v => {
+          testContainer.innerHTML += `
+            <div class="col-md-4">
+              <div class="gold-card p-2 text-center">
+                <h6 class="text-gold mb-2">${v.judul} (${v.divisi})</h6>
+                <a href="${v.link}" target="_blank" class="btn btn-sm btn-outline-warning rounded-pill"><i class="fa-solid fa-play me-1"></i> Putar Video Testimoni</a>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // Render Showcase Divisi
+      ['IT Program', 'Network', 'Nusantara Food'].forEach(div => {
+        let targetId = div === 'IT Program' ? 'videoListIT' : (div === 'Network' ? 'videoListNetwork' : 'videoListFood');
+        let container = document.getElementById(targetId);
+        if (!container) return;
+        container.innerHTML = '';
+
+        let divVideos = videos.filter(v => v.divisi === div && v.kategori === 'Showcase Divisi');
+        if (divVideos.length === 0) {
+          container.innerHTML = '<div class="col-12 text-muted small">Belum ada video showcase.</div>';
+        } else {
+          divVideos.forEach(v => {
+            container.innerHTML += `
+              <div class="col-md-6">
+                <div class="gold-card p-3">
+                  <h6 class="text-gold mb-2">${v.judul}</h6>
+                  <a href="${v.link}" target="_blank" class="btn btn-sm btn-gold rounded-pill w-100"><i class="fa-solid fa-play me-1"></i> Tonton Video Showcase</a>
+                </div>
+              </div>
+            `;
+          });
+        }
+      });
+    }
+
+    // RENDER GRAFIK PENJUALAN (POIN 8)
+    function renderSalesChart() {
+      if (!publicDataCache || !publicDataCache.sales) return;
+      let ctx = document.getElementById('salesChartCanvas').getContext('2d');
+      let period = document.getElementById('salesFilterPeriod').value;
+
+      let sales = publicDataCache.sales;
+      let divisions = ['IT Program', 'Network', 'Nusantara Food'];
+      let totals = [0, 0, 0];
+
+      divisions.forEach((div, idx) => {
+        let sum = sales.filter(s => s.divisi === div).reduce((acc, curr) => acc + curr.total, 0);
+        totals[idx] = sum;
+      });
+
+      if (salesChartInstance) salesChartInstance.destroy();
+
+      salesChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: divisions,
+          datasets: [{
+            label: 'Pencapaian Penjualan (Rp)',
+            data: totals,
+            backgroundColor: ['#d4af37', '#e5c158', '#f3e5ab'],
+            borderColor: '#b8901c',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: '#ffffff' } } },
+          scales: {
+            x: { ticks: { color: '#f3e5ab' } },
+            y: { ticks: { color: '#ffffff' } }
+          }
+        }
+      });
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page-section').forEach(p => p.classList.add('d-none'));
+      document.getElementById(pageId).classList.remove('d-none');
+      window.scrollTo(0,0);
+    }
+
+    function switchAuthTab(sectionId, element) {
+      let parent = element.closest('.form-container-apple');
+      if (parent) {
+        parent.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      }
+      element.classList.add('active');
+
+      if (sectionId.includes('Partner') || sectionId.includes('partner')) {
+        let pLogin = document.getElementById('partnerLoginSection');
+        let pReg = document.getElementById('partnerRegSection');
+        if (pLogin) pLogin.classList.toggle('d-none', sectionId !== 'partnerLoginSection');
+        if (pReg) pReg.classList.toggle('d-none', sectionId !== 'partnerRegSection');
+      } else {
+        let cLogin = document.getElementById('custLoginSection');
+        let cReg = document.getElementById('custRegSection');
+        if (cLogin) cLogin.classList.toggle('d-none', sectionId !== 'custLoginSection');
+        if (cReg) cReg.classList.toggle('d-none', sectionId !== 'custRegSection');
+      }
+    }
+
+    function switchAdminAuthTab(sectionId, element) {
+      document.querySelectorAll('#adminAuthTabs .nav-link').forEach(l => l.classList.remove('active'));
+      element.classList.add('active');
+      
+      let loginTab = document.getElementById('loginTabContent');
+      let regTab = document.getElementById('regTabContent');
+      if (loginTab) loginTab.classList.toggle('d-none', sectionId !== 'loginTabContent');
+      if (regTab) regTab.classList.toggle('d-none', sectionId !== 'regTabContent');
+    }
+
+    function toggleRegDivisiSelect(role) {
+      let wrapper = document.getElementById('mRegDivisiWrapper');
+      if (wrapper) {
+        wrapper.style.display = (role === 'SUPER_ADMIN') ? 'none' : 'block';
+      }
+    }
+
+    function toggleTambahDivisi(role) {
+      let wrap = document.getElementById('tDivisiWrap');
+      if (wrap) {
+        wrap.style.display = (role === 'SUPER_ADMIN' || role === 'PARTNER' || role === 'CUSTOMER') ? 'none' : 'block';
+      }
+    }
+
+    // HANDLERS BACKEND CALLS
+    function handlePublicFormSubmit(e) {
+      e.preventDefault();
+      let form = e.target;
+      let divisi = form.querySelector('.pDivisiVal').value;
+      let nama = form.querySelector('.pNama').value;
+      let email = form.querySelector('.pEmail').value;
+      let telepon = form.querySelector('.pTelepon').value;
+      let pesanCatatan = form.querySelector('.pPesan').value;
+
+      let checkedServices = [];
+      form.querySelectorAll('.serviceCheck:checked').forEach(c => checkedServices.push(c.value));
+      
+      let fullPesan = `[Layanan: ${checkedServices.join(', ')}] ${pesanCatatan}`;
+
+      showLoading("Mengirim pengajuan...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        if (res.success) form.reset();
+      }).simpanPesan({ divisi: divisi, nama: nama, email: email, telepon: telepon, pesan: fullPesan });
+    }
+
+    function handleMandiriRegister(e, role) {
+      e.preventDefault();
+      let data = { role: role };
+      if (role === 'PARTNER') {
+        data.username = document.getElementById('regUserP').value;
+        data.password = document.getElementById('regPassP').value;
+        data.nama = document.getElementById('regNamaP').value;
+        data.email = document.getElementById('regEmailP').value;
+        data.telepon = document.getElementById('regTelpP').value;
+        data.institusi = document.getElementById('regInstP').value;
+        data.jabatan = document.getElementById('regJabP').value;
+        data.alamat = document.getElementById('regAlamatP').value;
+      } else {
+        data.username = document.getElementById('regUserC').value;
+        data.password = document.getElementById('regPassC').value;
+        data.nama = document.getElementById('regNamaC').value;
+        data.email = document.getElementById('regEmailC').value;
+        data.telepon = document.getElementById('regTelpC').value;
+        data.institusi = document.getElementById('regInstC').value;
+        data.jabatan = document.getElementById('regJabC').value;
+        data.alamat = document.getElementById('regAlamatC').value;
+      }
+
+      showLoading("Mendaftarkan akun...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        if (res.success) {
+          showPage('loginSection');
+          switchAdminAuthTab('loginTabContent', document.querySelectorAll('#adminAuthTabs .nav-link')[0]);
+          document.getElementById('mainLoginForm').classList.add('d-none');
+          document.getElementById('verificationForm').classList.remove('d-none');
+          document.getElementById('pendingVerifyUsername').value = res.username;
+        }
+      }).registerClientOrPartner(data);
+    }
+
+    function handleMandiriAnggotaSubmit(e) {
+      e.preventDefault();
+      let data = {
+        role: document.getElementById('mRegRole').value,
+        divisi: document.getElementById('mRegDivisi').value,
+        username: document.getElementById('mRegUsername').value,
+        password: document.getElementById('mRegPassword').value,
+        nama: document.getElementById('mRegNama').value,
+        email: document.getElementById('mRegEmail').value,
+        telepon: document.getElementById('mRegTelp').value,
+        institusi: document.getElementById('mRegInst').value,
+        jabatan: document.getElementById('mRegJab').value,
+        alamat: document.getElementById('mRegAlamat').value
+      };
+
+      showLoading("Mendaftarkan Anggota/Admin...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        if (res.success) {
+          switchAdminAuthTab('loginTabContent', document.querySelectorAll('#adminAuthTabs .nav-link')[0]);
+          document.getElementById('mainLoginForm').classList.add('d-none');
+          document.getElementById('verificationForm').classList.remove('d-none');
+          document.getElementById('pendingVerifyUsername').value = res.username;
+        }
+      }).registerAnggotaMandiri(currentToken, data);
+    }
+
+    function handleUniversalLogin(e, isInternal = false) {
+      e.preventDefault();
+      let u = isInternal ? document.getElementById('lUsername').value : (e.target.querySelector('input[type="text"]').value);
+      let p = isInternal ? document.getElementById('lPassword').value : (e.target.querySelector('input[type="password"]').value);
+
+      showLoading("Melakukan verifikasi login...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        if (res.requiresVerification) {
+          showPage('loginSection');
+          document.getElementById('mainLoginForm').classList.add('d-none');
+          document.getElementById('verificationForm').classList.remove('d-none');
+          document.getElementById('pendingVerifyUsername').value = res.username;
+          alert(res.message);
+        } else if (res.success) {
+          currentToken = res.token;
+          currentUser = res.user;
+          sessionStorage.setItem('multicorp_token', currentToken);
+          sessionStorage.setItem('multicorp_user', JSON.stringify(currentUser));
+          setupDashboard();
+        } else {
+          alert(res.message);
+        }
+      }).loginUniversal(u, p);
+    }
+
+    function handleVerificationSubmit(e) {
+      e.preventDefault();
+      let u = document.getElementById('pendingVerifyUsername').value;
+      let code = document.getElementById('verifyCodeInput').value;
+
+      showLoading("Memeriksa kode verifikasi...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        if (res.success) {
+          alert(res.message);
+          currentToken = res.token;
+          currentUser = res.user;
+          sessionStorage.setItem('multicorp_token', currentToken);
+          sessionStorage.setItem('multicorp_user', JSON.stringify(currentUser));
+          setupDashboard();
+        } else {
+          alert(res.message);
+        }
+      }).verifikasiKodeEmail(u, code);
+    }
+
+    function handleResendCode() {
+      let u = document.getElementById('pendingVerifyUsername').value;
+      showLoading("Mengirim ulang kode verifikasi...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+      }).resendKodeEmail(u);
+    }
+
+    function cancelVerification() {
+      document.getElementById('verificationForm').classList.add('d-none');
+      document.getElementById('mainLoginForm').classList.remove('d-none');
+    }
+
+    function setupDashboard() {
+      document.getElementById('loginNavLink').classList.add('d-none');
+      document.getElementById('dashboardNavLink').classList.remove('d-none');
+      document.getElementById('logoutNavLink').classList.remove('d-none');
+
+      document.getElementById('userInfo').innerText = `${currentUser.nama} (${currentUser.role})`;
+      document.getElementById('userInfoSub').innerText = `Username: ${currentUser.username} | Divisi: ${currentUser.divisi}`;
+
+      showPage('dashboardSection');
+      loadDashboardData();
+    }
+
+    function handleLogout() {
+      sessionStorage.clear();
+      currentToken = null;
+      currentUser = null;
+      document.getElementById('loginNavLink').classList.remove('d-none');
+      document.getElementById('dashboardNavLink').classList.add('d-none');
+      document.getElementById('logoutNavLink').classList.add('d-none');
+      showPage('publicPortalPage');
+    }
+
+    function loadDashboardData() {
+      if (!currentToken) return;
+      showLoading("Memuat data dashboard...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        if (!res.success) {
+          alert(res.message);
+          handleLogout();
+          return;
+        }
+
+        // Display Card Management based on Role
+        let isSuper = currentUser.role === 'SUPER_ADMIN';
+        let isAdminDiv = currentUser.role === 'ADMIN_DIVISI';
+        let isClient = currentUser.role === 'PARTNER' || currentUser.role === 'CUSTOMER';
+
+        document.getElementById('adminVideoUploadCard').classList.toggle('d-none', !isSuper && !isAdminDiv);
+        document.getElementById('adminContactSocmedCard').classList.toggle('d-none', !isSuper && !isAdminDiv);
+        document.getElementById('adminProductsCard').classList.toggle('d-none', !isSuper && !isAdminDiv);
+        document.getElementById('rekeningAdminCard').classList.toggle('d-none', !isSuper);
+        document.getElementById('adminCompanyProfileCard').classList.toggle('d-none', !isSuper);
+        document.getElementById('adminSalesCard').classList.toggle('d-none', !isSuper && !isAdminDiv);
+        document.getElementById('brandingAdminCard').classList.toggle('d-none', !isSuper);
+        document.getElementById('divisiLogoAdminCard').classList.toggle('d-none', !isSuper);
+
+        document.getElementById('paymentUploadCard').classList.toggle('d-none', !isClient);
+        document.getElementById('paymentListCard').classList.remove('d-none');
+        document.getElementById('superAdminContainer').classList.toggle('d-none', !isSuper && !isAdminDiv);
+        document.getElementById('btnTambahAkunSuper').classList.toggle('d-none', !isSuper);
+        document.getElementById('adminPesanContainer').classList.toggle('d-none', !isSuper && !isAdminDiv);
+
+        if (res.settings && res.settings.REKENING_INFO) {
+          document.getElementById('inputRekeningInfo').value = res.settings.REKENING_INFO;
+          document.getElementById('displayRekeningInfo').innerText = res.settings.REKENING_INFO;
+        }
+
+        if (res.settings && res.settings.CONTACT_PERSON) {
+          document.getElementById('inputContactPerson').value = res.settings.CONTACT_PERSON;
+        }
+
+        if (res.settings && res.settings.COMPANY_PROFILE) {
+          let cp = JSON.parse(res.settings.COMPANY_PROFILE);
+          document.getElementById('cpInpTahun').value = cp.tahunBerdiri || '';
+          document.getElementById('cpInpProfile').value = cp.profile || '';
+          document.getElementById('cpInpVisi').value = cp.visi || '';
+          document.getElementById('cpInpMisi').value = cp.misi || '';
+          document.getElementById('cpInpTujuan').value = cp.tujuan || '';
+        }
+
+        if (res.settings && res.settings.WEB_DEVELOPER_INFO) {
+          let dev = JSON.parse(res.settings.WEB_DEVELOPER_INFO);
+          document.getElementById('devInpNama').value = dev.nama || '';
+          document.getElementById('devInpTahun').value = dev.tahun || '';
+        }
+
+        renderPaymentsTable(res.payments);
+        renderFilesTable(res.files);
+        if (isSuper || isAdminDiv) {
+          renderUsersCards(res.users, res.clientsPartners);
+          renderPesanTable(res.messages);
+        }
+      }).getAdminDashboardData(currentToken);
+    }
+
+    // HANDLER FITUR BARU DI DASHBOARD
+    function handleUploadVideo(e) {
+      e.preventDefault();
+      let divisi = document.getElementById('vUploadDivisi').value;
+      let kategori = document.getElementById('vUploadKategori').value;
+      let judul = document.getElementById('vUploadJudul').value;
+      let fileInput = document.getElementById('vUploadFile');
+
+      if (fileInput.files.length === 0) return;
+      let file = fileInput.files[0];
+      let reader = new FileReader();
+
+      showLoading("Mengunggah video...");
+      reader.onload = function(evt) {
+        let base64 = evt.target.result.split(',')[1];
+        google.script.run.withSuccessHandler(function(res) {
+          hideLoading();
+          alert(res.message);
+          if (res.success) { e.target.reset(); loadPublicPortalData(); }
+        }).uploadVideoDivisi(currentToken, base64, file.name, file.type, divisi, kategori, judul);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleSaveContactSocmed(e) {
+      e.preventDefault();
+      let cp = document.getElementById('inputContactPerson').value;
+      let target = document.getElementById('socmedTargetSelect').value;
+      let socmedObj = {
+        yt: document.getElementById('smYT').value,
+        fb: document.getElementById('smFB').value,
+        ig: document.getElementById('smIG').value,
+        tiktok: document.getElementById('smTT').value
+      };
+
+      showLoading("Menyimpan kontak & sosial media...");
+      google.script.run.withSuccessHandler(function() {
+        google.script.run.withSuccessHandler(function(res) {
+          hideLoading();
+          alert(res.message);
+          loadPublicPortalData();
+        }).updateSettingSocialAndContact(currentToken, target, socmedObj);
+      }).updateSettingSocialAndContact(currentToken, "CONTACT_PERSON", cp);
+    }
+
+    function loadSocmedInputs() {
+      let target = document.getElementById('socmedTargetSelect').value;
+      if (publicDataCache && publicDataCache.settings && publicDataCache.settings[target]) {
+        let data = JSON.parse(publicDataCache.settings[target]);
+        document.getElementById('smYT').value = data.yt || '';
+        document.getElementById('smFB').value = data.fb || '';
+        document.getElementById('smIG').value = data.ig || '';
+        document.getElementById('smTT').value = data.tiktok || '';
+      }
+    }
+
+    function handleSaveProduct(e) {
+      e.preventDefault();
+      let pObj = {
+        id: document.getElementById('prdEditId').value,
+        divisi: document.getElementById('prdDivisi').value,
+        nama: document.getElementById('prdNama').value,
+        harga: document.getElementById('prdHarga').value,
+        deskripsi: document.getElementById('prdKet').value
+      };
+
+      showLoading("Menyimpan produk...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        if (res.success) { e.target.reset(); loadPublicPortalData(); }
+      }).saveProduct(currentToken, pObj);
+    }
+
+    function handleSaveCompanyProfile(e) {
+      e.preventDefault();
+      let cpObj = {
+        tahunBerdiri: document.getElementById('cpInpTahun').value,
+        profile: document.getElementById('cpInpProfile').value,
+        visi: document.getElementById('cpInpVisi').value,
+        misi: document.getElementById('cpInpMisi').value,
+        tujuan: document.getElementById('cpInpTujuan').value
+      };
+      let devObj = {
+        nama: document.getElementById('devInpNama').value,
+        tahun: document.getElementById('devInpTahun').value
+      };
+
+      showLoading("Menyimpan Company Profile...");
+      google.script.run.withSuccessHandler(function() {
+        google.script.run.withSuccessHandler(function(res) {
+          hideLoading();
+          alert(res.message);
+          loadPublicPortalData();
+        }).updateSettingSocialAndContact(currentToken, "WEB_DEVELOPER_INFO", devObj);
+      }).updateSettingSocialAndContact(currentToken, "COMPANY_PROFILE", cpObj);
+    }
+
+    function handleAddSalesData(e) {
+      e.preventDefault();
+      let divisi = document.getElementById('salesDivisi').value;
+      let amount = document.getElementById('salesAmount').value;
+
+      showLoading("Menambahkan data penjualan...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        if (res.success) { e.target.reset(); loadPublicPortalData(); }
+      }).addSalesData(currentToken, divisi, amount);
+    }
+
+    // LIVE CHAT 24 JAM HANDLERS (POIN 4)
+    function toggleChatWindow() {
+      document.getElementById('chatBoxWindow').classList.toggle('d-none');
+    }
+
+    function handleSendLiveChat(e) {
+      e.preventDefault();
+      let nama = document.getElementById('cNama').value;
+      let hp = document.getElementById('cHP').value;
+      let pesan = document.getElementById('cPesan').value;
+      let lang = document.getElementById('chatTranslateLang').value;
+
+      google.script.run.withSuccessHandler(function(res) {
+        document.getElementById('cPesan').value = '';
+        let body = document.getElementById('chatBody');
+        body.innerHTML += `<div class="mb-2"><strong>${nama}:</strong> ${res.translatedText}</div>`;
+        body.scrollTop = body.scrollHeight;
+      }).sendLiveChatMessage(nama, hp, pesan, "CUSTOMER", lang);
+    }
+
+    // RENDER TABLES & MODALS UTAMA
+    function renderPaymentsTable(payments) {
+      let tbody = document.getElementById('paymentsTableBody');
+      tbody.innerHTML = '';
+      if (!payments || payments.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Belum ada bukti pembayaran.</td></tr>';
+        return;
+      }
+      payments.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.waktu}</td>
+            <td>${p.uploader}</td>
+            <td>${p.role}</td>
+            <td class="text-gold fw-bold">Rp ${Number(p.jumlah).toLocaleString('id-ID')}</td>
+            <td>${p.metode}</td>
+            <td>${p.ket}</td>
+            <td><a href="${p.link}" target="_blank" class="btn btn-sm btn-gold"><i class="fa-solid fa-eye me-1"></i> Lihat Bukti</a></td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderFilesTable(files) {
+      let tbody = document.getElementById('filesTableBody');
+      tbody.innerHTML = '';
+      if (!files || files.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Belum ada berkas.</td></tr>';
+        return;
+      }
+      files.forEach(f => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${f.waktu}</td>
+            <td>${f.uploader}</td>
+            <td>${f.role}</td>
+            <td>${f.namaFile}</td>
+            <td>${f.ket}</td>
+            <td><a href="${f.link}" target="_blank" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-download me-1"></i> Buka</a></td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderUsersCards(users, clients) {
+      let container = document.getElementById('usersCardsContainer');
+      container.innerHTML = '';
+
+      let all = [...users, ...clients];
+      all.forEach(u => {
+        container.innerHTML += `
+          <div class="p-3 bg-black border border-gold rounded d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-gold fw-bold mb-1">${u.nama} (@${u.username}) <span class="badge bg-secondary ms-1">${u.role}</span></h6>
+              <small class="text-muted d-block">Divisi: ${u.divisi || 'N/A'} | WA: ${u.telepon} | Email: ${u.email}</small>
+            </div>
+            ${currentUser.role === 'SUPER_ADMIN' ? `
+              <div class="d-flex gap-1">
+                <button class="btn btn-sm btn-outline-warning" onclick="openEditAdminModal('${u.username}', '${u.telepon}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn btn-sm btn-outline-danger" onclick="handleHapusAdmin('${u.username}')"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+    }
+
+    function renderPesanTable(messages) {
+      let tbody = document.getElementById('pesanTableBody');
+      tbody.innerHTML = '';
+      if (!messages || messages.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Belum ada pesan.</td></tr>';
+        return;
+      }
+
+      let total = messages.length;
+      let pending = messages.filter(m => m.status === 'Pending' || m.status === 'Proses').length;
+      let done = messages.filter(m => m.status === 'Selesai').length;
+
+      document.getElementById('statTotalCount').innerText = total;
+      document.getElementById('statPendingCount').innerText = pending;
+      document.getElementById('statDoneCount').innerText = done;
+
+      messages.forEach(m => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${m.id}</td>
+            <td>${m.timestamp}</td>
+            <td><span class="badge bg-warning text-dark">${m.divisi}</span></td>
+            <td>${m.nama}</td>
+            <td>${m.email}<br><small>${m.telepon}</small></td>
+            <td>${m.pesan}</td>
+            <td><span class="badge ${m.status==='Selesai'?'bg-success':(m.status==='Proses'?'bg-warning':'bg-danger')}">${m.status}</span></td>
+            <td>
+              <select class="form-select form-select-sm" onchange="handleUpdateStatusPesan('${m.id}', this.value)">
+                <option value="Pending" ${m.status==='Pending'?'selected':''}>Pending</option>
+                <option value="Proses" ${m.status==='Proses'?'selected':''}>Proses</option>
+                <option value="Selesai" ${m.status==='Selesai'?'selected':''}>Selesai</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function handleUpdateStatusPesan(id, status) {
+      showLoading("Memperbarui status...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        loadDashboardData();
+      }).updateStatusPesan(currentToken, id, status);
+    }
+
+    function openEditAdminModal(u, telp) {
+      document.getElementById('editTargetUsername').value = u;
+      document.getElementById('editUsernameDisplay').value = u;
+      document.getElementById('editNewTelp').value = telp;
+      new bootstrap.Modal(document.getElementById('editAdminModal')).show();
+    }
+
+    function handleUpdateAdmin(e) {
+      e.preventDefault();
+      let target = document.getElementById('editTargetUsername').value;
+      let pass = document.getElementById('editNewPassword').value;
+      let telp = document.getElementById('editNewTelp').value;
+
+      showLoading("Memperbarui kredensial...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        bootstrap.Modal.getInstance(document.getElementById('editAdminModal')).hide();
+        loadDashboardData();
+      }).updateAdminCredentials(currentToken, target, pass, telp);
+    }
+
+    function handleHapusAdmin(u) {
+      if (!confirm(`Apakah Anda yakin ingin menghapus akun '${u}'?`)) return;
+      showLoading("Menghapus akun...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        loadDashboardData();
+      }).hapusAdmin(currentToken, u);
+    }
+
+    function openTambahAkunModal() {
+      new bootstrap.Modal(document.getElementById('tambahAkunModal')).show();
+    }
+
+    function handleTambahAkunOlehAdmin(e) {
+      e.preventDefault();
+      let data = {
+        role: document.getElementById('tRole').value,
+        divisi: document.getElementById('tDivisi').value,
+        username: document.getElementById('tUser').value,
+        password: document.getElementById('tPass').value,
+        nama: document.getElementById('tNama').value,
+        email: document.getElementById('tEmail').value,
+        telepon: document.getElementById('tTelp').value
+      };
+
+      showLoading("Menambahkan akun baru...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        bootstrap.Modal.getInstance(document.getElementById('tambahAkunModal')).hide();
+        loadDashboardData();
+      }).tambahAkunOlehAdmin(currentToken, data);
+    }
+
+    function handleUploadPayment(e) {
+      e.preventDefault();
+      let amount = document.getElementById('payAmount').value;
+      let method = document.getElementById('payMethod').value;
+      let ket = document.getElementById('payKet').value;
+      let fileInput = document.getElementById('payFile');
+
+      if (fileInput.files.length === 0) return;
+      let file = fileInput.files[0];
+      let reader = new FileReader();
+
+      showLoading("Mengunggah bukti pembayaran...");
+      reader.onload = function(evt) {
+        let base64 = evt.target.result.split(',')[1];
+        google.script.run.withSuccessHandler(function(res) {
+          hideLoading();
+          alert(res.message);
+          if (res.success) { e.target.reset(); loadDashboardData(); }
+        }).uploadBuktiPembayaran(currentToken, base64, file.name, file.type, amount, method, ket);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUpdateRekening(e) {
+      e.preventDefault();
+      let info = document.getElementById('inputRekeningInfo').value;
+      showLoading("Menyimpan rekening...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+      }).updateNomorRekening(currentToken, info);
+    }
+
+    function handleSaveBranding(e) {
+      e.preventDefault();
+      let logoInput = document.getElementById('upLogoFile');
+      let bgInput = document.getElementById('upBgFile');
+
+      let logoBase64 = "", logoName = "", bgBase64 = "", bgName = "";
+
+      showLoading("Menyimpan branding...");
+
+      let processSave = function() {
+        google.script.run.withSuccessHandler(function(res) {
+          hideLoading();
+          alert(res.message);
+          if (res.success) { loadPublicPortalData(); }
+        }).saveBrandingSettings(currentToken, logoBase64, logoName, bgBase64, bgName);
+      };
+
+      if (logoInput.files.length > 0) {
+        let r1 = new FileReader();
+        r1.onload = function(evt) {
+          logoBase64 = evt.target.result.split(',')[1];
+          logoName = logoInput.files[0].name;
+          if (bgInput.files.length > 0) {
+            let r2 = new FileReader();
+            r2.onload = function(evt2) {
+              bgBase64 = evt2.target.result.split(',')[1];
+              bgName = bgInput.files[0].name;
+              processSave();
+            };
+            r2.readAsDataURL(bgInput.files[0]);
+          } else { processSave(); }
+        };
+        r1.readAsDataURL(logoInput.files[0]);
+      } else if (bgInput.files.length > 0) {
+        let r2 = new FileReader();
+        r2.onload = function(evt2) {
+          bgBase64 = evt2.target.result.split(',')[1];
+          bgName = bgInput.files[0].name;
+          processSave();
+        };
+        r2.readAsDataURL(bgInput.files[0]);
+      }
+    }
+
+    function handleUpdateDivisionLogo(e) {
+      e.preventDefault();
+      let div = document.getElementById('selectTargetDivisi').value;
+      let fileInput = document.getElementById('upDivisiLogoFile');
+
+      if (fileInput.files.length === 0) return;
+      let file = fileInput.files[0];
+      let reader = new FileReader();
+
+      showLoading("Memperbarui logo divisi...");
+      reader.onload = function(evt) {
+        let base64 = evt.target.result.split(',')[1];
+        google.script.run.withSuccessHandler(function(res) {
+          hideLoading();
+          alert(res.message);
+          if (res.success) { loadPublicPortalData(); }
+        }).updateDivisionLogo(currentToken, div, base64, file.name);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openForgotPasswordModal() {
+      new bootstrap.Modal(document.getElementById('forgotPasswordModal')).show();
+    }
+
+    function enablePasswordToggles() {
+      document.querySelectorAll('input[type="password"]').forEach(function(input) {
+        if (input.dataset.passwordToggleReady) return;
+        input.dataset.passwordToggleReady = 'true';
+        var wrapper = input.parentElement;
+        wrapper.style.position = 'relative';
+        input.style.paddingRight = '42px';
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-link position-absolute top-50 end-0 translate-middle-y text-gold';
+        button.style.textDecoration = 'none';
+        button.setAttribute('aria-label', 'Tampilkan password');
+        button.innerHTML = '<i class="fa-solid fa-eye"></i>';
+        button.addEventListener('click', function() {
+          var visible = input.type === 'password';
+          input.type = visible ? 'text' : 'password';
+          button.setAttribute('aria-label', visible ? 'Sembunyikan password' : 'Tampilkan password');
+          button.innerHTML = visible ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
+        });
+        wrapper.appendChild(button);
+      });
+    }
+
+    enablePasswordToggles();
+
+    function handleForgotPasswordSubmit(e) {
+      e.preventDefault();
+      let val = document.getElementById('forgotInput').value;
+      showLoading("Mengirim password baru...");
+      google.script.run.withSuccessHandler(function(res) {
+        hideLoading();
+        alert(res.message);
+        bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal')).hide();
+      }).requestPasswordReset(val);
+    }
+  </script>
+</body>
+</html>

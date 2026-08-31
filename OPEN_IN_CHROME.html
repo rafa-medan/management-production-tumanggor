@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Managament Production Multicorp - Link Opener</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1d 100%);
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      padding-top: 30px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #d1d5db;
+      font-size: 1.1rem;
+    }
+
+    .links-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .link-box {
+      background: #141416;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .link-box:hover {
+      background: #1c1c20;
+      border-color: #d4af37;
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .link-box h3 {
+      color: #d4af37;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .link-box p {
+      color: #d1d5db;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .link-box code {
+      display: block;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 15px;
+      color: #f3e5ab;
+      font-size: 0.85rem;
+      word-break: break-all;
+      overflow-x: auto;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-open {
+      background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
+      color: #0a0a0b;
+    }
+
+    .btn-open:hover {
+      box-shadow: 0 6px 16px rgba(212, 175, 55, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-copy {
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+      border: 1px solid #d4af37;
+    }
+
+    .btn-copy:hover {
+      background: rgba(212, 175, 55, 0.2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-public {
+      background: rgba(81, 207, 102, 0.2);
+      color: #51cf66;
+    }
+
+    .badge-private {
+      background: rgba(255, 107, 107, 0.2);
+      color: #ff6b6b;
+    }
+
+    .badge-demo {
+      background: rgba(255, 217, 61, 0.2);
+      color: #ffd93d;
+    }
+
+    .instructions {
+      background: rgba(212, 175, 55, 0.1);
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 40px;
+    }
+
+    .instructions h2 {
+      color: #d4af37;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .instructions ol {
+      color: #d1d5db;
+      padding-left: 20px;
+      line-height: 2;
+    }
+
+    .instructions ol li {
+      margin-bottom: 10px;
+    }
+
+    .instructions code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #f3e5ab;
+      font-family: monospace;
+    }
+
+    .demo-accounts {
+      background: #141416;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 40px;
+    }
+
+    .demo-accounts h2 {
+      color: #d4af37;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+    }
+
+    .account-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .account {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .account:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: #d4af37;
+    }
+
+    .account-name {
+      color: #d4af37;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .account-cred {
+      color: #d1d5db;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .copy-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #51cf66;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 6px;
+      display: none;
+      animation: slideIn 0.3s ease;
+      z-index: 1000;
+    }
+
+    .copy-notification.show {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      color: #d1d5db;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .links-container {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        min-width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>🌐 Managament Production Multicorp Portal</h1>
+    <p>Akses Semua Halaman Website Di Sini</p>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <h2>📖 Cara Membuka Website</h2>
+    <ol>
+      <li>Pilih halaman yang ingin dibuka di bawah</li>
+      <li>Klik tombol <strong>"🔗 Buka"</strong> untuk membuka di browser baru</li>
+      <li>Atau klik <strong>"📋 Copy"</strong> untuk copy link-nya</li>
+      <li>Jika ingin manual: Buka Chrome → Ctrl+L → Paste link → Enter</li>
+    </ol>
+  </div>
+
+  <!-- DEMO ACCOUNTS -->
+  <div class="demo-accounts">
+    <h2>👥 Demo Accounts</h2>
+    <div class="account-grid">
+      <div class="account" onclick="copyToClipboard('superadmin')">
+        <div class="account-name">👑 Super Admin</div>
+        <div class="account-cred">Username: superadmin<br>Password: admin123</div>
+      </div>
+      <div class="account" onclick="copyToClipboard('admin_it')">
+        <div class="account-name">💻 Admin IT</div>
+        <div class="account-cred">Username: admin_it<br>Password: it123</div>
+      </div>
+      <div class="account" onclick="copyToClipboard('admin_net')">
+        <div class="account-name">🌐 Admin Network</div>
+        <div class="account-cred">Username: admin_net<br>Password: net123</div>
+      </div>
+      <div class="account" onclick="copyToClipboard('admin_food')">
+        <div class="account-name">🍜 Admin Food</div>
+        <div class="account-cred">Username: admin_food<br>Password: food123</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN LINKS -->
+  <div class="links-container">
+    <!-- 1. HOME PORTAL -->
+    <div class="link-box">
+      <span class="badge badge-public">PUBLIC</span>
+      <h3>🏠 Home Portal</h3>
+      <p>Landing page utama dengan semua navigasi dan link website</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index-portal.html</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('index-portal.html')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index-portal.html')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 2. HOME ORIGINAL -->
+    <div class="link-box">
+      <span class="badge badge-public">PUBLIC</span>
+      <h3>🏠 Home Original</h3>
+      <p>Halaman portal dengan informasi perusahaan lengkap</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index.html</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('index.html')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index.html')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 3. LOGIN PAGE -->
+    <div class="link-box">
+      <span class="badge badge-public">PUBLIC</span>
+      <h3>🔐 Login Admin</h3>
+      <p>Halaman login untuk admin dan staff perusahaan</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('login.html')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 4. DASHBOARD SUPER ADMIN -->
+    <div class="link-box">
+      <span class="badge badge-private">PRIVATE</span>
+      <h3>📊 Dashboard Super Admin</h3>
+      <p>Admin panel dengan analytics, pesan, produk, dan pembayaran</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=superadmin</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('dashboard.html?user=superadmin')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=superadmin')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 5. DASHBOARD ADMIN IT -->
+    <div class="link-box">
+      <span class="badge badge-private">PRIVATE</span>
+      <h3>💻 Dashboard Admin IT</h3>
+      <p>Dashboard khusus Admin IT Program Division</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_it</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('dashboard.html?user=admin_it')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_it')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 6. DASHBOARD ADMIN NETWORK -->
+    <div class="link-box">
+      <span class="badge badge-private">PRIVATE</span>
+      <h3>🌐 Dashboard Admin Network</h3>
+      <p>Dashboard khusus Admin Network Division</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_net</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('dashboard.html?user=admin_net')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_net')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 7. DASHBOARD ADMIN FOOD -->
+    <div class="link-box">
+      <span class="badge badge-private">PRIVATE</span>
+      <h3>🍜 Dashboard Admin Food</h3>
+      <p>Dashboard khusus Admin Nusantara Food Division</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_food</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('dashboard.html?user=admin_food')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_food')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 8. DEMO LOGIN SUPERADMIN -->
+    <div class="link-box">
+      <span class="badge badge-demo">DEMO</span>
+      <h3>⚡ Demo Login Super Admin</h3>
+      <p>Login cepat dengan auto-fill Super Administrator</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=superadmin&pass=admin123')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 9. DEMO LOGIN ADMIN IT -->
+    <div class="link-box">
+      <span class="badge badge-demo">DEMO</span>
+      <h3>⚡ Demo Login Admin IT</h3>
+      <p>Login cepat dengan auto-fill Admin IT Program</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=admin_it&pass=it123')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 10. DEMO LOGIN ADMIN NETWORK -->
+    <div class="link-box">
+      <span class="badge badge-demo">DEMO</span>
+      <h3>⚡ Demo Login Admin Network</h3>
+      <p>Login cepat dengan auto-fill Admin Network</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=admin_net&pass=net123')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123')">📋 Copy</button>
+      </div>
+    </div>
+
+    <!-- 11. DEMO LOGIN ADMIN FOOD -->
+    <div class="link-box">
+      <span class="badge badge-demo">DEMO</span>
+      <h3>⚡ Demo Login Admin Food</h3>
+      <p>Login cepat dengan auto-fill Admin Nusantara Food</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123</code>
+      <div class="button-group">
+        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=admin_food&pass=food123')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123')">📋 Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>✅ Semua link siap diakses di browser Chrome</p>
+    <p style="font-size: 0.9rem; margin-top: 10px;">Managament Production Multicorp Portal v1.0.0 | 2026-08-31</p>
+  </div>
+</div>
+
+<!-- COPY NOTIFICATION -->
+<div class="copy-notification" id="notification">
+  ✓ Link berhasil dicopy ke clipboard!
+</div>
+
+<script>
+  const baseDir = 'd:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/';
+
+  function openFile(filename) {
+    const filePath = `file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/${filename}`;
+    const popup = window.open(filePath, '_blank', 'width=1400,height=950,left=160,top=60,noopener=yes');
+
+    if (popup) {
+      popup.opener = null;
+      popup.focus();
+      return;
+    }
+
+    setTimeout(() => {
+      window.location.href = filePath;
+    }, 100);
+  }
+
+  function openInNewTab(filename) {
+    const filePath = `file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/${filename}`;
+    const newWindow = window.open(filePath, '_blank', 'width=1400,height=950,left=160,top=60,noopener=yes');
+    if (newWindow) {
+      newWindow.opener = null;
+      newWindow.focus();
+    }
+  }
+
+  function copyPath(path) {
+    navigator.clipboard.writeText(path).then(() => {
+      showNotification('Link berhasil dicopy!');
+    }).catch(() => {
+      alert('Copy error. Link:\n\n' + path);
+    });
+  }
+
+  function copyToClipboard(type) {
+    const credentials = {
+      'superadmin': 'superadmin / admin123',
+      'admin_it': 'admin_it / it123',
+      'admin_net': 'admin_net / net123',
+      'admin_food': 'admin_food / food123'
+    };
+    
+    navigator.clipboard.writeText(credentials[type]).then(() => {
+      showNotification('Credentials dicopy!');
+    });
+  }
+
+  function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = '✓ ' + message;
+    notification.classList.add('show');
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 2000);
+  }
+
+  // Direct link opening - alternative method
+  function directOpen(filename) {
+    const filePath = `file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/${filename}`;
+    const popup = window.open(filePath, '_blank', 'width=1400,height=950,left=160,top=60,noopener=yes');
+    if (popup) {
+      popup.opener = null;
+      popup.focus();
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+</body>
+</html>

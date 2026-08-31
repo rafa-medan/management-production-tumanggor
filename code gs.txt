@@ -1,0 +1,1253 @@
+/**
+ * MULTICORP ENTERPRISE PORTAL - FULL BACKEND SCRIPT
+ * Dilengkapi 10 Fitur Lengkap Enterprise:
+ * 1. Video Divisi & Testimoni (Drive Upload)
+ * 2. Contact Person Perusahaan
+ * 3. URL Sosial Media (YouTube, FB, IG, TikTok) Per Divisi & Publik
+ * 4. Live Chat 24 Jam Admin (Nama & WA, Translation Auto)
+ * 5. Katalog Produk & Harga Per Divisi
+ * 6. Nomor Rekening & E-Wallet Lengkap
+ * 7. Company Profile, Visi Misi, Tujuan & Tahun Berdiri
+ * 8. Grafik Data Pencapaian Penjualan (Harian, Bulanan, Tahunan)
+ * 9. Nama & Tahun Pembuat Website (Web Developer Info)
+ * 10. Langkah-langkah Cara Order Customer
+ */
+
+// 1. Inisialisasi Sheet & Struktur Database
+function setupSheets() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  // Sheet Pesan / Order
+  var sheetPesan = ss.getSheetByName("Pesan");
+  if (!sheetPesan) {
+    sheetPesan = ss.insertSheet("Pesan");
+    sheetPesan.appendRow(["ID", "Timestamp", "Divisi", "Nama", "Email", "Telepon", "Pesan", "Status"]);
+    sheetPesan.getRange(1, 1, 1, 8).setFontWeight("bold").setBackground("#d9ead3");
+  }
+
+  // Sheet Users
+  var sheetUsers = ss.getSheetByName("Users");
+  if (!sheetUsers) {
+    sheetUsers = ss.insertSheet("Users");
+    sheetUsers.appendRow(["Username", "Password", "Nama", "Role", "Divisi", "Telepon", "Email", "Alamat", "Institusi", "Jabatan", "KodeVerifikasi", "StatusVerifikasi"]);
+    sheetUsers.getRange(1, 1, 1, 12).setFontWeight("bold").setBackground("#c9daf8");
+    
+    sheetUsers.appendRow(["superadmin", "admin123", "Super Administrator", "SUPER_ADMIN", "ALL", "081262639095", "superadmin@multicorp.com", "Kantor Pusat MultiCorp", "MultiCorp HQ", "Head Administrator", "0000", "VERIFIED"]);
+    sheetUsers.appendRow(["admin_it", "it123", "Admin IT Program", "ADMIN_DIVISI", "IT Program", "081200000001", "admin.it@multicorp.com", "Gd. IT Tower Lt. 3", "MultiCorp IT", "Lead IT", "0000", "VERIFIED"]);
+    sheetUsers.appendRow(["admin_net", "net123", "Admin Network", "ADMIN_DIVISI", "Network", "081200000002", "admin.net@multicorp.com", "Gd. Cyber Lt. 2", "MultiCorp Net", "Network Spec", "0000", "VERIFIED"]);
+    sheetUsers.appendRow(["admin_food", "food123", "Admin Nusantara Food", "ADMIN_DIVISI", "Nusantara Food", "081200000003", "admin.food@multicorp.com", "Kawasan Kuliner 1", "MultiCorp Food", "F&B Manager", "0000", "VERIFIED"]);
+  }
+
+  // Sheet Clients & Partners
+  var sheetClients = ss.getSheetByName("ClientsPartners");
+  if (!sheetClients) {
+    sheetClients = ss.insertSheet("ClientsPartners");
+    sheetClients.appendRow(["Username", "Password", "Nama", "Role", "Telepon", "Email", "Alamat", "Institusi", "Jabatan", "KodeVerifikasi", "StatusVerifikasi"]);
+    sheetClients.getRange(1, 1, 1, 11).setFontWeight("bold").setBackground("#fce5cd");
+    
+    sheetClients.appendRow(["partner_jaya", "partner123", "Mitra Bisnis Jaya", "PARTNER", "081300000001", "partner@multicorp.com", "Jl. Jend. Sudirman No. 45", "PT Jaya Abadi", "Direktur Utama", "0000", "VERIFIED"]);
+    sheetClients.appendRow(["cust_budi", "budi123", "Budi Santoso", "CUSTOMER", "081300000002", "budi@gmail.com", "Jl. Merdeka No. 12", "CV Mandiri Utama", "Owner", "0000", "VERIFIED"]);
+  }
+
+  // Sheet Berkas Upload
+  var sheetFiles = ss.getSheetByName("BerkasUpload");
+  if (!sheetFiles) {
+    sheetFiles = ss.insertSheet("BerkasUpload");
+    sheetFiles.appendRow(["IDFile", "Timestamp", "Uploader", "RoleUploader", "NamaFile", "LinkFile", "Keterangan"]);
+    sheetFiles.getRange(1, 1, 1, 7).setFontWeight("bold").setBackground("#d9d2e9");
+  }
+
+  // Sheet Bukti Pembayaran
+  var sheetPayments = ss.getSheetByName("BuktiPembayaran");
+  if (!sheetPayments) {
+    sheetPayments = ss.insertSheet("BuktiPembayaran");
+    sheetPayments.appendRow(["IDBayar", "Timestamp", "Uploader", "Role", "Jumlah", "MetodeBayar", "NamaFile", "LinkFile", "Keterangan"]);
+    sheetPayments.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#d0e0e3");
+  }
+
+  // Sheet Settings & Dynamic Content
+  var sheetSettings = ss.getSheetByName("Settings");
+  if (!sheetSettings) {
+    sheetSettings = ss.insertSheet("Settings");
+    sheetSettings.appendRow(["Key", "Value"]);
+    sheetSettings.getRange(1, 1, 1, 2).setFontWeight("bold").setBackground("#fff2cc");
+    sheetSettings.appendRow(["LOGO_URL", ""]);
+    sheetSettings.appendRow(["BG_URL", ""]);
+    sheetSettings.appendRow(["REKENING_INFO", "GOPAY: 0812-6263-9095 | DANA: 0812-6263-9095 | BCA: 123-456-7890 (a.n MultiCorp) | BRI: 0987-6543-21 (a.n MultiCorp) | BNI: 555-444-333"]);
+    sheetSettings.appendRow(["LOGO_IT_PROGRAM", ""]);
+    sheetSettings.appendRow(["LOGO_NETWORK", ""]);
+    sheetSettings.appendRow(["LOGO_NUSANTARA_FOOD", ""]);
+    // Poin 2: Contact Person Perusahaan
+    sheetSettings.appendRow(["CONTACT_PERSON", "Hotline: 0812-6263-9095 | Email: support@multicorp.com | Alamat HQ: Gd. MultiCorp Lt. 10, Jakarta"]);
+    // Poin 3: Sosial Media Utama
+    sheetSettings.appendRow(["SOCMED_PUBLIC", JSON.stringify({yt:"https://youtube.com", fb:"https://facebook.com", ig:"https://instagram.com", tiktok:"https://tiktok.com"})]);
+    sheetSettings.appendRow(["SOCMED_IT Program", JSON.stringify({yt:"https://youtube.com/@it", fb:"https://facebook.com/it", ig:"https://instagram.com/it", tiktok:"https://tiktok.com/@it"})]);
+    sheetSettings.appendRow(["SOCMED_Network", JSON.stringify({yt:"https://youtube.com/@net", fb:"https://facebook.com/net", ig:"https://instagram.com/net", tiktok:"https://tiktok.com/@net"})]);
+    sheetSettings.appendRow(["SOCMED_Nusantara Food", JSON.stringify({yt:"https://youtube.com/@food", fb:"https://facebook.com/food", ig:"https://instagram.com/food", tiktok:"https://tiktok.com/@food"})]);
+    // Poin 7: Company Profile
+    sheetSettings.appendRow(["COMPANY_PROFILE", JSON.stringify({
+      tahunBerdiri: "2018",
+      profile: "MultiCorp Enterprise adalah penyedia solusi terpadu di bidang Teknologi Informasi, Jaringan Komunikasi, dan Layanan Kuliner Nusantara.",
+      visi: "Menjadi korporasi terdepan di Asia Tenggara yang mengintegrasikan inovasi teknologi dan layanan terbaik.",
+      misi: "1. Memberikan layanan berkualitas tinggi. 2. Berinovasi tanpa henti. 3. Membangun hubungan jangka panjang dengan mitra dan pelanggan.",
+      tujuan: "Meningkatkan efisiensi dan kepuasan pelanggan secara komprehensif."
+    })]);
+    // Poin 9: Pembuat Website
+    sheetSettings.appendRow(["WEB_DEVELOPER_INFO", JSON.stringify({nama: "MultiCorp IT System Team", tahun: "2026"})]);
+    // Poin 10: Cara Order
+    sheetSettings.appendRow(["CARA_ORDER", JSON.stringify([
+      "1. Pilih Divisi dan Layanan/Produk yang Anda butuhkan pada Katalog Produk.",
+      "2. Klik tombol 'Pesan / Pengajuan' atau hubungi Live Chat 24 Jam.",
+      "3. Isi formulir pengajuan pesan dengan Nama & Nomor WhatsApp/Telepon Aktif Anda.",
+      "4. Lakukan Pembayaran ke Rekening/E-Wallet resmi MultiCorp.",
+      "5. Unggah Bukti Pembayaran pada Portal Customer/Partner untuk verifikasi instant."
+    ])]);
+  }
+
+  // Sheet Video Divisi & Testimoni (Poin 1)
+  var sheetVideos = ss.getSheetByName("Videos");
+  if (!sheetVideos) {
+    sheetVideos = ss.insertSheet("Videos");
+    sheetVideos.appendRow(["ID", "Timestamp", "Divisi", "Kategori", "Judul", "LinkVideo", "Uploader"]);
+    sheetVideos.getRange(1, 1, 1, 7).setFontWeight("bold").setBackground("#d9d2e9");
+  }
+
+  // Sheet Produk & Harga (Poin 5)
+  var sheetProducts = ss.getSheetByName("Products");
+  if (!sheetProducts) {
+    sheetProducts = ss.insertSheet("Products");
+    sheetProducts.appendRow(["ID", "Divisi", "NamaProduk", "Harga", "Deskripsi", "Status"]);
+    sheetProducts.getRange(1, 1, 1, 6).setFontWeight("bold").setBackground("#fce5cd");
+    sheetProducts.appendRow(["PRD-1", "IT Program", "Aplikasi Web Enterprise", 15000000, "Sistem berbasis web custom sesuai kebutuhan bisnis", "Aktif"]);
+    sheetProducts.appendRow(["PRD-2", "Network", "Instalasi Router & Firewall", 5000000, "Pemasangan dan konfigurasi keamanan jaringan", "Aktif"]);
+    sheetProducts.appendRow(["PRD-3", "Nusantara Food", "Paket Katering Industri / Bbl", 35000, "Nasi Kotak Menu Nusantara lengkap", "Aktif"]);
+  }
+
+  // Sheet Live Chat Messages (Poin 4)
+  var sheetChats = ss.getSheetByName("LiveChats");
+  if (!sheetChats) {
+    sheetChats = ss.insertSheet("LiveChats");
+    sheetChats.appendRow(["IDChat", "Timestamp", "NamaCustomer", "NoHP", "Pengirim", "Pesan", "Bahasa"]);
+    sheetChats.getRange(1, 1, 1, 7).setFontWeight("bold").setBackground("#fff2cc");
+  }
+
+  // Sheet Data Pencapaian Penjualan (Poin 8)
+  var sheetSales = ss.getSheetByName("SalesData");
+  if (!sheetSales) {
+    sheetSales = ss.insertSheet("SalesData");
+    sheetSales.appendRow(["Tanggal", "Divisi", "TotalPenjualan"]);
+    sheetSales.getRange(1, 1, 1, 3).setFontWeight("bold").setBackground("#d0e0e3");
+    
+    // Default Data Penjualan Dummy
+    var todayStr = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd");
+    sheetSales.appendRow([todayStr, "IT Program", 45000000]);
+    sheetSales.appendRow([todayStr, "Network", 20000000]);
+    sheetSales.appendRow([todayStr, "Nusantara Food", 15000000]);
+  }
+}
+
+function catatLog(username, role, aktivitas, keterangan) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetLog = ss.getSheetByName("LogAktivitas");
+    if (!sheetLog) { setupSheets(); sheetLog = ss.getSheetByName("LogAktivitas"); }
+    var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
+    sheetLog.appendRow([waktu, username || "Public/Guest", role || "GUEST", aktivitas, keterangan || ""]);
+  } catch (e) {
+    console.error("Gagal log: " + e.toString());
+  }
+}
+
+function doGet() {
+  setupSheets();
+  return HtmlService.createTemplateFromFile('Index')
+    .evaluate()
+    .setTitle('MultiCorp Enterprise Portal')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1.0')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+// 2. GET PUBLIC DATA UNTUK FRONTEND
+function getPublicPortalData() {
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  // Settings
+  var settings = {};
+  var sData = ss.getSheetByName("Settings").getDataRange().getValues();
+  for (var i = 1; i < sData.length; i++) {
+    settings[sData[i][0]] = sData[i][1];
+  }
+
+  // Videos
+  var videos = [];
+  var vData = ss.getSheetByName("Videos").getDataRange().getValues();
+  for (var v = 1; v < vData.length; v++) {
+    videos.push({
+      id: vData[v][0],
+      waktu: vData[v][1],
+      divisi: vData[v][2],
+      kategori: vData[v][3],
+      judul: vData[v][4],
+      link: vData[v][5]
+    });
+  }
+
+  // Products
+  var products = [];
+  var pData = ss.getSheetByName("Products").getDataRange().getValues();
+  for (var p = 1; p < pData.length; p++) {
+    if (pData[p][5] === "Aktif") {
+      products.push({
+        id: pData[p][0],
+        divisi: pData[p][1],
+        nama: pData[p][2],
+        harga: pData[p][3],
+        deskripsi: pData[p][4]
+      });
+    }
+  }
+
+  // Sales Data untuk Grafik
+  var sales = [];
+  var slData = ss.getSheetByName("SalesData").getDataRange().getValues();
+  for (var s = 1; s < slData.length; s++) {
+    sales.push({
+      tanggal: Utilities.formatDate(new Date(slData[s][0]), "GMT+7", "yyyy-MM-dd"),
+      divisi: slData[s][1],
+      total: Number(slData[s][2]) || 0
+    });
+  }
+
+  return {
+    success: true,
+    settings: settings,
+    videos: videos,
+    products: products,
+    sales: sales
+  };
+}
+
+// 3. FITUR VIDEO DIVISI & TESTIMONI (Poin 1)
+function uploadVideoDivisi(token, fileData, fileName, mimeType, divisi, kategori, judul) {
+  var user = validateToken(token);
+  if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI")) {
+    return { success: false, message: "Akses ditolak! Hanya Admin yang dapat mengunggah video." };
+  }
+
+  try {
+    var folder = DriveApp.getRootFolder();
+    var decodedBlob = Utilities.newBlob(Utilities.base64Decode(fileData), mimeType, fileName);
+    var file = folder.createFile(decodedBlob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+    var videoUrl = file.getUrl();
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("Videos");
+    var id = "VID-" + new Date().getTime();
+    var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
+
+    sheet.appendRow([id, waktu, divisi, kategori, judul, videoUrl, user.username]);
+    catatLog(user.username, user.role, "Upload Video", "Divisi: " + divisi + ", Kategori: " + kategori);
+
+    return { success: true, message: "Video " + kategori + " berhasil diunggah!" };
+  } catch(e) {
+    return { success: false, message: "Gagal upload video: " + e.toString() };
+  }
+}
+
+// 4. FITUR SOSIAL MEDIA & CONTACT PERSON (Poin 2 & 3)
+function updateSettingSocialAndContact(token, keyName, valueData) {
+  var user = validateToken(token);
+  if (!user) return { success: false, message: "Sesi berakhir." };
+  
+  if (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI") {
+    return { success: false, message: "Akses ditolak." };
+  }
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Settings");
+  var data = sheet.getDataRange().getValues();
+
+  var strValue = (typeof valueData === 'object') ? JSON.stringify(valueData) : String(valueData);
+  var updated = false;
+
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] === keyName) {
+      sheet.getRange(i + 1, 2).setValue(strValue);
+      updated = true;
+      break;
+    }
+  }
+
+  if (!updated) {
+    sheet.appendRow([keyName, strValue]);
+  }
+
+  catatLog(user.username, user.role, "Update Setting", keyName);
+  return { success: true, message: "Pengaturan berhasil diperbarui!" };
+}
+
+// 5. FITUR PRODUK & HARGA (Poin 5)
+function saveProduct(token, productObj) {
+  var user = validateToken(token);
+  if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI")) {
+    return { success: false, message: "Akses ditolak!" };
+  }
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Products");
+
+  if (productObj.id) {
+    var data = sheet.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === productObj.id) {
+        sheet.getRange(i + 1, 3).setValue(productObj.nama);
+        sheet.getRange(i + 1, 4).setValue(productObj.harga);
+        sheet.getRange(i + 1, 5).setValue(productObj.deskripsi);
+        catatLog(user.username, user.role, "Edit Produk", productObj.nama);
+        return { success: true, message: "Produk berhasil diperbarui!" };
+      }
+    }
+  } else {
+    var newId = "PRD-" + new Date().getTime();
+    sheet.appendRow([newId, productObj.divisi, productObj.nama, productObj.harga, productObj.deskripsi, "Aktif"]);
+    catatLog(user.username, user.role, "Tambah Produk", productObj.nama);
+    return { success: true, message: "Produk baru berhasil ditambahkan!" };
+  }
+
+  return { success: false, message: "Gagal memproses produk." };
+}
+
+// 6. FITUR LIVE CHAT 24 JAM & AUTO TRANSLATE (Poin 4)
+function sendLiveChatMessage(nama, noHP, pesan, senderRole, targetLang) {
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("LiveChats");
+  var id = "CHAT-" + new Date().getTime();
+  var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
+
+  var finalPesan = pesan;
+  if (targetLang && targetLang !== "id") {
+    try {
+      finalPesan = LanguageApp.translate(pesan, '', targetLang);
+    } catch(e){}
+  }
+
+  sheet.appendRow([id, waktu, nama, "'" + noHP, senderRole || "CUSTOMER", finalPesan, targetLang || "id"]);
+  return { success: true, message: "Pesan terkirim!", translatedText: finalPesan };
+}
+
+function getLiveChatHistory(token) {
+  var user = validateToken(token);
+  if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI")) {
+    return { success: false, message: "Akses Live Chat terbatas untuk Anggota Administrator saja." };
+  }
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var data = ss.getSheetByName("LiveChats").getDataRange().getValues();
+  var chats = [];
+  for (var i = 1; i < data.length; i++) {
+    chats.push({
+      id: data[i][0],
+      waktu: data[i][1],
+      nama: data[i][2],
+      noHP: String(data[i][3]).replace("'", ""),
+      pengirim: data[i][4],
+      pesan: data[i][5],
+      bahasa: data[i][6]
+    });
+  }
+
+  return { success: true, chats: chats };
+}
+
+// 7. PENJUALAN UNTUK GRAFIK (Poin 8)
+function addSalesData(token, divisi, total) {
+  var user = validateToken(token);
+  if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI")) {
+    return { success: false, message: "Akses ditolak." };
+  }
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("SalesData");
+  var todayStr = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd");
+
+  sheet.appendRow([todayStr, divisi, total]);
+  catatLog(user.username, user.role, "Tambah Data Penjualan", divisi + ": Rp " + total);
+  return { success: true, message: "Data penjualan berhasil ditambahkan ke Grafik!" };
+}
+
+// 8. FUNGSI STANDAR TERDAHULU (SIMPAN PESAN, LOGIN, VERIFIKASI)
+function simpanPesan(data) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("Pesan");
+    if (!sheet) { setupSheets(); sheet = ss.getSheetByName("Pesan"); }
+
+    var idPesan = "MSG-" + new Date().getTime();
+    var timestamp = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
+
+    sheet.appendRow([idPesan, timestamp, data.divisi, data.nama, data.email, "'" + data.telepon, data.pesan, "Pending"]);
+    catatLog(data.nama, "PUBLIC", "Kirim Pesan Layanan", "Divisi: " + data.divisi + ", ID: " + idPesan);
+
+    // Otomatis catat ke Data Penjualan Dummy jika ada nominal
+    try {
+      var htmlBody = `
+        <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+          <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">MultiCorp Enterprise Portal</h2>
+          <p>Halo <strong>${data.nama}</strong>,</p>
+          <p>Terima kasih telah menghubungi kami. Pengajuan Anda untuk divisi <strong style="color: #f3e5ab;">${data.divisi}</strong> telah kami terima.</p>
+          <div style="background: #141416; padding: 15px; border-left: 4px solid #d4af37; margin: 20px 0;">
+            <p style="margin: 0;"><strong>ID Pengajuan:</strong> ${idPesan}</p>
+            <p style="margin: 5px 0 0 0;"><strong>Status:</strong> Menunggu Verifikasi (Pending)</p>
+          </div>
+          <p>Tim admin kami akan segera meninjau permintaan Anda.</p>
+        </div>
+      `;
+      GmailApp.sendEmail(data.email, "Konfirmasi Pengajuan Layanan MultiCorp - [" + idPesan + "]", "Pengajuan " + idPesan + " diterima.", { htmlBody: htmlBody });
+    } catch(err){}
+
+    return { success: true, message: "Terima kasih! Pengajuan Anda berhasil dikirim dan dikonfirmasi via email." };
+  } catch (err) {
+    return { success: false, message: "Gagal menyimpan pengajuan: " + err.toString() };
+  }
+}
+
+function registerClientOrPartner(data) {
+  if (data.role !== "PARTNER" && data.role !== "CUSTOMER") {
+    return { success: false, message: "Role registrasi tidak valid." };
+  }
+
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("ClientsPartners");
+  var rows = sheet.getDataRange().getValues();
+
+  var cleanUsername = String(data.username).trim();
+  for (var i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]).trim().toLowerCase() === cleanUsername.toLowerCase()) {
+      return { success: false, message: "Username '" + cleanUsername + "' sudah terdaftar!" };
+    }
+  }
+
+  var kodeVerifikasi = Math.floor(1000 + Math.random() * 9000).toString();
+
+  sheet.appendRow([
+    cleanUsername,
+    data.password,
+    data.nama,
+    data.role,
+    "'" + data.telepon,
+    data.email,
+    data.alamat || "-",
+    data.institusi || "-",
+    data.jabatan || "-",
+    kodeVerifikasi,
+    "PENDING"
+  ]);
+  
+  catatLog(cleanUsername, data.role, "Registrasi Mandiri Klien/Partner", "Nama: " + data.nama);
+
+  try {
+    var htmlBody = `
+      <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+        <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Verifikasi Akun MultiCorp (${data.role})</h2>
+        <p>Halo <strong>${data.nama}</strong>,</p>
+        <p>Terima kasih telah mendaftar di Portal MultiCorp Enterprise.</p>
+        <div style="background: #141416; padding: 15px; text-align: center; border: 1px dashed #d4af37; margin: 20px 0;">
+          <small style="color: #aaa;">KODE VERIFIKASI EMAIL ANDA:</small>
+          <h1 style="color: #d4af37; letter-spacing: 5px; margin: 10px 0;">${kodeVerifikasi}</h1>
+        </div>
+        <p>Masukkan 4 digit kode di atas pada portal untuk mengaktifkan akun Anda.</p>
+      </div>
+    `;
+    GmailApp.sendEmail(data.email, "Kode Verifikasi Akun MultiCorp Portal", "Kode Verifikasi: " + kodeVerifikasi, { htmlBody: htmlBody });
+  } catch (e) {
+    return { success: false, message: "Gagal mengirim email verifikasi: " + e.toString() };
+  }
+
+  return { 
+    success: true, 
+    requiresVerification: true, 
+    username: cleanUsername,
+    message: "Registrasi berhasil! Kode verifikasi 4-digit telah dikirimkan ke email Anda." 
+  };
+}
+
+function registerAnggotaMandiri(token, data) {
+  var requester = validateToken(token);
+  if (!requester || requester.role !== "SUPER_ADMIN") {
+    return { success: false, message: "Hanya Super Admin yang boleh membuat akun internal." };
+  }
+
+  if (data.role !== "SUPER_ADMIN" && data.role !== "ADMIN_DIVISI") {
+    return { success: false, message: "Role akun internal tidak valid." };
+  }
+
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetUsers = ss.getSheetByName("Users");
+  var rows = sheetUsers.getDataRange().getValues();
+
+  var cleanUsername = String(data.username).trim();
+  for (var i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]).trim().toLowerCase() === cleanUsername.toLowerCase()) {
+      return { success: false, message: "Username '" + cleanUsername + "' sudah terdaftar!" };
+    }
+  }
+
+  var kodeVerifikasi = Math.floor(1000 + Math.random() * 9000).toString();
+  var divisiFinal = (data.role === "SUPER_ADMIN") ? "ALL" : data.divisi;
+
+  sheetUsers.appendRow([
+    cleanUsername, 
+    data.password, 
+    data.nama, 
+    data.role, 
+    divisiFinal, 
+    "'" + data.telepon, 
+    data.email,
+    data.alamat || "-",
+    data.institusi || "-",
+    data.jabatan || "-",
+    kodeVerifikasi, 
+    "PENDING"
+  ]);
+
+  catatLog(cleanUsername, data.role, "Registrasi Mandiri Anggota/Admin", "Role: " + data.role + ", Divisi: " + divisiFinal);
+
+  try {
+    var htmlBody = `
+      <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+        <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Verifikasi Akun MultiCorp</h2>
+        <p>Halo <strong>${data.nama}</strong>,</p>
+        <p>Terima kasih telah mendaftar sebagai <strong>${data.role}</strong> di MultiCorp Enterprise Portal.</p>
+        <div style="background: #141416; padding: 15px; text-align: center; border: 1px dashed #d4af37; margin: 20px 0;">
+          <small style="color: #aaa;">KODE VERIFIKASI EMAIL ANDA:</small>
+          <h1 style="color: #d4af37; letter-spacing: 5px; margin: 10px 0;">${kodeVerifikasi}</h1>
+        </div>
+        <p>Masukkan 4 digit kode di atas pada halaman portal untuk mengaktifkan akun Anda.</p>
+      </div>
+    `;
+    GmailApp.sendEmail(data.email, "Kode Verifikasi Akun MultiCorp Portal", "Kode Verifikasi: " + kodeVerifikasi, { htmlBody: htmlBody });
+  } catch (e) {
+    return { success: false, message: "Gagal mengirim email verifikasi: " + e.toString() };
+  }
+
+  return { 
+    success: true, 
+    requiresVerification: true, 
+    username: cleanUsername,
+    message: "Registrasi berhasil! Kode verifikasi 4-digit telah dikirimkan ke alamat email Anda." 
+  };
+}
+
+function resendKodeEmail(username) {
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var cleanU = String(username).trim().toLowerCase();
+
+  var sheetUsers = ss.getSheetByName("Users");
+  var dataUsers = sheetUsers.getDataRange().getValues();
+  for (var i = 1; i < dataUsers.length; i++) {
+    if (String(dataUsers[i][0]).trim().toLowerCase() === cleanU) {
+      var emailTarget = dataUsers[i][6];
+      var namaUser = dataUsers[i][2];
+      var kodeVerifikasi = Math.floor(1000 + Math.random() * 9000).toString();
+      
+      sheetUsers.getRange(i + 1, 11).setValue(kodeVerifikasi);
+
+      try {
+        var htmlBody = `
+          <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+            <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Kirim Ulang Verifikasi Akun MultiCorp</h2>
+            <p>Halo <strong>${namaUser}</strong>,</p>
+            <p>Berikut adalah kode verifikasi email baru Anda:</p>
+            <div style="background: #141416; padding: 15px; text-align: center; border: 1px dashed #d4af37; margin: 20px 0;">
+              <h1 style="color: #d4af37; letter-spacing: 5px; margin: 10px 0;">${kodeVerifikasi}</h1>
+            </div>
+          </div>
+        `;
+        GmailApp.sendEmail(emailTarget, "Kirim Ulang Kode Verifikasi MultiCorp", "Kode Verifikasi Baru: " + kodeVerifikasi, { htmlBody: htmlBody });
+        return { success: true, message: "Kode verifikasi baru berhasil dikirim ulang ke email Anda!" };
+      } catch (e) {
+        return { success: false, message: "Gagal mengirim ulang email: " + e.toString() };
+      }
+    }
+  }
+
+  var sheetClients = ss.getSheetByName("ClientsPartners");
+  var dataClients = sheetClients.getDataRange().getValues();
+  for (var j = 1; j < dataClients.length; j++) {
+    if (String(dataClients[j][0]).trim().toLowerCase() === cleanU) {
+      var emailTargetC = dataClients[j][5];
+      var namaUserC = dataClients[j][2];
+      var kodeVerifikasiC = Math.floor(1000 + Math.random() * 9000).toString();
+
+      sheetClients.getRange(j + 1, 10).setValue(kodeVerifikasiC);
+
+      try {
+        var htmlBodyC = `
+          <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+            <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Kirim Ulang Verifikasi Akun MultiCorp</h2>
+            <p>Halo <strong>${namaUserC}</strong>,</p>
+            <p>Berikut adalah kode verifikasi email baru Anda:</p>
+            <div style="background: #141416; padding: 15px; text-align: center; border: 1px dashed #d4af37; margin: 20px 0;">
+              <h1 style="color: #d4af37; letter-spacing: 5px; margin: 10px 0;">${kodeVerifikasiC}</h1>
+            </div>
+          </div>
+        `;
+        GmailApp.sendEmail(emailTargetC, "Kirim Ulang Kode Verifikasi MultiCorp", "Kode Verifikasi Baru: " + kodeVerifikasiC, { htmlBody: htmlBodyC });
+        return { success: true, message: "Kode verifikasi baru berhasil dikirim ulang ke email Anda!" };
+      } catch (e) {
+        return { success: false, message: "Gagal mengirim ulang email: " + e.toString() };
+      }
+    }
+  }
+
+  return { success: false, message: "Username tidak ditemukan." };
+}
+
+function loginUniversal(username, password) {
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var uClean = String(username).trim();
+  var pClean = String(password).trim();
+  
+  var dataUsers = ss.getSheetByName("Users").getDataRange().getValues();
+  for (var i = 1; i < dataUsers.length; i++) {
+    if (String(dataUsers[i][0]).trim() === uClean && String(dataUsers[i][1]).trim() === pClean) {
+      var statusVerifikasi = dataUsers[i][11] || "VERIFIED";
+      
+      if (statusVerifikasi === "PENDING") {
+        return { success: false, requiresVerification: true, username: uClean, message: "Akun belum diverifikasi. Masukkan 4 digit kode verifikasi dari email Anda." };
+      }
+
+      var sessionObj = {
+        username: uClean,
+        nama: dataUsers[i][2],
+        role: dataUsers[i][3],
+        divisi: dataUsers[i][4],
+        telepon: dataUsers[i][5],
+        email: dataUsers[i][6],
+        alamat: dataUsers[i][7],
+        institusi: dataUsers[i][8],
+        jabatan: dataUsers[i][9],
+        expire: new Date().getTime() + (8 * 60 * 60 * 1000)
+      };
+      catatLog(uClean, dataUsers[i][3], "Login Berhasil", "Login Internal Users");
+      return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObj)), user: sessionObj };
+    }
+  }
+
+  var dataClients = ss.getSheetByName("ClientsPartners").getDataRange().getValues();
+  for (var j = 1; j < dataClients.length; j++) {
+    if (String(dataClients[j][0]).trim() === uClean && String(dataClients[j][1]).trim() === pClean) {
+      var statusVerifikasiC = dataClients[j][10] || "VERIFIED";
+
+      if (statusVerifikasiC === "PENDING") {
+        return { success: false, requiresVerification: true, username: uClean, message: "Akun Partner/Customer Anda belum diverifikasi. Masukkan 4 digit kode verifikasi dari email Anda." };
+      }
+
+      var sessionObjC = {
+        username: uClean,
+        nama: dataClients[j][2],
+        role: dataClients[j][3],
+        divisi: "N/A",
+        telepon: dataClients[j][4],
+        email: dataClients[j][5],
+        alamat: dataClients[j][6],
+        institusi: dataClients[j][7],
+        jabatan: dataClients[j][8],
+        expire: new Date().getTime() + (8 * 60 * 60 * 1000)
+      };
+      catatLog(uClean, dataClients[j][3], "Login Berhasil", "Login Client/Partner");
+      return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObjC)), user: sessionObjC };
+    }
+  }
+
+  catatLog(uClean, "UNKNOWN", "Login Gagal", "Kredensial salah");
+  return { success: false, message: "Username atau Password salah!" };
+}
+
+function verifikasiKodeEmail(username, kodeInput) {
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var cleanU = String(username).trim().toLowerCase();
+
+  var sheetUsers = ss.getSheetByName("Users");
+  var dataUsers = sheetUsers.getDataRange().getValues();
+  for (var i = 1; i < dataUsers.length; i++) {
+    if (String(dataUsers[i][0]).trim().toLowerCase() === cleanU) {
+      var kodeSistem = String(dataUsers[i][10]).trim();
+      if (kodeSistem === String(kodeInput).trim()) {
+        sheetUsers.getRange(i + 1, 12).setValue("VERIFIED");
+        
+        var sessionObj = {
+          username: dataUsers[i][0],
+          nama: dataUsers[i][2],
+          role: dataUsers[i][3],
+          divisi: dataUsers[i][4],
+          telepon: dataUsers[i][5],
+          email: dataUsers[i][6],
+          alamat: dataUsers[i][7],
+          institusi: dataUsers[i][8],
+          jabatan: dataUsers[i][9],
+          expire: new Date().getTime() + (8 * 60 * 60 * 1000)
+        };
+        catatLog(username, dataUsers[i][3], "Verifikasi Email Berhasil", "Kode verifikasi valid");
+        return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObj)), user: sessionObj, message: "Verifikasi email berhasil! Selamat datang." };
+      } else {
+        return { success: false, message: "Kode verifikasi salah! Periksa email Anda." };
+      }
+    }
+  }
+
+  var sheetClients = ss.getSheetByName("ClientsPartners");
+  var dataClients = sheetClients.getDataRange().getValues();
+  for (var j = 1; j < dataClients.length; j++) {
+    if (String(dataClients[j][0]).trim().toLowerCase() === cleanU) {
+      var kodeSistemC = String(dataClients[j][9]).trim();
+      if (kodeSistemC === String(kodeInput).trim()) {
+        sheetClients.getRange(j + 1, 11).setValue("VERIFIED");
+
+        var sessionObjC = {
+          username: dataClients[j][0],
+          nama: dataClients[j][2],
+          role: dataClients[j][3],
+          divisi: "N/A",
+          telepon: dataClients[j][4],
+          email: dataClients[j][5],
+          alamat: dataClients[j][6],
+          institusi: dataClients[j][7],
+          jabatan: dataClients[j][8],
+          expire: new Date().getTime() + (8 * 60 * 60 * 1000)
+        };
+        catatLog(username, dataClients[j][3], "Verifikasi Email Berhasil", "Kode verifikasi valid");
+        return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObjC)), user: sessionObjC, message: "Verifikasi email berhasil! Selamat datang." };
+      } else {
+        return { success: false, message: "Kode verifikasi salah! Periksa email Anda." };
+      }
+    }
+  }
+
+  return { success: false, message: "User tidak ditemukan." };
+}
+
+function requestPasswordReset(usernameOrEmail) {
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var val = String(usernameOrEmail).trim().toLowerCase();
+  
+  var sheetUsers = ss.getSheetByName("Users");
+  var dataUsers = sheetUsers.getDataRange().getValues();
+  for (var i = 1; i < dataUsers.length; i++) {
+    var uName = String(dataUsers[i][0]).trim().toLowerCase();
+    var uEmail = String(dataUsers[i][6]).trim().toLowerCase();
+    if (uName === val || uEmail === val) {
+      var newPass = Math.random().toString(36).slice(-8);
+      sheetUsers.getRange(i + 1, 2).setValue(newPass);
+      
+      try {
+        var htmlBody = `
+          <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+            <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Reset Password MultiCorp</h2>
+            <p>Halo <strong>${dataUsers[i][2]}</strong>,</p>
+            <p>Kami telah menerima permintaan reset password untuk akun Anda (Username: <strong>${dataUsers[i][0]}</strong>).</p>
+            <div style="background: #141416; padding: 15px; border-left: 4px solid #d4af37; margin: 20px 0;">
+              <p style="margin: 0;">Password Baru Anda: <strong style="color: #f3e5ab; font-size: 18px;">${newPass}</strong></p>
+            </div>
+            <p>Silakan gunakan password baru ini untuk login kembali.</p>
+          </div>
+        `;
+        GmailApp.sendEmail(dataUsers[i][6], "Reset Password Akun MultiCorp Portal", "Password baru Anda: " + newPass, { htmlBody: htmlBody });
+        catatLog(dataUsers[i][0], dataUsers[i][3], "Reset Password Via Email", "Password baru terkirim");
+        return { success: true, message: "Password baru telah berhasil dikirimkan ke alamat email terdaftar!" };
+      } catch(e) {
+        return { success: false, message: "Gagal mengirim email reset: " + e.toString() };
+      }
+    }
+  }
+
+  var sheetClients = ss.getSheetByName("ClientsPartners");
+  var dataClients = sheetClients.getDataRange().getValues();
+  for (var j = 1; j < dataClients.length; j++) {
+    var cName = String(dataClients[j][0]).trim().toLowerCase();
+    var cEmail = String(dataClients[j][5]).trim().toLowerCase();
+    if (cName === val || cEmail === val) {
+      var newPassC = Math.random().toString(36).slice(-8);
+      sheetClients.getRange(j + 1, 2).setValue(newPassC);
+      
+      try {
+        var htmlBodyClient = `
+          <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+            <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Reset Password Portal Client/Partner</h2>
+            <p>Halo <strong>${dataClients[j][2]}</strong>,</p>
+            <p>Password baru untuk akun <strong>${dataClients[j][0]}</strong> Anda adalah: <strong style="color: #f3e5ab; font-size: 18px;">${newPassC}</strong></p>
+          </div>
+        `;
+        GmailApp.sendEmail(dataClients[j][5], "Reset Password Akun Partner/Customer MultiCorp", "Password baru Anda: " + newPassC, { htmlBody: htmlBodyClient });
+        catatLog(dataClients[j][0], dataClients[j][3], "Reset Password Via Email", "Password baru terkirim");
+        return { success: true, message: "Password baru telah berhasil dikirimkan ke email terdaftar!" };
+      } catch(e) {
+        return { success: false, message: "Gagal mengirim email: " + e.toString() };
+      }
+    }
+  }
+
+  return { success: false, message: "Username atau Email tidak ditemukan dalam sistem!" };
+}
+
+function validateToken(token) {
+  try {
+    var decoded = Utilities.newBlob(Utilities.base64Decode(token)).getDataAsString();
+    var sessionObj = JSON.parse(decoded);
+    if (new Date().getTime() > sessionObj.expire) return null;
+    return sessionObj;
+  } catch (e) {
+    return null;
+  }
+}
+
+function getAdminDashboardData(token) {
+  var user = validateToken(token);
+  if (!user) return { success: false, message: "Sesi telah berakhir. Silakan login kembali." };
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var settings = {};
+  var sheetSettings = ss.getSheetByName("Settings");
+  if (sheetSettings) {
+    var sData = sheetSettings.getDataRange().getValues();
+    for(var s=1; s<sData.length; s++) {
+      settings[sData[s][0]] = sData[s][1];
+    }
+  }
+
+  var messages = [];
+  if (user.role === "SUPER_ADMIN" || user.role === "ADMIN_DIVISI") {
+    var sheetPesan = ss.getSheetByName("Pesan");
+    var dataPesan = sheetPesan ? sheetPesan.getDataRange().getValues() : [];
+    for (var i = 1; i < dataPesan.length; i++) {
+      var row = dataPesan[i];
+      if (user.role === "SUPER_ADMIN" || user.divisi === row[2]) {
+        messages.push({
+          id: row[0],
+          timestamp: Utilities.formatDate(new Date(row[1]), "GMT+7", "yyyy-MM-dd HH:mm:ss"),
+          divisi: row[2],
+          nama: row[3],
+          email: row[4],
+          telepon: String(row[5]).replace("'", ""),
+          pesan: row[6],
+          status: row[7] || "Pending"
+        });
+      }
+    }
+  }
+
+  var users = [];
+  var clientsPartners = [];
+  if (user.role === "SUPER_ADMIN" || user.role === "ADMIN_DIVISI") {
+    var sheetUsers = ss.getSheetByName("Users");
+    var dataUsers = sheetUsers ? sheetUsers.getDataRange().getValues() : [];
+    for (var j = 1; j < dataUsers.length; j++) {
+      var uRow = dataUsers[j];
+      if (user.role === "SUPER_ADMIN" || uRow[4] === user.divisi) {
+        users.push({
+          username: uRow[0],
+          password: uRow[1],
+          nama: uRow[2],
+          role: uRow[3],
+          divisi: uRow[4],
+          telepon: String(uRow[5] || "").replace("'", ""),
+          email: uRow[6],
+          alamat: uRow[7] || "-",
+          institusi: uRow[8] || "-",
+          jabatan: uRow[9] || "-",
+          statusVerifikasi: uRow[11] || "VERIFIED"
+        });
+      }
+    }
+
+    if (user.role === "SUPER_ADMIN") {
+      var sheetClients = ss.getSheetByName("ClientsPartners");
+      var dataClients = sheetClients ? sheetClients.getDataRange().getValues() : [];
+      for (var c = 1; c < dataClients.length; c++) {
+        var cRow = dataClients[c];
+        clientsPartners.push({
+          username: cRow[0],
+          password: cRow[1],
+          nama: cRow[2],
+          role: cRow[3],
+          telepon: String(cRow[4] || "").replace("'", ""),
+          email: cRow[5],
+          alamat: cRow[6] || "-",
+          institusi: cRow[7] || "-",
+          jabatan: cRow[8] || "-",
+          statusVerifikasi: cRow[10] || "VERIFIED"
+        });
+      }
+    }
+  }
+
+  var files = [];
+  var sheetFiles = ss.getSheetByName("BerkasUpload");
+  var dataFiles = sheetFiles ? sheetFiles.getDataRange().getValues() : [];
+  for (var k = 1; k < dataFiles.length; k++) {
+    var fRow = dataFiles[k];
+    if (user.role === "SUPER_ADMIN" || user.role === "ADMIN_DIVISI" || user.role === "STAFF" || fRow[2].indexOf(user.username) !== -1) {
+      files.push({
+        id: fRow[0],
+        waktu: fRow[1],
+        uploader: fRow[2],
+        role: fRow[3],
+        namaFile: fRow[4],
+        link: fRow[5],
+        ket: fRow[6]
+      });
+    }
+  }
+
+  var payments = [];
+  var sheetPayments = ss.getSheetByName("BuktiPembayaran");
+  var dataPayments = sheetPayments ? sheetPayments.getDataRange().getValues() : [];
+  for (var p = 1; p < dataPayments.length; p++) {
+    var pRow = dataPayments[p];
+    if (user.role === "SUPER_ADMIN" || user.role === "ADMIN_DIVISI" || pRow[2].indexOf(user.username) !== -1) {
+      payments.push({
+        id: pRow[0],
+        waktu: pRow[1],
+        uploader: pRow[2],
+        role: pRow[3],
+        jumlah: pRow[4],
+        metode: pRow[5],
+        namaFile: pRow[6],
+        link: pRow[7],
+        ket: pRow[8]
+      });
+    }
+  }
+
+  return { 
+    success: true, 
+    messages: messages.reverse(), 
+    users: users, 
+    clientsPartners: clientsPartners,
+    files: files.reverse(),
+    payments: payments.reverse(),
+    settings: settings 
+  };
+}
+
+function uploadBuktiPembayaran(token, fileData, fileName, mimeType, jumlah, metode, keterangan) {
+  var user = validateToken(token);
+  if (!user) return { success: false, message: "Sesi telah berakhir. Silakan login ulang." };
+
+  try {
+    var folder = DriveApp.getRootFolder();
+    var decodedBlob = Utilities.newBlob(Utilities.base64Decode(fileData), mimeType, fileName);
+    var file = folder.createFile(decodedBlob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    setupSheets();
+    var sheetPayments = ss.getSheetByName("BuktiPembayaran");
+
+    var idBayar = "PAY-" + new Date().getTime();
+    var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
+
+    sheetPayments.appendRow([
+      idBayar,
+      waktu,
+      user.nama + " (" + user.username + ")",
+      user.role,
+      jumlah,
+      metode,
+      fileName,
+      file.getUrl(),
+      keterangan || "-"
+    ]);
+
+    catatLog(user.username, user.role, "Upload Bukti Pembayaran", "ID: " + idBayar + ", Rp " + jumlah);
+    return { success: true, message: "Bukti pembayaran berhasil diunggah ke Administrator!" };
+  } catch (err) {
+    return { success: false, message: "Gagal mengunggah bukti pembayaran: " + err.toString() };
+  }
+}
+
+function updateNomorRekening(token, rekeningInfo) {
+  var user = validateToken(token);
+  if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak! Hanya Super Admin yang dapat mengganti nomor rekening." };
+
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    setupSheets();
+    var sheetSettings = ss.getSheetByName("Settings");
+    var data = sheetSettings.getDataRange().getValues();
+
+    var updated = false;
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === "REKENING_INFO") {
+        sheetSettings.getRange(i + 1, 2).setValue(rekeningInfo);
+        updated = true;
+        break;
+      }
+    }
+
+    if (!updated) {
+      sheetSettings.appendRow(["REKENING_INFO", rekeningInfo]);
+    }
+
+    catatLog(user.username, user.role, "Update Nomor Rekening", rekeningInfo);
+    return { success: true, message: "Nomor rekening pembayaran berhasil diperbarui!" };
+  } catch (e) {
+    return { success: false, message: "Gagal memperbarui rekening: " + e.toString() };
+  }
+}
+
+function saveBrandingSettings(token, logoData, logoName, bgData, bgName) {
+  var user = validateToken(token);
+  if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak! Fitur ini hanya untuk Super Admin." };
+
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetSettings = ss.getSheetByName("Settings");
+    if (!sheetSettings) { setupSheets(); sheetSettings = ss.getSheetByName("Settings"); }
+    var folder = DriveApp.getRootFolder();
+
+    var logoUrl = "";
+    var bgUrl = "";
+
+    if (logoData && logoName) {
+      var logoBlob = Utilities.newBlob(Utilities.base64Decode(logoData), "image/png", logoName);
+      var logoFile = folder.createFile(logoBlob);
+      logoFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      logoUrl = "https://lh3.googleusercontent.com/d/" + logoFile.getId();
+      
+      var dataS = sheetSettings.getDataRange().getValues();
+      var foundLogo = false;
+      for (var i = 1; i < dataS.length; i++) {
+        if (dataS[i][0] === "LOGO_URL") {
+          sheetSettings.getRange(i + 1, 2).setValue(logoUrl);
+          foundLogo = true; break;
+        }
+      }
+      if (!foundLogo) sheetSettings.appendRow(["LOGO_URL", logoUrl]);
+    }
+
+    if (bgData && bgName) {
+      var bgBlob = Utilities.newBlob(Utilities.base64Decode(bgData), "image/jpeg", bgName);
+      var bgFile = folder.createFile(bgBlob);
+      bgFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      bgUrl = "https://lh3.googleusercontent.com/d/" + bgFile.getId();
+      
+      var dataS2 = sheetSettings.getDataRange().getValues();
+      var foundBg = false;
+      for (var j = 1; j < dataS2.length; j++) {
+        if (dataS2[j][0] === "BG_URL") {
+          sheetSettings.getRange(j + 1, 2).setValue(bgUrl);
+          foundBg = true; break;
+        }
+      }
+      if (!foundBg) sheetSettings.appendRow(["BG_URL", bgUrl]);
+    }
+
+    catatLog(user.username, user.role, "Update Branding Utama", "Logo / Background website diubah");
+    return { success: true, message: "Branding Logo & Background website berhasil diperbarui!", logoUrl: logoUrl, bgUrl: bgUrl };
+  } catch (e) {
+    return { success: false, message: "Gagal menyimpan branding: " + e.toString() };
+  }
+}
+
+function updateDivisionLogo(token, divisi, logoData, logoName) {
+  var user = validateToken(token);
+  if (!user || user.role !== "SUPER_ADMIN") {
+    return { success: false, message: "Akses ditolak! Hanya Administrator (Super Admin) yang diizinkan mengganti logo divisi." };
+  }
+
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    setupSheets();
+    var sheetSettings = ss.getSheetByName("Settings");
+    var folder = DriveApp.getRootFolder();
+
+    var logoBlob = Utilities.newBlob(Utilities.base64Decode(logoData), "image/png", logoName);
+    var logoFile = folder.createFile(logoBlob);
+    logoFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    var logoUrl = "https://lh3.googleusercontent.com/d/" + logoFile.getId();
+
+    var keySetting = "";
+    if (divisi === "IT Program") keySetting = "LOGO_IT_PROGRAM";
+    else if (divisi === "Network") keySetting = "LOGO_NETWORK";
+    else if (divisi === "Nusantara Food") keySetting = "LOGO_NUSANTARA_FOOD";
+    else return { success: false, message: "Divisi tidak valid!" };
+
+    var data = sheetSettings.getDataRange().getValues();
+    var updated = false;
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] === keySetting) {
+        sheetSettings.getRange(i + 1, 2).setValue(logoUrl);
+        updated = true;
+        break;
+      }
+    }
+
+    if (!updated) {
+      sheetSettings.appendRow([keySetting, logoUrl]);
+    }
+
+    catatLog(user.username, user.role, "Update Logo Divisi", "Divisi: " + divisi);
+    return { success: true, message: "Logo untuk divisi '" + divisi + "' berhasil diperbarui oleh Administrator!", logoUrl: logoUrl };
+  } catch (e) {
+    return { success: false, message: "Gagal mengunggah logo divisi: " + e.toString() };
+  }
+}
+
+function tambahAkunOlehAdmin(token, data) {
+  var user = validateToken(token);
+  if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak." };
+
+  setupSheets();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  if (data.role === "PARTNER" || data.role === "CUSTOMER") {
+    var sheetC = ss.getSheetByName("ClientsPartners");
+    sheetC.appendRow([data.username, data.password, data.nama, data.role, "'" + data.telepon, data.email, data.alamat || "-", data.institusi || "-", data.jabatan || "-", "0000", "VERIFIED"]);
+  } else {
+    var sheetU = ss.getSheetByName("Users");
+    sheetU.appendRow([data.username, data.password, data.nama, data.role, data.divisi, "'" + data.telepon, data.email, data.alamat || "-", data.institusi || "-", data.jabatan || "-", "0000", "VERIFIED"]);
+  }
+
+  catatLog(user.username, user.role, "Tambah Akun", "Role: " + data.role + ", Target: " + data.username);
+  return { success: true, message: "Akun baru (" + data.role + ") berhasil ditambahkan!" };
+}
+
+function uploadFileToDrive(token, fileData, fileName, mimeType, keterangan) {
+  var user = validateToken(token);
+  if (!user) return { success: false, message: "Sesi telah berakhir." };
+
+  try {
+    var folder = DriveApp.getRootFolder();
+    var decodedBlob = Utilities.newBlob(Utilities.base64Decode(fileData), mimeType, fileName);
+    var file = folder.createFile(decodedBlob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    setupSheets();
+    ss.getSheetByName("BerkasUpload").appendRow([
+      file.getId(),
+      Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss"),
+      user.nama + " (" + user.username + ")",
+      user.role,
+      fileName,
+      file.getUrl(),
+      keterangan
+    ]);
+
+    catatLog(user.username, user.role, "Upload Berkas", "File: " + fileName);
+    return { success: true, message: "Berkas berhasil diupload ke Google Drive!" };
+  } catch (err) {
+    return { success: false, message: "Gagal upload berkas: " + err.toString() };
+  }
+}
+
+function updateStatusPesan(token, idPesan, statusBaru) {
+  var user = validateToken(token);
+  if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI")) return { success: false, message: "Akses ditolak." };
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Pesan");
+  var data = sheet.getDataRange().getValues();
+  
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] === idPesan) {
+      sheet.getRange(i + 1, 8).setValue(statusBaru);
+      
+      var namaKlien = data[i][3];
+      var emailKlien = data[i][4];
+      var divisiPesan = data[i][2];
+      
+      try {
+        var statusColor = statusBaru === 'Selesai' ? '#28a745' : (statusBaru === 'Proses' ? '#ffc107' : '#dc3545');
+        var htmlBody = `
+          <div style="font-family: Arial, sans-serif; background-color: #0a0a0b; color: #ffffff; padding: 25px; border-radius: 10px;">
+            <h2 style="color: #d4af37; border-bottom: 1px solid #d4af37; padding-bottom: 10px;">Update Status Pengajuan</h2>
+            <p>Halo <strong>${namaKlien}</strong>,</p>
+            <p>Status pengajuan layanan Anda (${divisiPesan} - ID: ${idPesan}) telah diperbarui:</p>
+            <div style="background: #141416; padding: 15px; border-left: 4px solid #d4af37; margin: 20px 0;">
+              <p style="margin: 0;">Status Terbaru: <span style="color: ${statusColor}; font-weight: bold; font-size: 16px;">${statusBaru}</span></p>
+            </div>
+          </div>
+        `;
+
+        GmailApp.sendEmail(emailKlien, "Update Status Layanan [" + idPesan + "] - " + statusBaru, "Status pengajuan Anda: " + statusBaru, { htmlBody: htmlBody });
+      } catch(e){}
+
+      catatLog(user.username, user.role, "Update Status Pesan", "ID: " + idPesan + " -> " + statusBaru);
+      return { success: true, message: "Status diperbarui dan email pemberitahuan terkirim!" };
+    }
+  }
+  return { success: false, message: "Pesan tidak ditemukan." };
+}
+
+function updateAdminCredentials(token, targetUsername, passwordBaru, teleponBaru) {
+  var user = validateToken(token);
+  if (!user) return { success: false, message: "Sesi berakhir." };
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Users");
+  var data = sheet.getDataRange().getValues();
+  
+  for (var i = 1; i < data.length; i++) {
+    var rowUsername = String(data[i][0]).trim();
+    if (rowUsername.toLowerCase() === String(targetUsername).toLowerCase()) {
+      if (passwordBaru) sheet.getRange(i + 1, 2).setValue(passwordBaru);
+      if (teleponBaru !== undefined) sheet.getRange(i + 1, 6).setValue("'" + teleponBaru);
+      catatLog(user.username, user.role, "Update Kredensial", "Target: " + targetUsername);
+      return { success: true, message: "Kredensial berhasil diperbarui!" };
+    }
+  }
+
+  var sheetC = ss.getSheetByName("ClientsPartners");
+  var dataC = sheetC.getDataRange().getValues();
+  for (var j = 1; j < dataC.length; j++) {
+    if (String(dataC[j][0]).toLowerCase() === String(targetUsername).toLowerCase()) {
+      if (passwordBaru) sheetC.getRange(j + 1, 2).setValue(passwordBaru);
+      if (teleponBaru !== undefined) sheetC.getRange(j + 1, 5).setValue("'" + teleponBaru);
+      catatLog(user.username, user.role, "Update Kredensial Client/Partner", "Target: " + targetUsername);
+      return { success: true, message: "Kredensial Partner/Customer berhasil diperbarui!" };
+    }
+  }
+
+  return { success: false, message: "User tidak ditemukan." };
+}
+
+function hapusAdmin(token, usernameTarget) {
+  var user = validateToken(token);
+  if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak! Hanya Super Admin yang dapat menghapus akun." };
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Users");
+  var data = sheet.getDataRange().getValues();
+  
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]).toLowerCase() === String(usernameTarget).toLowerCase()) {
+      sheet.deleteRow(i + 1);
+      catatLog(user.username, user.role, "Hapus User", "Target: " + usernameTarget);
+      return { success: true, message: "Akun berhasil dihapus!" };
+    }
+  }
+
+  var sheetC = ss.getSheetByName("ClientsPartners");
+  var dataC = sheetC.getDataRange().getValues();
+  for (var j = 1; j < dataC.length; j++) {
+    if (String(dataC[j][0]).toLowerCase() === String(usernameTarget).toLowerCase()) {
+      sheetC.deleteRow(j + 1);
+      catatLog(user.username, user.role, "Hapus Client/Partner", "Target: " + usernameTarget);
+      return { success: true, message: "Akun Partner/Customer berhasil dihapus!" };
+    }
+  }
+
+  return { success: false, message: "Target tidak ditemukan." };
+}

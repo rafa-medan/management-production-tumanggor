@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Management Production Tumanggor Portal</title>
+  <meta name="description" content="Management Production Tumanggor menyediakan solusi IT Program, Network, dan Nusantara Food dalam satu portal layanan terpadu.">
+  <meta name="keywords" content="Management Production Tumanggor, MPT Tumanggor, IT Program, Network, Nusantara Food">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://management-production-tumanggor.netlify.app/">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Chart.js untuk Grafik Pencapaian Penjualan -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0a0a0b;
+      --bg-card: #141416;
+      --bg-card-hover: #1c1c20;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-accent: #e5c158;
+      --text-main: #ffffff;
+      --text-muted: #d1d5db;
+      --border-gold: rgba(212, 175, 55, 0.4);
+    }
+
+    body { 
+      background-color: var(--bg-dark); 
+      background-image: linear-gradient(rgba(10, 10, 11, 0.62), rgba(10, 10, 11, 0.72)), url('background-mpt-resized.png');
+      background-position: center !important;
+      background-size: cover !important;
+      background-repeat: no-repeat !important;
+      background-attachment: fixed !important;
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    .text-gold { color: var(--gold-primary) !important; }
+    .text-gold-light { color: var(--gold-light) !important; }
+    .text-muted-clear { color: var(--text-muted) !important; }
+
+    .section-header .subtitle,
+    .portal-card p,
+    .portal-card label,
+    .feature-card p,
+    .divisi-card p,
+    .card-enterprise p,
+    .footer-enterprise p,
+    .footer-link,
+    .card-enterprise li,
+    .portal-card .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.78) !important;
+    }
+
+    .portal-card .form-control,
+    .portal-card .form-control:focus {
+      color: #ffffff !important;
+    }
+
+    /* ===== NAVBAR STRIPE STYLE ===== */
+    .navbar-stripe {
+      background: rgba(10, 10, 11, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-brand-img {
+      max-height: 40px;
+      object-fit: contain;
+    }
+
+    .navbar-stripe .navbar-brand {
+      font-weight: 700;
+      font-size: 1.4rem;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar-stripe .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 8px 18px !important;
+      transition: color 0.2s ease, opacity 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .navbar-stripe .nav-link:hover, 
+    .navbar-stripe .nav-link.active {
+      color: #ffffff !important;
+      opacity: 1;
+    }
+
+    .navbar-stripe-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .stripe-link-text {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+    
+    .stripe-link-text:hover {
+      opacity: 0.8;
+    }
+
+    /* ===== CARD STYLES ===== */
+    .card-enterprise {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .card-enterprise:hover {
+      background: var(--bg-card-hover);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+      transform: translateY(-4px);
+    }
+
+    /* ===== BUTTON STYLES ===== */
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+      border: none;
+      color: var(--bg-dark);
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-primary) 100%);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+      transform: translateY(-2px);
+      color: var(--bg-dark);
+    }
+
+    .btn-outline-gold {
+      border: 2px solid var(--gold-primary);
+      color: var(--gold-primary);
+    }
+
+.btn-outline-gold:hover {
+      background: var(--gold-primary);
+      color: var(--bg-dark);
+    }
+
+    /* ===== FLOATING LIVE CHAT ===== */
+    .floating-chat {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .floating-chat-panel {
+      width: 300px;
+      background: rgba(20, 20, 22, 0.96);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      display: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .floating-chat.open .floating-chat-panel {
+      display: block;
+      animation: chatSlideUp 0.2s ease-out;
+    }
+
+    @keyframes chatSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+      border-bottom: 1px solid var(--border-gold);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    .chat-header small {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .chat-close {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .chat-thread {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .msg {
+      max-width: 80%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--text-main);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-accent));
+      color: #111;
+      font-weight: 600;
+    }
+
+    .chat-form {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      background: rgba(10, 10, 11, 0.95);
+    }
+
+    .chat-form input {
+      flex: 1;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    .chat-form input:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+    }
+
+    .chat-form button {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+      color: var(--bg-dark);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .chat-wa-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      background: #25d366;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(37, 211, 102, 0.25);
+    }
+
+    .chat-toggle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+      color: var(--bg-dark);
+      font-size: 1.5rem;
+      box-shadow: 0 18px 28px rgba(212, 175, 55, 0.35);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.04);
+    }
+
+    /* ===== SECTION STYLES ===== */
+    .section-header {
+      padding: 40px 0;
+      text-align: center;
+      border-bottom: 2px solid var(--border-gold);
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .section-header .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero-section {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff4c7 0%, var(--gold-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 12px rgba(212, 175, 55, 0.2);
+    }
+
+    .hero-content p {
+      font-size: 1.3rem;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== GRID LAYOUTS ===== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 40px 0;
+    }
+
+    .feature-card {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--gold-primary);
+      margin-bottom: 15px;
+    }
+
+    .portal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 28px;
+      height: 100%;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.08);
+    }
+
+    .portal-card .form-control {
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      color: #ffffff !important;
+      border-radius: 10px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .portal-card .form-control:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.22), inset 0 1px 2px rgba(0,0,0,0.2);
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff !important;
+    }
+
+    .portal-card .form-label {
+      color: var(--gold-light);
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+
+    .portal-register-box {
+      display: none;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .portal-register-box.show {
+      display: block;
+    }
+
+    .portal-status {
+      margin-top: 12px;
+      display: none;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .portal-status.show {
+      display: block;
+    }
+
+    .portal-status.success {
+      background: rgba(40, 167, 69, 0.12);
+      border: 1px solid rgba(40, 167, 69, 0.35);
+      color: #b6f0c1;
+    }
+
+    .portal-status.error {
+      background: rgba(220, 53, 69, 0.12);
+      border: 1px solid rgba(220, 53, 69, 0.35);
+      color: #ffc7ce;
+    }
+
+    /* ===== DIVISI STYLES ===== */
+    .divisi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px 0;
+    }
+
+    .divisi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .divisi-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+    }
+
+    .divisi-logo {
+      max-height: 80px;
+      margin-bottom: 15px;
+      object-fit: contain;
+    }
+
+    /* ===== FOOTER STYLES ===== */
+    .footer-enterprise {
+      background: rgba(10, 10, 11, 0.8);
+      border-top: 1px solid var(--border-gold);
+      padding: 40px 0 20px;
+      margin-top: 80px;
+    }
+
+    .footer-section h5 {
+      color: var(--gold-primary);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover {
+      color: var(--gold-primary);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .divisi-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-stripe navbar-expand-lg sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand text-gold" href="#home">
+      <img src="logo-mpt-resized.png" alt="Management Production Tumanggor" style="height: 42px; width: auto; vertical-align: middle;"> 
+      <span>Management Production Tumanggor</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="#divisi">Divisi</a></li>
+        <li class="nav-item"><a class="nav-link" href="#produk">Produk</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+      </ul>
+    </div>
+    <div class="navbar-stripe-actions">
+      <a href="#kontak" class="stripe-link-text"><i class="fas fa-phone"></i> Hubungi</a>
+      <a href="login.html" class="stripe-link-text"><i class="fas fa-sign-in-alt"></i> Login</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-section" id="beranda">
+  <div class="container">
+    <div class="hero-content">
+      <img src="logo-mpt-resized.png" alt="Management Production Tumanggor" style="width: min(100%, 620px); height: auto; margin-bottom: 20px;">
+      <h1>Management Production Tumanggor</h1>
+      <p>Solusi Terpadu Teknologi, Jaringan & Kuliner Nusantara</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <button class="btn btn-gold btn-lg" onclick="window.location.href='products-catalog.html'">
+          <i class="fas fa-shopping-cart"></i> Lihat Katalog
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER & CUSTOMER PORTAL -->
+<section class="py-5" id="portal-partner-customer">
+  <div class="container">
+    <div class="section-header">
+      <h2>Portal Partner & Customer</h2>
+      <p class="subtitle">Masuk atau daftar untuk akses layanan bisnis dan pembelian Anda</p>
+    </div>
+
+    <div class="row mt-5 g-4">
+      <div class="col-lg-6">
+        <div class="portal-card">
+          <h4 class="text-gold mb-3"><i class="fas fa-handshake me-2"></i>Portal Partner</h4>
+          <p class="text-muted-clear mb-4">Akses akun mitra bisnis, monitoring transaksi, dan pengajuan kerja sama.</p>
+
+          <form id="partnerLoginForm">
+            <div class="mb-3">
+              <label class="form-label" for="partnerUsername">Username Partner</label>
+              <input type="text" class="form-control" id="partnerUsername" placeholder="Masukkan username partner" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="partnerPassword">Password</label>
+              <input type="password" class="form-control" id="partnerPassword" placeholder="Masukkan password" required>
+            </div>
+            <button type="submit" class="btn btn-gold w-100">Masuk Portal Partner</button>
+            <div id="partnerStatus" class="portal-status"></div>
+          </form>
+
+          <div class="mt-3">
+            <button type="button" class="btn btn-outline-gold w-100" data-register-role="PARTNER">Daftar Sebagai Partner</button>
+          </div>
+
+          <div id="partnerRegisterBox" class="portal-register-box">
+            <h6 class="text-gold mb-3">Form Pendaftaran Partner</h6>
+            <form id="partnerRegisterForm">
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegUsername">Username</label>
+                <input type="text" class="form-control" id="partnerRegUsername" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegPassword">Password</label>
+                <input type="password" class="form-control" id="partnerRegPassword" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegName">Nama Lengkap</label>
+                <input type="text" class="form-control" id="partnerRegName" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegPhone">Nomor Telepon</label>
+                <input type="tel" class="form-control" id="partnerRegPhone" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegEmail">Email</label>
+                <input type="email" class="form-control" id="partnerRegEmail" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegCompany">Nama Institusi / Perusahaan</label>
+                <input type="text" class="form-control" id="partnerRegCompany" required>
+              </div>
+              <button type="submit" class="btn btn-gold w-100">Daftar Partner</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="portal-card">
+          <h4 class="text-gold mb-3"><i class="fas fa-users me-2"></i>Portal Customer</h4>
+          <p class="text-muted-clear mb-4">Masuk untuk melihat katalog, upload bukti pembayaran, dan melacak kebutuhan bisnis Anda.</p>
+
+          <form id="customerLoginForm">
+            <div class="mb-3">
+              <label class="form-label" for="customerUsername">Username Customer</label>
+              <input type="text" class="form-control" id="customerUsername" placeholder="Masukkan username customer" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="customerPassword">Password</label>
+              <input type="password" class="form-control" id="customerPassword" placeholder="Masukkan password" required>
+            </div>
+            <button type="submit" class="btn btn-gold w-100">Masuk Portal Customer</button>
+            <div id="customerStatus" class="portal-status"></div>
+          </form>
+
+          <div class="mt-3">
+            <button type="button" class="btn btn-outline-gold w-100" data-register-role="CUSTOMER">Daftar Sebagai Customer</button>
+          </div>
+
+          <div id="customerRegisterBox" class="portal-register-box">
+            <h6 class="text-gold mb-3">Form Pendaftaran Customer</h6>
+            <form id="customerRegisterForm">
+              <div class="mb-3">
+                <label class="form-label" for="customerRegUsername">Username</label>
+                <input type="text" class="form-control" id="customerRegUsername" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="customerRegPassword">Password</label>
+                <input type="password" class="form-control" id="customerRegPassword" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="customerRegName">Nama Lengkap</label>
+                <input type="text" class="form-control" id="customerRegName" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="customerRegPhone">Nomor Telepon</label>
+                <input type="tel" class="form-control" id="customerRegPhone" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="customerRegEmail">Email</label>
+                <input type="email" class="form-control" id="customerRegEmail" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="customerRegAddress">Alamat</label>
+                <input type="text" class="form-control" id="customerRegAddress" required>
+              </div>
+              <button type="submit" class="btn btn-gold w-100">Daftar Customer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVISI SECTION -->
+<section id="divisi" class="py-5">
+  <div class="container">
+    <div class="section-header">
+      <h2>Divisi Kami</h2>
+      <p class="subtitle">Tiga Pilar Utama Layanan Management Production Tumanggor</p>
+    </div>
+    <div class="divisi-container mt-5">
+      <!-- Divisi 1: IT Program -->
+      <div class="divisi-card card-enterprise">
+        <img src="" alt="IT Program" class="divisi-logo">
+        <h4 class="text-gold">IT Program</h4>
+        <p class="text-muted-clear">Solusi Teknologi Informasi terpadu untuk bisnis Anda</p>
+        <small class="text-muted-clear">Klik untuk selengkapnya →</small>
+      </div>
+
+      <!-- Divisi 2: Network -->
+      <div class="divisi-card card-enterprise">
+        <img src="" alt="Network" class="divisi-logo">
+        <h4 class="text-gold">Network</h4>
+        <p class="text-muted-clear">Infrastruktur Jaringan Komunikasi terpercaya</p>
+        <small class="text-muted-clear">Klik untuk selengkapnya →</small>
+      </div>
+
+      <!-- Divisi 3: Nusantara Food -->
+      <div class="divisi-card card-enterprise">
+        <img src="" alt="Nusantara Food" class="divisi-logo">
+        <h4 class="text-gold">Nusantara Food</h4>
+        <p class="text-muted-clear">Layanan Kuliner Nusantara berkualitas premium</p>
+        <small class="text-muted-clear">Klik untuk selengkapnya →</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FITUR SECTION -->
+<section class="py-5 bg-dark" style="background: rgba(10, 10, 11, 0.5);">
+  <div class="container">
+    <div class="section-header">
+      <h2>Fitur Unggulan</h2>
+      <p class="subtitle">Platform Enterprise 10 Fitur Lengkap</p>
+    </div>
+    <div class="feature-grid mt-5">
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-video"></i></div>
+        <h5 class="text-gold">Video & Testimoni</h5>
+        <p class="text-muted-clear">Konten video divisi dan testimoni pelanggan</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-user"></i></div>
+        <h5 class="text-gold">Contact Person</h5>
+        <p class="text-muted-clear">Informasi kontak lengkap perusahaan</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-share-alt"></i></div>
+        <h5 class="text-gold">Social Media</h5>
+        <p class="text-muted-clear">Link media sosial per divisi</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-comments"></i></div>
+        <h5 class="text-gold">Live Chat 24/7</h5>
+        <p class="text-muted-clear">Admin support dengan auto-translate</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-box"></i></div>
+        <h5 class="text-gold">Katalog Produk</h5>
+        <p class="text-muted-clear">Daftar lengkap produk & harga</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-credit-card"></i></div>
+        <h5 class="text-gold">Metode Pembayaran</h5>
+        <p class="text-muted-clear">Rekening & E-Wallet lengkap</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-book"></i></div>
+        <h5 class="text-gold">Company Profile</h5>
+        <p class="text-muted-clear">Visi, Misi, dan Tujuan perusahaan</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+        <h5 class="text-gold">Grafik Data</h5>
+        <p class="text-muted-clear">Pencapaian penjualan real-time</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-code"></i></div>
+        <h5 class="text-gold">Developer Info</h5>
+        <p class="text-muted-clear">Informasi pembuat & tahun website</p>
+      </div>
+      <div class="card-enterprise feature-card">
+        <div class="feature-icon"><i class="fas fa-list"></i></div>
+        <h5 class="text-gold">Panduan Order</h5>
+        <p class="text-muted-clear">Langkah-langkah cara pemesanan</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUK SECTION -->
+<section id="produk" class="py-5">
+  <div class="container">
+    <div class="section-header">
+      <h2>Katalog Produk</h2>
+      <p class="subtitle">Pilih divisi untuk melihat produk dan harga</p>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card-enterprise p-4 h-100">
+          <h5 class="text-gold mb-3"><i class="fas fa-laptop"></i> IT Program</h5>
+          <ul class="list-unstyled text-muted-clear">
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Konsultasi IT</li>
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Development Custom</li>
+            <li class="py-2"><i class="fas fa-check text-gold"></i> System Support</li>
+          </ul>
+          <button class="btn btn-outline-gold w-100 mt-3">Lihat Detail</button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card-enterprise p-4 h-100">
+          <h5 class="text-gold mb-3"><i class="fas fa-wifi"></i> Network</h5>
+          <ul class="list-unstyled text-muted-clear">
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Setup Jaringan</li>
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Cloud Solution</li>
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Security Network</li>
+          </ul>
+          <button class="btn btn-outline-gold w-100 mt-3">Lihat Detail</button>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card-enterprise p-4 h-100">
+          <h5 class="text-gold mb-3"><i class="fas fa-utensils"></i> Nusantara Food</h5>
+          <ul class="list-unstyled text-muted-clear">
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Catering Nusantara</li>
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Menu Spesial</li>
+            <li class="py-2"><i class="fas fa-check text-gold"></i> Konsultasi Menu</li>
+          </ul>
+          <button class="btn btn-outline-gold w-100 mt-3">Lihat Detail</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK SECTION -->
+<section id="kontak" class="py-5 bg-dark" style="background: rgba(10, 10, 11, 0.5);">
+  <div class="container">
+    <div class="section-header">
+      <h2>Hubungi Kami</h2>
+      <p class="subtitle">Tim support 24 jam siap membantu Anda</p>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-4 mb-4">
+        <div class="card-enterprise p-4 text-center">
+          <i class="fas fa-phone text-gold" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
+          <h5 class="text-gold">Telepon</h5>
+          <p class="text-muted-clear">0812-6263-9095</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card-enterprise p-4 text-center">
+          <i class="fas fa-envelope text-gold" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
+          <h5 class="text-gold">Email</h5>
+          <p class="text-muted-clear">support@multicorp.com</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card-enterprise p-4 text-center">
+          <i class="fas fa-map-marker-alt text-gold" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
+          <h5 class="text-gold">Alamat</h5>
+          <p class="text-muted-clear">Gd. Managament Production Multicorp Lt. 10, Jakarta</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-enterprise">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <h5>Management Production Tumanggor</h5>
+        <p class="text-muted-clear small">Solusi enterprise terpadu untuk bisnis Anda.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="text-gold"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-gold"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gold"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="text-gold"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <h5>Divisi</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="footer-link">IT Program</a></li>
+          <li><a href="#" class="footer-link">Network</a></li>
+          <li><a href="#" class="footer-link">Nusantara Food</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-4">
+        <h5>Layanan</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="footer-link">Produk & Harga</a></li>
+          <li><a href="#" class="footer-link">Tentang Kami</a></li>
+          <li><a href="#" class="footer-link">Hubungi Kami</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-4">
+        <h5>Kontak</h5>
+        <p class="text-muted-clear small">
+          <i class="fas fa-phone"></i> 0812-6263-9095<br>
+          <i class="fas fa-envelope"></i> support@multicorp.com
+        </p>
+      </div>
+    </div>
+    <hr style="border-color: rgba(255,255,255,0.1);">
+    <div class="row">
+      <div class="col-12 text-center text-muted-clear small">
+        <p>&copy; 2026 Management Production Tumanggor. All rights reserved. | Designed & Developed by Management Production Tumanggor IT System Team</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="floating-chat" id="floatingChat">
+  <div class="floating-chat-panel">
+    <div class="chat-header">
+      <span>Live Chat 24/7</span>
+      <small>Online</small>
+      <div style="display: flex; gap: 5px;">
+        <button class="btn btn-sm btn-outline-light" id="historyToggle" onclick="toggleChatHistory()" title="Lihat riwayat chat" style="border: none; padding: 2px 6px; background: transparent; color: #d4af37; font-size: 0.8rem;"><i class="fas fa-history"></i></button>
+        <button class="chat-close" aria-label="Tutup chat" type="button">×</button>
+      </div>
+    </div>
+    <div id="chatHistoryView" style="display: none; height: 400px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--border-gold);">
+      <!-- Chat history akan di-render di sini -->
+    </div>
+    <div class="chat-thread" id="chatThread">
+      <div class="msg bot">Halo! Selamat datang di Managament Production Multicorp. Ada yang bisa kami bantu?</div>
+      <div class="msg bot">Kami siap membantu kebutuhan IT, jaringan, dan kuliner Anda.</div>
+    </div>
+    <form class="chat-form" id="chatForm">
+      <input id="chatInput" type="text" maxlength="160" placeholder="Ketik pesan Anda..." autocomplete="off">
+      <button type="submit" aria-label="Kirim pesan"><i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+
+  <button class="chat-toggle" id="chatToggle" type="button" aria-label="Buka live chat">
+    <i class="fas fa-comments"></i>
+  </button>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+<script>
+  const floatingChat = document.getElementById('floatingChat');
+  const chatToggle = document.getElementById('chatToggle');
+  const chatClose = document.querySelector('.chat-close');
+  const chatForm = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
+  const chatThread = document.getElementById('chatThread');
+  const chatHistoryView = document.getElementById('chatHistoryView');
+  const historyToggle = document.getElementById('historyToggle');
+
+  const csContacts = {
+    general: {
+      name: 'Managament Production Multicorp Support',
+      phone: '6281262639095',
+      text: 'Halo%20Managament%20Production%20Multicorp%2C%20saya%20ingin%20menghubungi%20customer%20service.'
+    },
+    it: {
+      name: 'Admin IT Program',
+      phone: '6281211112222',
+      text: 'Halo%20Admin%20IT%20Managament%20Production%20Multicorp%2C%20saya%20ingin%20konsultasi%20layanan%20IT.'
+    },
+    network: {
+      name: 'Admin Network',
+      phone: '6281233334444',
+      text: 'Halo%20Admin%20Network%20Managament%20Production%20Multicorp%2C%20saya%20ingin%20konsultasi%20jaringan.'
+    },
+    food: {
+      name: 'Admin Nusantara Food',
+      phone: '6281255556666',
+      text: 'Halo%20Admin%20Nusantara%20Food%2C%20saya%20ingin%20konsultasi%20kuliner.'
+    }
+  };
+
+  function toggleChatHistory() {
+    const isVisible = chatHistoryView.style.display !== 'none';
+    chatHistoryView.style.display = isVisible ? 'none' : 'block';
+    chatThread.style.display = isVisible ? 'block' : 'none';
+    
+    if (!isVisible) {
+      renderChatHistory();
+    }
+  }
+
+  function renderChatHistory() {
+    const chats = JSON.parse(localStorage.getItem('multicorp_chats') || '[]');
+    
+    if (!chats.length) {
+      chatHistoryView.innerHTML = '<p class="text-muted text-center mt-3">Belum ada riwayat chat</p>';
+      return;
+    }
+
+    chatHistoryView.innerHTML = chats.map(chat => {
+      const isUser = chat.senderType === 'customer';
+      const time = new Date(chat.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      return `
+        <div style="margin-bottom: 12px; text-align: ${isUser ? 'right' : 'left'};">
+          <div style="display: inline-block; max-width: 85%; background: ${isUser ? '#d4af37' : 'rgba(255,255,255,0.1)'}; padding: 8px 12px; border-radius: 10px; color: ${isUser ? '#000' : '#fff'}; font-size: 0.85rem;">
+            <small style="opacity: 0.7;"><strong>${chat.sender}</strong></small><br>
+            ${chat.text}
+            <div style="font-size: 0.7rem; opacity: 0.5; margin-top: 3px;">${time}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    chatHistoryView.scrollTop = chatHistoryView.scrollHeight;
+  }
+
+  function addMessage(text, type) {
+    const msg = document.createElement('div');
+    msg.className = 'msg ' + type;
+    msg.textContent = text;
+    chatThread.appendChild(msg);
+    chatThread.scrollTop = chatThread.scrollHeight;
+  }
+
+  function saveChatToStorage(sender, text, senderType = 'customer') {
+    const chats = JSON.parse(localStorage.getItem('multicorp_chats') || '[]');
+    chats.push({
+      id: 'CHAT-' + Date.now(),
+      sender: sender || 'Customer',
+      senderType: senderType,
+      text: text,
+      timestamp: new Date().toISOString(),
+      replied: false
+    });
+    localStorage.setItem('multicorp_chats', JSON.stringify(chats));
+  }
+
+  function addWhatsAppButton(label, phone, text) {
+    const link = document.createElement('a');
+    link.href = `https://wa.me/${phone}?text=${text}`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'chat-wa-link';
+    link.innerHTML = '<i class="fab fa-whatsapp"></i> ' + label;
+    chatThread.appendChild(link);
+    chatThread.scrollTop = chatThread.scrollHeight;
+  }
+
+  function findBestCS(text) {
+    const lower = text.toLowerCase();
+    if (lower.includes('it') || lower.includes('website') || lower.includes('system') || lower.includes('software')) return 'it';
+    if (lower.includes('jaringan') || lower.includes('network') || lower.includes('wifi') || lower.includes('server')) return 'network';
+    if (lower.includes('kuliner') || lower.includes('food') || lower.includes('catering') || lower.includes('menu')) return 'food';
+    return 'general';
+  }
+
+  function generateAIReply(userText) {
+    const text = userText.toLowerCase();
+
+    if (text.includes('halo') || text.includes('hai') || text.includes('hello')) {
+      return 'Halo! Saya AI Managament Production Multicorp. Ada yang ingin Anda tanyakan seputar layanan, produk, atau kebutuhan bisnis Anda?';
+    }
+
+    if (text.includes('customer service') || text.includes('cs') || text.includes('hubungi admin') || text.includes('kontak')) {
+      const key = findBestCS(userText);
+      const cs = csContacts[key];
+      return {
+        text: `Saya bisa menghubungkan Anda langsung ke ${cs.name}. Klik tombol di bawah ini untuk lanjut ke WhatsApp customer service.`,
+        cta: { label: `Hubungi ${cs.name}`, phone: cs.phone, text: cs.text }
+      };
+    }
+
+    if (text.includes('it') || text.includes('website') || text.includes('aplikasi') || text.includes('software')) {
+      return 'Layanan IT Program kami mencakup konsultasi, pengembangan sistem, website, dan support teknis. Jika Anda mau, saya bisa bantu menghubungkan ke admin IT.';
+    }
+
+    if (text.includes('jaringan') || text.includes('network') || text.includes('wifi') || text.includes('server')) {
+      return 'Untuk kebutuhan jaringan, kami menyediakan setup jaringan, cloud, keamanan jaringan, dan maintenance infra. Saya bisa bantu hubungkan ke admin jaringan.';
+    }
+
+    if (text.includes('food') || text.includes('kuliner') || text.includes('catering') || text.includes('menu')) {
+      return 'Layanan Nusantara Food kami mencakup catering, menu spesial, dan konsultasi kuliner. Jika Anda mau, saya bisa arahkan ke admin food.';
+    }
+
+    if (text.includes('harga') || text.includes('biaya') || text.includes('paket')) {
+      return 'Untuk detail harga dan paket, kami akan menyesuaikan kebutuhan Anda. Silakan jelaskan kebutuhan bisnis Anda, lalu saya akan arahkan ke customer service yang tepat.';
+    }
+
+    if (text.includes('selamat') || text.includes('terima kasih')) {
+      return 'Sama-sama. Managament Production Multicorp siap membantu kebutuhan Anda kapan saja.';
+    }
+
+    return 'Terima kasih untuk pertanyaannya. Saat ini saya bisa membantu menjelaskan layanan Managament Production Multicorp. Jika Anda ingin langsung terhubung dengan customer service, silakan sebutkan kebutuhan Anda seperti IT, jaringan, atau kuliner.';
+  }
+
+  const registeredUsersKey = 'multicorp_registered_users';
+
+  function getRegisteredUsers() {
+    try {
+      return JSON.parse(localStorage.getItem(registeredUsersKey) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function setRegisteredUsers(users) {
+    localStorage.setItem(registeredUsersKey, JSON.stringify(users));
+  }
+
+  function showPortalStatus(elementId, type, message) {
+    const statusEl = document.getElementById(elementId);
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.classList.remove('success', 'error');
+    statusEl.classList.add(type, 'show');
+  }
+
+  function hidePortalStatus(elementId) {
+    const statusEl = document.getElementById(elementId);
+    if (!statusEl) return;
+    statusEl.classList.remove('show', 'success', 'error');
+    statusEl.textContent = '';
+  }
+
+  function getRoleUsers() {
+    return {
+      PARTNER: {
+        partner_jaya: { password: 'partner123', role: 'PARTNER', name: 'Mitra Bisnis Jaya', divisi: 'PARTNER' },
+        ...getRegisteredUsers()['PARTNER']
+      },
+      CUSTOMER: {
+        cust_budi: { password: 'budi123', role: 'CUSTOMER', name: 'Budi Santoso', divisi: 'CUSTOMER' },
+        ...getRegisteredUsers()['CUSTOMER']
+      }
+    };
+  }
+
+  function performPortalLogin(role, username, password, statusId) {
+    const userMap = getRoleUsers();
+    const account = userMap[role]?.[username];
+    const demoAccounts = ['partner_jaya', 'cust_budi'];
+    const isPublicDeployment = !['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isPublicDeployment && demoAccounts.includes(username)) {
+      showPortalStatus(statusId, 'error', 'Akun demo hanya tersedia di lingkungan pengujian lokal.');
+      return null;
+    }
+
+    if (!account || account.password !== password) {
+      showPortalStatus(statusId, 'error', 'Username atau password ' + role.toLowerCase() + ' salah.');
+      return null;
+    }
+
+    const userSession = {
+      username: username,
+      role: account.role,
+      name: account.name,
+      divisi: account.divisi,
+      timestamp: new Date().getTime()
+    };
+
+    localStorage.setItem('multicorp_user', JSON.stringify(userSession));
+    showPortalStatus(statusId, 'success', 'Login berhasil. Mengarahkan ke dashboard...');
+    return userSession;
+  }
+
+  function toggleRegisterBox(role) {
+    const boxId = role === 'PARTNER' ? 'partnerRegisterBox' : 'customerRegisterBox';
+    const box = document.getElementById(boxId);
+    if (!box) return;
+    box.classList.toggle('show');
+  }
+
+  function handleRegister(role) {
+    const usernameId = role === 'PARTNER' ? 'partnerRegUsername' : 'customerRegUsername';
+    const passwordId = role === 'PARTNER' ? 'partnerRegPassword' : 'customerRegPassword';
+    const nameId = role === 'PARTNER' ? 'partnerRegName' : 'customerRegName';
+    const phoneId = role === 'PARTNER' ? 'partnerRegPhone' : 'customerRegPhone';
+    const emailId = role === 'PARTNER' ? 'partnerRegEmail' : 'customerRegEmail';
+    const companyId = role === 'PARTNER' ? 'partnerRegCompany' : 'customerRegAddress';
+    const statusId = role === 'PARTNER' ? 'partnerStatus' : 'customerStatus';
+
+    const username = document.getElementById(usernameId).value.trim();
+    const password = document.getElementById(passwordId).value.trim();
+    const name = document.getElementById(nameId).value.trim();
+    const phone = document.getElementById(phoneId).value.trim();
+    const email = document.getElementById(emailId).value.trim();
+    const company = document.getElementById(companyId).value.trim();
+
+    if (!username || !password || !name || !phone || !email || !company) {
+      showPortalStatus(statusId, 'error', 'Semua field pendaftaran harus diisi.');
+      return;
+    }
+
+    const users = getRegisteredUsers();
+    const roleUsers = users[role] || {};
+
+    if (roleUsers[username]) {
+      showPortalStatus(statusId, 'error', 'Username sudah terdaftar. Gunakan username lain.');
+      return;
+    }
+
+    roleUsers[username] = {
+      password,
+      role,
+      name,
+      divisi: role,
+      phone,
+      email,
+      company
+    };
+
+    users[role] = roleUsers;
+    setRegisteredUsers(users);
+
+    document.getElementById(role === 'PARTNER' ? 'partnerRegisterForm' : 'customerRegisterForm').reset();
+    showPortalStatus(statusId, 'success', 'Pendaftaran berhasil! Silakan login dengan akun baru Anda.');
+  }
+
+  function bindPortalHandlers() {
+    document.getElementById('partnerLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      hidePortalStatus('partnerStatus');
+      const username = document.getElementById('partnerUsername').value.trim();
+      const password = document.getElementById('partnerPassword').value.trim();
+      const session = performPortalLogin('PARTNER', username, password, 'partnerStatus');
+      if (session) {
+        setTimeout(() => {
+          window.location.href = 'dashboard.html?user=' + encodeURIComponent(username);
+        }, 1000);
+      }
+    });
+
+    document.getElementById('customerLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      hidePortalStatus('customerStatus');
+      const username = document.getElementById('customerUsername').value.trim();
+      const password = document.getElementById('customerPassword').value.trim();
+      const session = performPortalLogin('CUSTOMER', username, password, 'customerStatus');
+      if (session) {
+        setTimeout(() => {
+          window.location.href = 'dashboard.html?user=' + encodeURIComponent(username);
+        }, 1000);
+      }
+    });
+
+    document.getElementById('partnerRegisterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      handleRegister('PARTNER');
+    });
+
+    document.getElementById('customerRegisterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      handleRegister('CUSTOMER');
+    });
+
+    document.querySelectorAll('[data-register-role]').forEach(button => {
+      button.addEventListener('click', () => toggleRegisterBox(button.dataset.registerRole));
+    });
+  }
+
+  function toggleChat() {
+    floatingChat.classList.toggle('open');
+    if (floatingChat.classList.contains('open')) {
+      setTimeout(() => chatInput.focus(), 50);
+    }
+  }
+
+  chatToggle.addEventListener('click', toggleChat);
+
+  if (chatClose) {
+    chatClose.addEventListener('click', function() {
+      floatingChat.classList.remove('open');
+    });
+  }
+
+  function enablePasswordToggles() {
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+      if (input.dataset.passwordToggleReady) return;
+      input.dataset.passwordToggleReady = 'true';
+      const wrapper = input.parentElement;
+      wrapper.style.position = 'relative';
+      input.style.paddingRight = '42px';
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn-link position-absolute top-50 end-0 translate-middle-y text-gold';
+      button.style.textDecoration = 'none';
+      button.setAttribute('aria-label', 'Tampilkan password');
+      button.innerHTML = '<i class="fas fa-eye"></i>';
+      button.addEventListener('click', () => {
+        const visible = input.type === 'password';
+        input.type = visible ? 'text' : 'password';
+        button.setAttribute('aria-label', visible ? 'Sembunyikan password' : 'Tampilkan password');
+        button.innerHTML = visible ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+      });
+      wrapper.appendChild(button);
+    });
+  }
+
+  enablePasswordToggles();
+  bindPortalHandlers();
+
+  chatForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    saveChatToStorage('Portal User', text, 'customer');
+    chatInput.value = '';
+
+    setTimeout(() => {
+      const reply = generateAIReply(text);
+
+      if (reply && typeof reply === 'object') {
+        addMessage(reply.text, 'bot');
+        saveChatToStorage('AI Managament Production Multicorp', reply.text, 'bot');
+        addWhatsAppButton(reply.cta.label, reply.cta.phone, reply.cta.text);
+      } else {
+        addMessage(reply, 'bot');
+        saveChatToStorage('AI Managament Production Multicorp', reply, 'bot');
+      }
+    }, 700);
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!floatingChat.contains(event.target)) {
+      floatingChat.classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>

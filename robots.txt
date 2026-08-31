@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://management-production-tumanggor.netlify.app/sitemap.xml

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Managament Production Multicorp - Buka Link</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0b 0%, #1a1a1d 100%);
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-top: 20px;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #d1d5db;
+      font-size: 1rem;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      color: #d4af37;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .link-list {
+      background: #141416;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .link-item {
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .link-item:last-child {
+      border-bottom: none;
+    }
+
+    .link-item:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .link-text {
+      flex: 1;
+    }
+
+    .link-name {
+      color: #d4af37;
+      font-weight: 700;
+      margin-bottom: 5px;
+      font-size: 0.95rem;
+    }
+
+    .link-url {
+      color: #d1d5db;
+      font-size: 0.85rem;
+      font-family: monospace;
+      word-break: break-all;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 5px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-left: 15px;
+    }
+
+    .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-open {
+      background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
+      color: #0a0a0b;
+    }
+
+    .btn-open:hover {
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-copy {
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+      border: 1px solid #d4af37;
+    }
+
+    .btn-copy:hover {
+      background: rgba(212, 175, 55, 0.2);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #51cf66;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 4px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .footer {
+      text-align: center;
+      color: #d1d5db;
+      font-size: 0.9rem;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .demo-box {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .demo-account {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .demo-account:last-child {
+      border-bottom: none;
+    }
+
+    .demo-account strong {
+      color: #d4af37;
+    }
+
+    .demo-account p {
+      color: #d1d5db;
+      font-size: 0.9rem;
+      margin: 5px 0 0 0;
+    }
+
+    @media (max-width: 768px) {
+      .link-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .button-group {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .btn {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <h1>🌐 Managament Production Multicorp Portal</h1>
+    <p>Klik Tombol untuk Buka di Browser atau Copy Link</p>
+  </div>
+
+  <!-- HALAMAN UTAMA -->
+  <div class="section">
+    <h2 class="section-title">🏠 Halaman Utama</h2>
+    <div class="link-list">
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Home Portal (Halaman Utama Dengan Semua Link)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index-portal.html</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('index-portal.html')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index-portal.html')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Home Original (Portal Info Perusahaan)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index.html</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('index.html')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/index.html')">📋 COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="section">
+    <h2 class="section-title">🔐 Login Page</h2>
+    <div class="link-list">
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Halaman Login (Manual Input)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('login.html')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html')">📋 COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO LOGIN (AUTO) -->
+  <div class="section">
+    <h2 class="section-title">⚡ Demo Login Cepat (Auto-Fill)</h2>
+    <p style="color: #d1d5db; margin-bottom: 15px; font-size: 0.9rem;">Klik BUKA untuk langsung login tanpa perlu input username & password</p>
+    <div class="link-list">
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">👑 Demo Super Admin (Auto Login)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('login.html?auto=true&user=superadmin&pass=admin123')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">💻 Demo Admin IT (Auto Login)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('login.html?auto=true&user=admin_it&pass=it123')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">🌐 Demo Admin Network (Auto Login)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('login.html?auto=true&user=admin_net&pass=net123')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">🍜 Demo Admin Food (Auto Login)</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('login.html?auto=true&user=admin_food&pass=food123')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123')">📋 COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section">
+    <h2 class="section-title">📊 Dashboard</h2>
+    <div class="link-list">
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Dashboard Super Admin</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=superadmin</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('dashboard.html?user=superadmin')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=superadmin')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Dashboard Admin IT</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_it</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('dashboard.html?user=admin_it')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_it')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Dashboard Admin Network</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_net</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('dashboard.html?user=admin_net')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_net')">📋 COPY</button>
+        </div>
+      </div>
+
+      <div class="link-item">
+        <div class="link-text">
+          <div class="link-name">Dashboard Admin Food</div>
+          <div class="link-url">file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_food</div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-open" onclick="bukaLangsung('dashboard.html?user=admin_food')">🔗 BUKA</button>
+          <button class="btn btn-copy" onclick="copyLink('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=admin_food')">📋 COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO ACCOUNTS -->
+  <div class="section">
+    <h2 class="section-title">👥 Demo Accounts</h2>
+    <div class="demo-box">
+      <div class="demo-account">
+        <strong>👑 Super Admin</strong>
+        <p>Username: superadmin | Password: admin123</p>
+      </div>
+      <div class="demo-account">
+        <strong>💻 Admin IT Program</strong>
+        <p>Username: admin_it | Password: it123</p>
+      </div>
+      <div class="demo-account">
+        <strong>🌐 Admin Network</strong>
+        <p>Username: admin_net | Password: net123</p>
+      </div>
+      <div class="demo-account">
+        <strong>🍜 Admin Nusantara Food</strong>
+        <p>Username: admin_food | Password: food123</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>✅ Semua link siap diakses. Klik BUKA untuk membuka di browser.</p>
+    <p style="margin-top: 10px;">Managament Production Multicorp Portal v1.0.0 | 2026-08-31</p>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notification">
+  ✓ Link berhasil dicopy ke clipboard!
+</div>
+
+<script>
+  function bukaLangsung(filename) {
+    const filePath = `file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/${filename}`;
+    // Buka di window baru
+    window.open(filePath, '_blank', 'width=1200,height=800');
+  }
+
+  function copyLink(link) {
+    navigator.clipboard.writeText(link).then(() => {
+      const notif = document.getElementById('notification');
+      notif.classList.add('show');
+      setTimeout(() => {
+        notif.classList.remove('show');
+      }, 2000);
+    }).catch(() => {
+      alert('Copy error. Silakan copy manual:\n\n' + link);
+    });
+  }
+</script>
+</body>
+</html>

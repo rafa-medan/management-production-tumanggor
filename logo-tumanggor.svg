@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" role="img" aria-labelledby="title desc">
+  <title id="title">Management Production Tumanggor</title>
+  <desc id="desc">Logo MPT Management Production Tumanggor</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#39a8ff"/><stop offset="1" stop-color="#063b9b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#f7d875"/><stop offset="1" stop-color="#b77a13"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="220" rx="24" fill="#070b16"/>
+  <circle cx="120" cy="110" r="78" fill="url(#blue)" stroke="url(#gold)" stroke-width="8"/>
+  <path d="M75 155V72h22v58l23-38 23 38V72h22v83h-24l-21-34-21 34z" fill="#fff"/>
+  <text x="218" y="112" fill="url(#gold)" font-family="Georgia,serif" font-size="76" font-weight="700" letter-spacing="8">MPT</text>
+  <path d="M220 132H810" stroke="url(#gold)" stroke-width="3"/>
+  <text x="220" y="177" fill="#fff" font-family="Georgia,serif" font-size="28" font-weight="700" letter-spacing="3">MANAGEMENT PRODUCTION TUMANGGOR</text>
+</svg>

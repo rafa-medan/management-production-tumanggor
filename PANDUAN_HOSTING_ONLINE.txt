@@ -1,0 +1,331 @@
+================================================================================
+                  🌐 PANDUAN HOSTING ONLINE MultiCorp
+                  Akses Website via Domain Proper
+================================================================================
+
+Anda akan bisa akses website seperti:
+✅ https://www.domain.com
+✅ https://multicorp.id
+✅ https://bisnis-anda.com
+
+Bukan file:// lagi!
+
+================================================================================
+📌 PILIHAN HOSTING (Pilih Salah Satu)
+================================================================================
+
+OPSI 1: GITHUB PAGES (GRATIS) ⭐ REKOMENDASI
+─────────────────────────────────────────────
+✅ Gratis selamanya
+✅ Cepat & reliable
+✅ Akses via: https://username.github.io/repo-name
+❌ Tidak bisa domain custom (kecuali upgrade)
+
+Contoh: https://rafawebsite.github.io/multicorp
+
+OPSI 2: HOSTINGER (BERBAYAR - MURAH & PROFESIONAL) 
+─────────────────────────────────────────────
+✅ Akses via domain sendiri (multicorp.com)
+✅ Profesional & cepat
+✅ Support 24/7
+❌ Bayar tahunan (~Rp 120rb - 500rb/tahun)
+
+Contoh: https://multicorp.com
+
+OPSI 3: NIAGAHOSTER (BERBAYAR - LOKAL)
+─────────────────────────────────────────────
+✅ Hosting lokal Indonesia
+✅ Domain bisa .id (multicorp.id)
+✅ Layanan customer service lokal
+❌ Perlu bayar tahunan
+
+Contoh: https://multicorp.id
+
+================================================================================
+🚀 SETUP GITHUB PAGES (PALING MUDAH - REKOMENDASI)
+================================================================================
+
+STEP 1: SIAPKAN GITHUB ACCOUNT
+────────────────────────────────
+1. Buka: https://github.com/signup
+2. Daftar dengan email
+3. Verifikasi email
+4. Login ke GitHub
+
+STEP 2: BUAT REPOSITORY BARU
+─────────────────────────────
+1. Login ke GitHub
+2. Klik "+" di atas kanan → "New repository"
+3. Nama repository: multicorp-website (atau nama lain)
+4. Deskripsi: "MultiCorp Enterprise Portal Website"
+5. Pilih "Public" (agar bisa diakses semua)
+6. Centang "Add a README file"
+7. Klik "Create repository"
+
+STEP 3: UPLOAD FILE KE GITHUB
+──────────────────────────────
+Opsi A - Drag & Drop (Paling Mudah):
+1. Buka repository yang sudah dibuat
+2. Klik "Add file" → "Upload files"
+3. Drag & drop semua file HTML ke sini:
+   - index.html
+   - index-portal.html
+   - login.html
+   - dashboard.html
+   - app.js
+   - README.md
+   - Dll
+4. Klik "Commit changes"
+
+Opsi B - Git Command (Lebih Professional):
+1. Install Git: https://git-scm.com/download
+2. Buka Command Prompt / Terminal
+3. Jalankan:
+   
+   git clone https://github.com/USERNAME/multicorp-website.git
+   cd multicorp-website
+   
+   (Copy semua file HTML ke folder ini)
+   
+   git add .
+   git commit -m "Initial commit - MultiCorp website"
+   git push origin main
+
+STEP 4: AKTIFKAN GITHUB PAGES
+──────────────────────────────
+1. Buka repository di GitHub
+2. Klik "Settings" (gear icon)
+3. Scroll ke bawah, cari "GitHub Pages"
+4. Di "Source", pilih "Deploy from a branch"
+5. Pilih branch: "main"
+6. Pilih folder: "/ (root)"
+7. Klik "Save"
+
+STEP 5: AKSES WEBSITE
+──────────────────────
+✅ Website live di: https://USERNAME.github.io/multicorp-website
+
+Contoh:
+- GitHub username: rafawebsite
+- Repository: multicorp-website
+- URL: https://rafawebsite.github.io/multicorp-website
+
+Akses di browser: https://rafawebsite.github.io/multicorp-website/index-portal.html
+
+SELESAI! Website sudah live online! 🎉
+
+================================================================================
+💰 SETUP HOSTINGER (DOMAIN CUSTOM)
+================================================================================
+
+Jika ingin domain sendiri (multiccorp.com):
+
+STEP 1: BELI HOSTING & DOMAIN
+───────────────────────────────
+1. Buka: https://www.hostinger.co.id
+2. Pilih paket hosting (yang termurah: Premium/Starter)
+3. Beli domain sekaligus (cari domain yang available)
+4. Bayar (bisa pakai Kartu Kredit, Transfer Bank, dll)
+
+STEP 2: UPLOAD FILE KE HOSTING
+─────────────────────────────
+1. Login ke Hostinger Panel
+2. Cari "File Manager" atau "FTP"
+3. Buka folder "public_html"
+4. Upload semua file:
+   - index.html
+   - index-portal.html
+   - login.html
+   - dashboard.html
+   - app.js
+   - README.md
+   - Dll
+
+STEP 3: KONFIGURASI DOMAIN
+─────────────────────────
+1. Di Hostinger Panel → Domains
+2. Pastikan domain pointing ke hosting
+3. Tunggu DNS propagate (15 menit - 24 jam)
+
+STEP 4: AKSES WEBSITE
+──────────────────────
+✅ Website live di: https://multicorp.com
+
+Contoh akses:
+https://multicorp.com/index-portal.html
+https://multicorp.com/login.html
+
+SELESAI! Domain Anda live! 🎉
+
+================================================================================
+⚙️ SETUP LOCAL SERVER (UNTUK DEVELOPMENT)
+================================================================================
+
+Jika ingin server lokal dulu sebelum publish:
+
+OPSI A: PYTHON SERVER (Simple - Recommended)
+──────────────────────────────────────────
+1. Buka Command Prompt di folder website
+2. Jalankan:
+
+   python -m http.server 8000
+
+3. Buka di browser:
+   http://localhost:8000
+
+OPSI B: NODE.JS SERVER
+──────────────────────────────────────────
+1. Install Node.js: https://nodejs.org
+2. Buka Command Prompt di folder website
+3. Jalankan:
+
+   npx http-server -p 8000
+
+4. Buka di browser:
+   http://localhost:8000
+
+OPSI C: LIVE SERVER (VS CODE EXTENSION)
+──────────────────────────────────────────
+1. Buka folder di VS Code
+2. Install extension "Live Server"
+3. Right-click file HTML → "Open with Live Server"
+4. Otomatis buka di browser di http://localhost:PORT
+
+================================================================================
+🔧 TROUBLESHOOTING
+================================================================================
+
+Problem: GitHub Pages tidak update setelah upload file?
+Solution: 
+- Tunggu 1-5 menit untuk GitHub rebuild
+- Buka incognito/private mode di browser (bypass cache)
+- Klik refresh (Ctrl+Shift+R untuk hard refresh)
+
+Problem: Hosting file tidak bisa diakses?
+Solution:
+- Pastikan file sudah ter-upload di public_html
+- Check folder permission (harus 644 untuk file, 755 untuk folder)
+- Contact hosting support
+
+Problem: Domain belum bisa diakses?
+Solution:
+- Tunggu DNS propagate (24 jam)
+- Check DNS setting di domain registrar
+- Pastikan hosting nameserver sudah benar
+
+Problem: Login tidak bekerja di hosting?
+Solution:
+- Pastikan app.js (backend) sudah terupload
+- Check Google Apps Script deployment URL
+- Verify CORS settings
+
+================================================================================
+📊 PERBANDINGAN HOSTING
+================================================================================
+
+                    GitHub Pages    Hostinger      Niagahoster
+Harga              Gratis          ~Rp 120rb/yr   ~Rp 150rb/yr
+Domain Custom      Tidak*          Ya            Ya
+Kecepatan          ⭐⭐⭐⭐       ⭐⭐⭐       ⭐⭐⭐
+Support            ❌              ✅            ✅
+Mudah Setup        ⭐⭐⭐⭐⭐      ⭐⭐⭐      ⭐⭐
+Database Support   Tidak           Ya            Ya
+SSL Certificate    ✅ Gratis       ✅ Gratis     ✅ Gratis
+
+*GitHub Pages bisa domain custom dengan setup lebih rumit
+
+================================================================================
+📋 CHECKLIST SEBELUM PUBLISH
+================================================================================
+
+□ Semua file HTML sudah siap
+□ All links sudah benar
+□ app.js (Google Apps Script) sudah di-deploy
+□ Google Sheets database sudah setup
+□ API URL sudah di-update di HTML files
+□ Demo accounts sudah bekerja
+□ Testing di localhost sudah OK
+□ SSL certificate ready
+□ Domain sudah dibeli (jika pakai domain custom)
+□ Email setup untuk support
+□ Backup file sudah dibuat
+
+================================================================================
+🚀 REKOMENDASI STEP-BY-STEP UNTUK ANDA
+================================================================================
+
+STEP 1: Test di Localhost Dulu
+─────────────────────────────
+1. Setup Python server (mudah & cepat)
+2. Test semua halaman: http://localhost:8000
+3. Test login & dashboard
+4. Pastikan semuanya work
+
+STEP 2: Publish ke GitHub Pages (Free Testing)
+────────────────────────────────────────────
+1. Buat GitHub account
+2. Upload file ke GitHub
+3. Enable GitHub Pages
+4. Test di: https://username.github.io/multicorp
+
+STEP 3: Setup Domain Custom (Optional - Berbayar)
+──────────────────────────────────────────────
+1. Beli domain di Namecheap/IDCloudHost
+2. Beli hosting di Hostinger
+3. Upload file
+4. Konfigurasi DNS
+5. Website live dengan domain Anda!
+
+================================================================================
+📞 SUPPORT & RESOURCES
+================================================================================
+
+GitHub Pages Docs: https://pages.github.com
+Hostinger Tutorial: https://www.hostinger.co.id/tutorial
+Git Learning: https://learngitbranching.js.org/
+
+MultiCorp Support: support@multicorp.com
+Developer Help: dev@multicorp.com
+
+================================================================================
+✅ SETELAH PUBLISH
+================================================================================
+
+1. TEST SEMUA HALAMAN:
+   - Home page
+   - Login page
+   - Dashboard (semua akun)
+   - Demo auto-login
+   - Analytics & charts
+
+2. SHARE WEBSITE:
+   - Copy URL: https://domain.com
+   - Share ke email/WhatsApp
+   - Atau buat QR code
+
+3. MONITOR PERFORMANCE:
+   - Check Google Analytics (opsional)
+   - Monitor uptime (opsional)
+   - Regular backups
+
+4. MAINTENANCE:
+   - Update content regularly
+   - Monitor security
+   - Keep backend updated
+
+================================================================================
+🎉 SELAMAT! WEBSITE ANDA SUDAH ONLINE!
+================================================================================
+
+Dari sini forward, setiap orang bisa akses website Anda di internet.
+
+Jika ada pertanyaan atau masalah saat setup:
+- Hubungi support@multicorp.com
+- Atau DM developer team
+
+Happy deploying! 🚀
+
+================================================================================
+Generated: 2026-08-31
+MultiCorp Enterprise Portal - Hosting Guide v1.0
+================================================================================
