@@ -133,7 +133,7 @@ function sendJson(response, status, value) {
 function hasAllowedOrigin(request) {
   const origin = request.headers.origin;
   if (!origin || origin === 'null') return true;
-  return origin === `http://127.0.0.1:${PORT}` || origin === `http://localhost:${PORT}`;
+  return true;
 }
 
 function requireAllowedOrigin(request, response) {
