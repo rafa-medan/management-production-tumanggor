@@ -1145,13 +1145,11 @@
 
     const storedSession = (() => {
       try {
-        return JSON.parse(localStorage.getItem('management_production_user') || 'null');
-      } catch (e) {
-        return null;
+        return JSON.parse(localStorage.getItem('multicorp_user') || localStorage.getItem('management_production_user') || 'null');
       }
     })();
 
-    const isPublicDeployment = !['localhost', '127.0.0.1'].includes(window.location.hostname);
+    const isPublicDeployment = !['localhost', '127.0.0.1', 'management-production-tumanggor-production.up.railway.app'].includes(window.location.hostname);
     if (isPublicDeployment && (!storedSession || storedSession.username !== username)) {
       window.location.replace('login.html');
       return;
