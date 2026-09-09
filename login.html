@@ -572,7 +572,7 @@
         };
 
         const user = validUsers[username];
-        const isPublicDeployment = !['localhost', '127.0.0.1'].includes(window.location.hostname);
+        const isPublicDeployment = !['localhost', '127.0.0.1', 'management-production-tumanggor-production.up.railway.app'].includes(window.location.hostname);
         if (isPublicDeployment && user) {
           reject(new Error('Akun demo hanya tersedia di lingkungan pengujian lokal.'));
           return;
