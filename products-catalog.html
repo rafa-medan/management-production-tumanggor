@@ -266,14 +266,26 @@
 
     async function loadData() {
       try {
-        const response = await fetch('products-data.json');
-        productsData = await response.json();
-      } catch (e) {
-        const stored = localStorage.getItem('products_data');
-        if (stored) {
-          productsData = JSON.parse(stored);
+        const response = await fetch('/api/data/products', { cache: 'no-store' });
+        if (response.ok) {
+          productsData = await response.json();
         }
+      } catch (e) {}
+
+      if (!productsData || !Object.keys(productsData).length) {
+        try {
+          const seedResponse = await fetch('products-data.json', { cache: 'no-store' });
+          if (seedResponse.ok) {
+            productsData = await seedResponse.json();
+          }
+        } catch (e) {}
       }
+
+      if (!productsData || !Object.keys(productsData).length) {
+        const stored = localStorage.getItem('products_data');
+        productsData = stored ? JSON.parse(stored) : {};
+      }
+
       renderCatalog();
     }
 

@@ -1,0 +1,202 @@
+[
+  {
+    "username": "superadmin",
+    "role": "SUPER_ADMIN",
+    "name": "Rahmat Fauzi Tumanggor, S.Kom",
+    "jabatan": "CEO MPT",
+    "email": "rahmatfauzi1988@gmail.com",
+    "phone": "081262639095",
+    "divisi": "ALL",
+    "enabled": true,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PRODUCTS",
+      "PAYMENTS",
+      "ANALYTICS",
+      "SETTINGS"
+    ],
+    "passwordHash": "scrypt$001ab803de199ff89736de31b30a10ed$ffef48885e1d033514fd2736641caf532b560f3a168a6a9316ab8a058b776411d9c45ece3fa7b726730c37c9165efc0470ca8294c23361ba9342777907731321",
+    "failedLoginAttempts": 0
+  },
+  {
+    "username": "admin_it",
+    "role": "ADMIN_DIVISI",
+    "name": "Admin IT Program",
+    "jabatan": "Lead IT",
+    "email": "admin.it@multicorp.com",
+    "phone": "081200000001",
+    "divisi": "IT Program",
+    "enabled": true,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PRODUCTS",
+      "PAYMENTS",
+      "ANALYTICS"
+    ],
+    "passwordHash": "scrypt$10ace5e70d4df8bcefde9fb503a1e280$a4cc29ea0d5ccd402aa5c88bc533f4d4526176b72e5531277a26fac3f82955c97e3d33ba13495defc7b5a27328457ad2ec52d4cea484a21b6599b7407d866769",
+    "failedLoginAttempts": 0
+  },
+  {
+    "username": "admin_net",
+    "role": "ADMIN_DIVISI",
+    "name": "Admin Network",
+    "jabatan": "Network Specialist",
+    "email": "admin.net@multicorp.com",
+    "phone": "081200000002",
+    "divisi": "Network",
+    "enabled": true,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PAYMENTS",
+      "ANALYTICS",
+      "PRODUCTS"
+    ],
+    "passwordHash": "scrypt$5d49c5511814eb40f9a8ea5916a684d6$1f00a45f6eb7a959bf6f01f5e11036885e55f3b5026082f8f4f1dd9aacbd878d54e3cdd3925da669de595b989771857a57e925b582a1d64ffbd66bed18eb2842",
+    "failedLoginAttempts": 0
+  },
+  {
+    "username": "admin_food",
+    "role": "ADMIN_DIVISI",
+    "name": "Admin Nusantara Food",
+    "jabatan": "F&B Manager",
+    "email": "admin.food@multicorp.com",
+    "phone": "081200000003",
+    "divisi": "Nusantara Food",
+    "enabled": true,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PRODUCTS",
+      "PAYMENTS",
+      "ANALYTICS"
+    ],
+    "passwordHash": "scrypt$55c1a8d981546dd82d69beb2cc5007dd$bfc5b9f0a526720a2101f16ed70cd6ffc4f639737ccfa9f2eb490a1baf1f6a8b623d9b0dbd7a462373c089f2a00981213a08d9470e3917d9054936c2e4a4b733",
+    "failedLoginAttempts": 0
+  },
+  {
+    "username": "partner_jaya",
+    "role": "PARTNER",
+    "name": "Mitra Bisnis Jaya",
+    "jabatan": "Direktur Utama",
+    "email": "partner@multicorp.com",
+    "phone": "081300000001",
+    "divisi": "Network",
+    "enabled": true,
+    "permissions": [
+      "PAYMENTS"
+    ],
+    "passwordHash": "scrypt$d8dc6f797c9ceba19a22c701e2dc38b3$96e7fc714e4510dbe6b53c18d5ed7f8d3de7a4109afd8692f9d98b9eb564a647ca2aad2d470e31eb72c27347a6a3f8678b273fcacc7d1dc8300412da7f6ecd3a",
+    "failedLoginAttempts": 0
+  },
+  {
+    "username": "cust_budi",
+    "role": "CUSTOMER",
+    "name": "Budi Santoso",
+    "jabatan": "Owner",
+    "email": "budi@gmail.com",
+    "phone": "081300000002",
+    "divisi": "IT Program",
+    "enabled": true,
+    "permissions": [
+      "PAYMENTS"
+    ],
+    "passwordHash": "scrypt$99af8ed47e291d732e6ee90d00da406c$dcb6825d01d05be772babe9a2270178fe781d4f188382b46dc0c8e9a9c0db0321b08465a4ade18cc9f43e898a16ec6bbc588f5a90559a555e0b1c3d092ef98a7",
+    "failedLoginAttempts": 0
+  },
+  {
+    "username": "tim_it_new",
+    "role": "ADMIN_DIVISI",
+    "name": "Tim Internal Baru",
+    "jabatan": "Staff IT",
+    "email": "timitbaru@example.com",
+    "phone": "081234567890",
+    "divisi": "IT Program",
+    "enabled": false,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PRODUCTS",
+      "PAYMENTS",
+      "ANALYTICS"
+    ],
+    "passwordHash": "scrypt$d93a912942a3ff00f921bd311c65d046$8ae6e26e53d9b4f6fece9270f0fad7aed70a525ffde3acf7c5f41d2f526f7ba5a3259aac81d95f710dca5bd7c511cb2fed1b1cd6fe75acf507d20044c93c693a",
+    "approvalStatus": "PENDING",
+    "pendingApproval": true
+  },
+  {
+    "username": "finalcheck_admin",
+    "role": "ADMIN_DIVISI",
+    "name": "Final Check Admin",
+    "jabatan": "Verifier",
+    "email": "finalcheck_admin@example.com",
+    "phone": "081200000099",
+    "divisi": "IT Program",
+    "enabled": false,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PRODUCTS",
+      "PAYMENTS",
+      "ANALYTICS"
+    ],
+    "passwordHash": "scrypt$16b4f081c685687affaa1973dd44864b$868036b7da7501bcde1956c71bb03d3abdc7fd76ace6389100baa617db6d3c18c665bca99e74112b65f263ed39ae484e527dcb3635e6ed7f052a8aa292df8658",
+    "approvalStatus": "PENDING",
+    "pendingApproval": true
+  },
+  {
+    "username": "anggota_divisi_demo",
+    "role": "ANGGOTA",
+    "name": "Anggota Divisi Demo",
+    "jabatan": "Anggota Divisi",
+    "email": "anggota.divisi.demo@example.com",
+    "phone": "081200000088",
+    "divisi": "IT Program",
+    "enabled": false,
+    "permissions": [
+      "PAYMENTS"
+    ],
+    "passwordHash": "scrypt$eb3080e045a890968a995ee3feedbffb$ddc3e224c4ec9120be0336652b7c00141518b4560a7ee7a4b8822906f44d0705973cea24d0f3c63f8c7d2b814a97ddc426aa925d60aba798705459d595123184",
+    "approvalStatus": "PENDING",
+    "pendingApproval": true
+  },
+  {
+    "username": "anggotasuper1",
+    "role": "ANGGOTA_SUPER_ADMIN",
+    "name": "Test Anggota Super",
+    "jabatan": "Anggota Super Admin",
+    "email": "anggotasup1@example.com",
+    "phone": "081200000099",
+    "divisi": "IT Program",
+    "enabled": false,
+    "permissions": [
+      "UPLOAD",
+      "CONTACT",
+      "PRODUCTS",
+      "PAYMENTS",
+      "ANALYTICS",
+      "SETTINGS"
+    ],
+    "passwordHash": "scrypt$bead52f6e728fef7f3cc035fe99af85c$fdc5df9312d304409285338f6b421f407ac14f98e4cdac278727312be589ef0bce2b2c9546aea11b3abbada9cfbd46bfac6f081d1c0c547a8b943b627d9663f2",
+    "approvalStatus": "PENDING",
+    "pendingApproval": true
+  },
+  {
+    "username": "anggota1",
+    "role": "ANGGOTA_DIVISI",
+    "name": "Test Anggota Divisi",
+    "jabatan": "Anggota Divisi",
+    "email": "anggota1@example.com",
+    "phone": "081200000088",
+    "divisi": "Network",
+    "enabled": false,
+    "permissions": [
+      "PAYMENTS"
+    ],
+    "passwordHash": "scrypt$92f2d7ce7d8ae56c5c8de49838763d16$d591de1298b66c994b752ae239df509fbdf982e61e2b72c5c9729dd45d36875a5bec11e935b8d9aaedcfdf3d085c04d49667b1609c9c365a6b3d3f8c73df17ac",
+    "approvalStatus": "PENDING",
+    "pendingApproval": true
+  }
+]

@@ -161,10 +161,10 @@ COMPANY_PROFILE | {"visi": "...", "misi": [...]}
 
 | Username | Password | Role | Divisi |
 |----------|----------|------|--------|
-| superadmin | admin123 | SUPER_ADMIN | ALL |
-| admin_it | it123 | ADMIN_DIVISI | IT Program |
-| admin_net | net123 | ADMIN_DIVISI | Network |
-| admin_food | food123 | ADMIN_DIVISI | Nusantara Food |
+| superadmin | Configured locally | SUPER_ADMIN | ALL |
+| admin_it | Configured locally | ADMIN_DIVISI | IT Program |
+| admin_net | Configured locally | ADMIN_DIVISI | Network |
+| admin_food | Configured locally | ADMIN_DIVISI | Nusantara Food |
 
 ### Divisi
 
@@ -185,7 +185,7 @@ POST /script/url
 Body: {
   "action": "LOGIN",
   "username": "superadmin",
-  "password": "admin123"
+  "password": "configured-locally"
 }
 
 Response: {

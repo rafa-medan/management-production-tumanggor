@@ -1,0 +1,682 @@
+:root {
+  --bg-dark: #0a0a0b;
+  --bg-card: #141416;
+  --bg-card-hover: #1c1c20;
+  --gold-primary: #d4af37;
+  --gold-light: #f3e5ab;
+  --gold-accent: #e5c158;
+  --text-main: #ffffff;
+  --text-muted: #dfe7f5;
+  --text-soft: #eef3ff;
+  --border-gold: rgba(212, 175, 55, 0.45);
+  --success: #51cf66;
+  --danger: #ff6b6b;
+  --warning: #ffd93d;
+  --panel-soft: rgba(20, 20, 22, 0.9);
+}
+
+body {
+  background: linear-gradient(rgba(10, 10, 11, 0.78), rgba(10, 10, 11, 0.86)), url('background-mpt-resized.png') center / cover fixed;
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar-dashboard {
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-gold);
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand-text {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold-primary);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-wrap {
+  position: relative;
+}
+
+.notification-panel {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: min(360px, 90vw);
+  max-height: 360px;
+  overflow-y: auto;
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 12px;
+  z-index: 20;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+}
+
+.notification-panel.show {
+  display: block;
+}
+
+.notification-item {
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  padding: 9px 4px;
+  font-size: 0.85rem;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item.unread {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.business-card-preview {
+  background: linear-gradient(135deg, #171719 0%, #27231a 100%);
+  border: 1px solid var(--gold-primary);
+  border-radius: 10px;
+  padding: 20px;
+  color: var(--text-main);
+}
+
+.business-card-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.business-card-modal.show {
+  display: grid;
+}
+
+.business-card-sheet {
+  background: #f0f0f0;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  max-width: 95vw;
+  max-height: 92vh;
+  overflow-y: auto;
+  width: fit-content;
+}
+
+.business-card-nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.business-card-nav-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.business-card-nav-btn:hover {
+  border-color: #d4af37;
+  color: #000;
+}
+
+.business-card-nav-btn.active {
+  background: #d4af37;
+  border-color: #d4af37;
+  color: #000;
+}
+
+.business-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.business-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.business-card-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.business-card-printable {
+  width: 90mm;
+  height: 55mm;
+  padding: 7mm;
+  color: #fff;
+  background: linear-gradient(135deg, #0a0a0b, #252116);
+  border: 1px solid #d4af37;
+  border-radius: 3mm;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+}
+
+.business-card-printable .card-company-logo { position: absolute; left: 7mm; top: 5.5mm; max-width: 32mm; max-height: 10.5mm; object-fit: contain; object-position: left center; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6)); }
+.business-card-printable .card-name { position: absolute; left: 7mm; top: 18mm; max-width: 56mm; font-size: 3.8mm; line-height: 1.08; margin: 0; color: #f3e5ab; }
+.business-card-printable .card-role { position: absolute; left: 7mm; top: 28mm; max-width: 56mm; font-size: 2.5mm; color: #d4af37; font-weight: bold; letter-spacing: .3mm; }
+.business-card-printable .card-meta { position: absolute; bottom: 7mm; left: 7mm; max-width: 49mm; font-size: 2.35mm; line-height: 1.55; color: #e5e5e5; }
+.business-card-printable .card-division-logo { position: absolute; right: 7mm; top: 23.5mm; width: 20mm; height: 13.5mm; object-fit: contain; background: transparent; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+.business-card-printable .card-qr { position: absolute; right: 7mm; top: 7mm; width: 15mm; height: 15mm; object-fit: contain; background: #fff; padding: 1mm; }
+.business-card-printable .card-brand { position: absolute; right: 7mm; bottom: 7mm; color: #d4af37; font-size: 2.1mm; font-weight: bold; line-height: 1.25; text-align: right; }
+
+.business-card-back {
+  width: 90mm;
+  height: 55mm;
+  padding: 5mm 6mm;
+  color: #fff;
+  background: linear-gradient(135deg, #0a0a0b 0%, #201b10 50%, #0a0a0b 100%);
+  border: 1px solid #d4af37;
+  border-radius: 3mm;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+}
+
+.business-card-back::before {
+  content: '';
+  position: absolute;
+  top: -20mm;
+  right: -20mm;
+  width: 50mm;
+  height: 50mm;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.business-card-back .back-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5mm;
+}
+
+.business-card-back .back-logo {
+  height: 13mm;
+  max-width: 45mm;
+  object-fit: contain;
+  margin-bottom: 1mm;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+}
+
+.business-card-back .back-title {
+  font-size: 2.6mm;
+  font-weight: 800;
+  color: #d4af37;
+  letter-spacing: 0.6px;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.business-card-back .back-tagline {
+  font-size: 1.8mm;
+  color: #f3e5ab;
+  font-style: italic;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.business-card-back .back-divisions {
+  display: flex;
+  justify-content: center;
+  gap: 3.5mm;
+  margin: 1mm 0;
+  padding: 1.2mm 0;
+  border-top: 0.25mm solid rgba(212, 175, 55, 0.35);
+  border-bottom: 0.25mm solid rgba(212, 175, 55, 0.35);
+}
+
+.business-card-back .back-div-item {
+  font-size: 1.85mm;
+  color: #ffffff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 1.2mm;
+}
+
+.business-card-back .back-div-item i {
+  color: #d4af37;
+  font-size: 2mm;
+}
+
+.business-card-back .back-contact {
+  font-size: 1.75mm;
+  line-height: 1.5;
+  color: #e5e5e5;
+  text-align: center;
+}
+
+.business-card-back .back-contact strong {
+  color: #d4af37;
+}
+
+.business-card-back .back-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 0.2mm solid rgba(212, 175, 55, 0.25);
+  padding-top: 1mm;
+  margin-top: 0.5mm;
+}
+
+.business-card-back .back-serial {
+  font-size: 1.6mm;
+  color: #d4af37;
+  font-family: monospace;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+
+.business-card-back .back-badge {
+  font-size: 1.4mm;
+  color: #000;
+  background: linear-gradient(135deg, #d4af37, #f3e5ab);
+  padding: 0.4mm 1.6mm;
+  border-radius: 1mm;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+@page {
+  size: 100mm 150mm;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body * { visibility: hidden !important; }
+  .business-card-modal, .business-card-modal * { visibility: visible !important; }
+  .business-card-modal {
+    position: static !important;
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    inset: auto !important;
+    z-index: auto !important;
+    overflow: visible !important;
+    width: 100mm !important;
+    height: auto !important;
+    max-width: 100mm !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+  }
+  .business-card-sheet {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    max-width: 100mm !important;
+    max-height: none !important;
+    overflow: visible !important;
+    width: 100mm !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+  }
+  .business-card-actions, .business-card-nav-tabs, .business-card-label { display: none !important; }
+  .business-card-container {
+    display: block !important;
+    width: 100mm !important;
+    max-width: 100mm !important;
+    gap: 0 !important;
+    margin: 0 auto !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-inside: avoid !important;
+  }
+  .business-card-wrapper {
+    display: block !important;
+    width: 100mm !important;
+    max-width: 100mm !important;
+    margin: 0 auto 4mm !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+  }
+  .business-card-printable, .business-card-back {
+    display: block !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+    margin: 0 auto 4mm !important;
+    width: 90mm !important;
+    min-width: 90mm !important;
+    max-width: 90mm !important;
+    height: 55mm !important;
+    min-height: 55mm !important;
+  }
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-dark);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.user-role {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-gold);
+  min-height: calc(100vh - 70px);
+  padding: 30px 0;
+  position: sticky;
+  top: 70px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin: 0;
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 25px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-menu a:hover {
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+  border-left-color: var(--gold-primary);
+}
+
+.sidebar-menu a.active {
+  color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+  border-left-color: var(--gold-primary);
+}
+
+.sidebar-menu a i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border-gold);
+  margin: 20px 0;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  padding: 40px 30px;
+  min-height: calc(100vh - 70px);
+}
+
+.page-header {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-soft);
+}
+
+/* ===== CARD ===== */
+.card-dashboard {
+  background: var(--panel-soft);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+.card-dashboard:hover {
+  background: var(--bg-card-hover);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+}
+
+/* ===== STAT CARD ===== */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.stat-content {
+  position: relative;
+  z-index: 1;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  color: var(--gold-primary);
+  margin-bottom: 15px;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.stat-change {
+  font-size: 0.85rem;
+  margin-top: 10px;
+  color: var(--success);
+}
+
+/* ===== TABLE ===== */
+.table-responsive {
+  margin-top: 20px;
+}
+
+table {
+  color: var(--text-main);
+}
+
+table thead {
+  background: rgba(212, 175, 55, 0.1);
+  border: none;
+}
+
+table thead th {
+  color: var(--gold-primary);
+  font-weight: 700;
+  border: none;
+  padding: 15px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+table tbody td {
+  border-color: var(--border-gold);
+  padding: 15px;
+  vertical-align: middle;
+}
+
+table tbody tr:hover {
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* ===== BADGE ===== */
+.badge-status {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.badge-new {
+  background: rgba(255, 215, 0, 0.2);
+  color: var(--warning);
+}
+
+.badge-processing {
+  background: rgba(81, 207, 102, 0.2);
+  color: var(--success);
+}
+
+.badge-completed {
+  background: rgba(81, 207, 102, 0.2);
+  color: var(--success);
+}
+
+/* ===== BUTTON ===== */
+.btn-dashboard {
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
+  border: none;
+  color: var(--bg-dark);
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-dashboard:hover {
+  background: linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-primary) 100%);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== CHART ===== */
+.chart-container {
+  position: relative;
+  height: 300px;
+  margin: 20px 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    z-index: 100;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}

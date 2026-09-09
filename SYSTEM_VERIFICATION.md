@@ -21,8 +21,8 @@
 - [x] Footer dengan brand konsisten
 
 ### ✅ 2. AUTHENTICATION FLOWS (index.html + login.html)
-- [x] Partner login (partner_jaya / partner123)
-- [x] Customer login (cust_budi / budi123)
+- [x] Partner login (partner_jaya / password lokal)
+- [x] Customer login (cust_budi / password lokal)
 - [x] Partner registration form
 - [x] Customer registration form
 - [x] Form validation & error messages
@@ -130,9 +130,9 @@
 ## 🧪 TEST RESULTS
 
 ### Login Tests
-- ✅ customer (cust_budi / budi123) → Dashboard loads successfully
-- ✅ admin IT (admin_it / it123) → Dashboard loads + Admin Produk menu appears
-- ✅ partner (partner_jaya / partner123) → Dashboard loads successfully
+- ✅ customer (cust_budi / password lokal) → Dashboard loads successfully
+- ✅ admin IT (admin_it / password lokal) → Dashboard loads + Admin Produk menu appears
+- ✅ partner (partner_jaya / password lokal) → Dashboard loads successfully
 - ✅ Error handling untuk incorrect credentials
 
 ### Page Navigation Tests
@@ -143,8 +143,8 @@
 - ✅ All pages load without console errors (except initial heroChatButton reference yang sudah di-fix)
 
 ### Data Persistence Tests
-- ✅ localStorage menyimpan multicorp_user
-- ✅ localStorage menyimpan multicorp_registered_users
+- ✅ sessionStorage menyimpan multicorp_session
+- ✅ Registrasi lokal tersimpan di local-data/users.json dengan password hash
 - ✅ localStorage menyimpan products_data
 - ✅ localStorage menyimpan multicorp_chats
 

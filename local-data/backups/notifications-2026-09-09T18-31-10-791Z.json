@@ -1,0 +1,25 @@
+[
+  {
+    "id": "NOTIFY-1788966869566",
+    "text": "Izin admin divisi berhasil diperbarui.",
+    "type": "SECURITY",
+    "timestamp": "2026-09-09T15:14:29.566Z",
+    "read": true
+  },
+  {
+    "id": "NOTIFY-1788966871266",
+    "text": "Izin admin divisi berhasil diperbarui.",
+    "type": "SECURITY",
+    "timestamp": "2026-09-09T15:14:31.266Z",
+    "read": true
+  },
+  {
+    "id": "NOTIFY-1788978670775-6fe524fc27a678",
+    "channel": "sms",
+    "title": "Peringatan",
+    "message": "Tes notifikasi SMS/WhatsApp",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T18:31:10.775Z"
+  }
+]

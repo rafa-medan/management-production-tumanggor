@@ -42,17 +42,17 @@ file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=
 ⚡ DEMO LOGIN CEPAT (AUTO-FILL)
 ================================================================================
 
-DEMO SUPER ADMIN (Langsung Login Tanpa Input):
-file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123
+DEMO SUPER ADMIN (Login melalui form):
+file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html
 
-DEMO ADMIN IT (Langsung Login Tanpa Input):
-file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123
+DEMO ADMIN IT (Login melalui form):
+file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html
 
-DEMO ADMIN NETWORK (Langsung Login Tanpa Input):
-file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123
+DEMO ADMIN NETWORK (Login melalui form):
+file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html
 
-DEMO ADMIN FOOD (Langsung Login Tanpa Input):
-file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123
+DEMO ADMIN FOOD (Login melalui form):
+file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html
 
 ================================================================================
 📊 DASHBOARD LANGSUNG (Tanpa Login - Untuk TESTING)
@@ -76,19 +76,19 @@ file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/dashboard.html?user=
 
 SUPER ADMIN:
 Username: superadmin
-Password: admin123
+Password: gunakan password yang tersimpan secara lokal
 
 ADMIN IT PROGRAM:
 Username: admin_it
-Password: it123
+Password: gunakan password yang tersimpan secara lokal
 
 ADMIN NETWORK:
 Username: admin_net
-Password: net123
+Password: gunakan password yang tersimpan secara lokal
 
 ADMIN NUSANTARA FOOD:
 Username: admin_food
-Password: food123
+Password: gunakan password yang tersimpan secara lokal
 
 ================================================================================
 ✅ CARA CEPAT MEMBUKA (3 OPSI)
@@ -127,10 +127,10 @@ file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html
 
 Gunakan akun:
 Username: superadmin
-Password: admin123
+Password: gunakan password yang tersimpan secara lokal
 
 STEP 3 - Coba Login Otomatis (Demo):
-file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123
+file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html
 
 Halaman akan auto-submit login!
 

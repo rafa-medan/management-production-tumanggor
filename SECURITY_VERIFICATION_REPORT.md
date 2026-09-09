@@ -28,7 +28,7 @@
 **Data Struktur:**
 ```
 Username: superadmin
-Password: admin123
+Password: tersimpan secara lokal dan tidak dicantumkan di dokumentasi
 Nama: Super Administrator
 Role: SUPER_ADMIN
 Divisi: ALL
@@ -53,21 +53,21 @@ StatusVerifikasi: VERIFIED (Preset)
 
 **Data Struktur (3 Akun):**
 ```
-1. admin_it / it123
+1. admin_it / password lokal
    - Nama: Admin IT Program
    - Role: ADMIN_DIVISI
    - Divisi: IT Program
    - KodeVerifikasi: 0000
    - StatusVerifikasi: VERIFIED
 
-2. admin_net / net123
+2. admin_net / password lokal
    - Nama: Admin Network
    - Role: ADMIN_DIVISI
    - Divisi: Network
    - KodeVerifikasi: 0000
    - StatusVerifikasi: VERIFIED
 
-3. admin_food / food123
+3. admin_food / password lokal
    - Nama: Admin Nusantara Food
    - Role: ADMIN_DIVISI
    - Divisi: Nusantara Food
@@ -91,12 +91,12 @@ StatusVerifikasi: VERIFIED (Preset)
 ### 3️⃣ PARTNER (partner_jaya + Registrasi Baru)
 **File Database:** 
 - Default: app.js - Sheet "ClientsPartners"
-- Registrasi Baru: index.html - localStorage key "multicorp_registered_users"
+- Registrasi Baru lokal: `/api/auth/register` - `local-data/users.json` dengan password hash
 
 **Data Struktur Default (partner_jaya):**
 ```
 Username: partner_jaya
-Password: partner123
+Password: tersimpan secara lokal dan tidak dicantumkan di dokumentasi
 Nama: Mitra Bisnis Jaya
 Role: PARTNER
 Telepon: 081300000001
@@ -126,7 +126,7 @@ StatusVerifikasi: VERIFIED
 **Verifikasi Saat Login:**
 - Frontend: getRoleUsers() mengumpulkan dari default + registered partners
 - Check username/password valid
-- Create session di localStorage: multicorp_user
+- Create session di sessionStorage: multicorp_session
 - Redirect ke dashboard.html dengan role PARTNER
 
 ---
@@ -134,12 +134,12 @@ StatusVerifikasi: VERIFIED
 ### 4️⃣ CUSTOMER (cust_budi + Registrasi Baru)
 **File Database:**
 - Default: app.js - Sheet "ClientsPartners"
-- Registrasi Baru: index.html - localStorage key "multicorp_registered_users"
+- Registrasi Baru lokal: `/api/auth/register` - `local-data/users.json` dengan password hash
 
 **Data Struktur Default (cust_budi):**
 ```
 Username: cust_budi
-Password: budi123
+Password: tersimpan secara lokal dan tidak dicantumkan di dokumentasi
 Nama: Budi Santoso
 Role: CUSTOMER
 Telepon: 081300000002
@@ -233,12 +233,12 @@ function applyRoleAccess(role) {
 
 | Username | Role | Divisi | Password | KodeVerifikasi | StatusVerifikasi | Lokasi Database |
 |----------|------|--------|----------|----------------|------------------|-----------------|
-| superadmin | SUPER_ADMIN | ALL | admin123 | 0000 | VERIFIED | app.js - Users |
-| admin_it | ADMIN_DIVISI | IT Program | it123 | 0000 | VERIFIED | app.js - Users |
-| admin_net | ADMIN_DIVISI | Network | net123 | 0000 | VERIFIED | app.js - Users |
-| admin_food | ADMIN_DIVISI | Nusantara Food | food123 | 0000 | VERIFIED | app.js - Users |
-| partner_jaya | PARTNER | - | partner123 | 0000 | VERIFIED | app.js - ClientsPartners |
-| cust_budi | CUSTOMER | - | budi123 | 0000 | VERIFIED | app.js - ClientsPartners |
+| superadmin | SUPER_ADMIN | ALL | password lokal | 0000 | VERIFIED | app.js - Users |
+| admin_it | ADMIN_DIVISI | IT Program | password lokal | 0000 | VERIFIED | app.js - Users |
+| admin_net | ADMIN_DIVISI | Network | password lokal | 0000 | VERIFIED | app.js - Users |
+| admin_food | ADMIN_DIVISI | Nusantara Food | password lokal | 0000 | VERIFIED | app.js - Users |
+| partner_jaya | PARTNER | - | password lokal | 0000 | VERIFIED | app.js - ClientsPartners |
+| cust_budi | CUSTOMER | - | password lokal | 0000 | VERIFIED | app.js - ClientsPartners |
 
 ### Registrasi Baru:
 
@@ -259,12 +259,12 @@ function applyRoleAccess(role) {
 4. Check duplikat username
    ✅ Jika unique: Lanjut ke step 5
    ❌ Jika duplikat: Error "Username sudah terdaftar"
-5. Simpan ke localStorage['multicorp_registered_users']['PARTNER']
-6. Set Status: VERIFIED (otomatis)
-7. Set KodeVerifikasi: Bisa disesuaikan (default kosong/random)
+5. Kirim ke endpoint lokal `/api/auth/register`
+6. Simpan akun di `local-data/users.json` dengan password hash
+7. Set divisi berdasarkan pilihan kebutuhan partner
 8. Sukses message: "Pendaftaran berhasil! Silakan login"
 9. User login dengan akun baru
-10. Backend app.js bisa sync ke Google Sheets
+10. Deployment online tetap memakai backend Google Apps Script sesuai konfigurasi
 ```
 
 ### CUSTOMER Registration Flow:

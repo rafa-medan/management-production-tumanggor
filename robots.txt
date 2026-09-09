@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /dashboard.html
+Disallow: /admin-products.html
+Disallow: /login.html
+Disallow: /README.md
+Disallow: /SITEMAP.md
+Disallow: /WEBSITE_LINKS.txt
 
 Sitemap: https://management-production-tumanggor.netlify.app/sitemap.xml

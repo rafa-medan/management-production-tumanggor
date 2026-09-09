@@ -317,19 +317,19 @@
     <div class="account-grid">
       <div class="account" onclick="copyToClipboard('superadmin')">
         <div class="account-name">👑 Super Admin</div>
-        <div class="account-cred">Username: superadmin<br>Password: admin123</div>
+        <div class="account-cred">Username: superadmin<br>Password: tersimpan secara lokal</div>
       </div>
       <div class="account" onclick="copyToClipboard('admin_it')">
         <div class="account-name">💻 Admin IT</div>
-        <div class="account-cred">Username: admin_it<br>Password: it123</div>
+        <div class="account-cred">Username: admin_it<br>Password: tersimpan secara lokal</div>
       </div>
       <div class="account" onclick="copyToClipboard('admin_net')">
         <div class="account-name">🌐 Admin Network</div>
-        <div class="account-cred">Username: admin_net<br>Password: net123</div>
+        <div class="account-cred">Username: admin_net<br>Password: tersimpan secara lokal</div>
       </div>
       <div class="account" onclick="copyToClipboard('admin_food')">
         <div class="account-name">🍜 Admin Food</div>
-        <div class="account-cred">Username: admin_food<br>Password: food123</div>
+        <div class="account-cred">Username: admin_food<br>Password: tersimpan secara lokal</div>
       </div>
     </div>
   </div>
@@ -420,51 +420,15 @@
       </div>
     </div>
 
-    <!-- 8. DEMO LOGIN SUPERADMIN -->
+    <!-- 8. LOGIN PORTAL -->
     <div class="link-box">
-      <span class="badge badge-demo">DEMO</span>
-      <h3>⚡ Demo Login Super Admin</h3>
-      <p>Login cepat dengan auto-fill Super Administrator</p>
-      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123</code>
+      <span class="badge badge-demo">LOGIN</span>
+      <h3>🔐 Login Portal</h3>
+      <p>Masukkan kredensial yang tersimpan secara lokal</p>
+      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html</code>
       <div class="button-group">
-        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=superadmin&pass=admin123')">🔗 Buka</button>
-        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=superadmin&pass=admin123')">📋 Copy</button>
-      </div>
-    </div>
-
-    <!-- 9. DEMO LOGIN ADMIN IT -->
-    <div class="link-box">
-      <span class="badge badge-demo">DEMO</span>
-      <h3>⚡ Demo Login Admin IT</h3>
-      <p>Login cepat dengan auto-fill Admin IT Program</p>
-      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123</code>
-      <div class="button-group">
-        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=admin_it&pass=it123')">🔗 Buka</button>
-        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_it&pass=it123')">📋 Copy</button>
-      </div>
-    </div>
-
-    <!-- 10. DEMO LOGIN ADMIN NETWORK -->
-    <div class="link-box">
-      <span class="badge badge-demo">DEMO</span>
-      <h3>⚡ Demo Login Admin Network</h3>
-      <p>Login cepat dengan auto-fill Admin Network</p>
-      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123</code>
-      <div class="button-group">
-        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=admin_net&pass=net123')">🔗 Buka</button>
-        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_net&pass=net123')">📋 Copy</button>
-      </div>
-    </div>
-
-    <!-- 11. DEMO LOGIN ADMIN FOOD -->
-    <div class="link-box">
-      <span class="badge badge-demo">DEMO</span>
-      <h3>⚡ Demo Login Admin Food</h3>
-      <p>Login cepat dengan auto-fill Admin Nusantara Food</p>
-      <code>file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123</code>
-      <div class="button-group">
-        <button class="btn btn-open" onclick="openFile('login.html?auto=true&user=admin_food&pass=food123')">🔗 Buka</button>
-        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html?auto=true&user=admin_food&pass=food123')">📋 Copy</button>
+        <button class="btn btn-open" onclick="openFile('login.html')">🔗 Buka</button>
+        <button class="btn btn-copy" onclick="copyPath('file:///d:/Website%20Rafa/WEBSITE%20MANAGEMENT%20PRODUCTION/login.html')">📋 Copy</button>
       </div>
     </div>
   </div>
@@ -518,10 +482,10 @@
 
   function copyToClipboard(type) {
     const credentials = {
-      'superadmin': 'superadmin / admin123',
-      'admin_it': 'admin_it / it123',
-      'admin_net': 'admin_net / net123',
-      'admin_food': 'admin_food / food123'
+      'superadmin': 'superadmin / password lokal',
+      'admin_it': 'admin_it / password lokal',
+      'admin_net': 'admin_net / password lokal',
+      'admin_food': 'admin_food / password lokal'
     };
     
     navigator.clipboard.writeText(credentials[type]).then(() => {

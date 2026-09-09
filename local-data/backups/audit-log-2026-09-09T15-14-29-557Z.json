@@ -1,0 +1,114 @@
+[
+  {
+    "id": "AUDIT-1788683944347",
+    "timestamp": "2026-09-06T08:39:04.347Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788683981081",
+    "timestamp": "2026-09-06T08:39:41.081Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788684045844",
+    "timestamp": "2026-09-06T08:40:45.844Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788684156986",
+    "timestamp": "2026-09-06T08:42:36.986Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788684191032",
+    "timestamp": "2026-09-06T08:43:11.032Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788684782723",
+    "timestamp": "2026-09-06T08:53:02.723Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788685256641",
+    "timestamp": "2026-09-06T09:00:56.641Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788686605081",
+    "timestamp": "2026-09-06T09:23:25.081Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788687060145",
+    "timestamp": "2026-09-06T09:31:00.145Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788690471949",
+    "timestamp": "2026-09-06T10:27:51.949Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788690684289",
+    "timestamp": "2026-09-06T10:31:24.289Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama admin_it"
+  },
+  {
+    "id": "AUDIT-1788693419611",
+    "timestamp": "2026-09-06T11:16:59.611Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788693536700",
+    "timestamp": "2026-09-06T11:18:56.700Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  },
+  {
+    "id": "AUDIT-1788693558263",
+    "timestamp": "2026-09-06T11:19:18.263Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama superadmin"
+  }
+]

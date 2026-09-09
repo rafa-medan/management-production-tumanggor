@@ -33,10 +33,10 @@
    Description: Form login untuk admin dan staff
 
    Demo Accounts:
-   - Username: superadmin       | Password: admin123
-   - Username: admin_it        | Password: it123
-   - Username: admin_net       | Password: net123
-   - Username: admin_food      | Password: food123
+   - Username: superadmin       | Password: tersimpan secara lokal
+   - Username: admin_it        | Password: tersimpan secara lokal
+   - Username: admin_net       | Password: tersimpan secara lokal
+   - Username: admin_food      | Password: tersimpan secara lokal
 
 ===============================================
 📊 ADMIN DASHBOARD
@@ -118,10 +118,7 @@
 ===============================================
 
 LOGIN DEMO LINKS (Auto-fill):
-- Super Admin: ./login.html?auto=true&user=superadmin&pass=admin123
-- Admin IT: ./login.html?auto=true&user=admin_it&pass=it123
-- Admin Network: ./login.html?auto=true&user=admin_net&pass=net123
-- Admin Food: ./login.html?auto=true&user=admin_food&pass=food123
+ - Semua akun: ./login.html
 
 DIRECT DASHBOARD ACCESS:
 - Super Admin: ./dashboard.html?user=superadmin
@@ -202,28 +199,28 @@ GITHUB PAGES (Free):
 
 Account 1: Super Administrator
 ├─ Username: superadmin
-├─ Password: admin123
+├─ Password: tersimpan secara lokal
 ├─ Role: SUPER_ADMIN
 ├─ Division: ALL
 └─ Can access: Everything
 
 Account 2: Admin IT Program
 ├─ Username: admin_it
-├─ Password: it123
+├─ Password: tersimpan secara lokal
 ├─ Role: ADMIN_DIVISI
 ├─ Division: IT Program
 └─ Can access: IT Program data
 
 Account 3: Admin Network
 ├─ Username: admin_net
-├─ Password: net123
+├─ Password: tersimpan secara lokal
 ├─ Role: ADMIN_DIVISI
 ├─ Division: Network
 └─ Can access: Network data
 
 Account 4: Admin Nusantara Food
 ├─ Username: admin_food
-├─ Password: food123
+├─ Password: tersimpan secara lokal
 ├─ Role: ADMIN_DIVISI
 ├─ Division: Nusantara Food
 └─ Can access: Food data

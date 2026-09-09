@@ -1,0 +1,18 @@
+[
+  {
+    "id": "CHAT-1788986996681",
+    "sender": "Portal User",
+    "senderType": "customer",
+    "text": "selamat malam",
+    "timestamp": "2026-09-09T20:49:56.681Z",
+    "replied": false
+  },
+  {
+    "id": "CHAT-1788987012193",
+    "sender": "Portal User",
+    "senderType": "customer",
+    "text": "selamat pagi",
+    "timestamp": "2026-09-09T20:50:12.193Z",
+    "replied": false
+  }
+]

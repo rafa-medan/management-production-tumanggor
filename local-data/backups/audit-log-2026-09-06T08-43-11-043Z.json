@@ -1,0 +1,34 @@
+[
+  {
+    "id": "AUDIT-1788683944347",
+    "timestamp": "2026-09-06T08:39:04.347Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788683981081",
+    "timestamp": "2026-09-06T08:39:41.081Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788684045844",
+    "timestamp": "2026-09-06T08:40:45.844Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  },
+  {
+    "id": "AUDIT-1788684156986",
+    "timestamp": "2026-09-06T08:42:36.986Z",
+    "username": "anonymous",
+    "role": "UNKNOWN",
+    "action": "PRINT_BUSINESS_CARD",
+    "details": "Mencetak kartu nama "
+  }
+]

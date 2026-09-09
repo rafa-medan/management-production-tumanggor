@@ -1,0 +1,21 @@
+{
+  "APP_NAME": "Management Production Tumanggor",
+  "APP_URL": "http://127.0.0.1:8000",
+  "COMPANY_PROFILE": "{\"tahun\":\"2026\",\"profile\":\"Menjadi penyedia layanan teknologi dan kuliner terdepan yang terpercaya.\",\"visi\":\"Menjadi penyedia layanan teknologi dan kuliner terdepan yang terpercaya.\",\"misi\":\"Memberikan pelayanan prima, inovasi berkelanjutan, serta kepuasan bagi seluruh customer.\",\"tujuan\":\"Membangun ekosistem bisnis digital dan layanan terpadu yang handal.\"}",
+  "WEB_DEVELOPER_INFO": "{\"nama\":\"IT System Team\",\"tahun\":\"2026\"}",
+  "NOTIF_SMS": true,
+  "NOTIF_WHATSAPP": true,
+  "EMAIL_SMTP_HOST": "smtp.gmail.com",
+  "EMAIL_SMTP_PORT": 465,
+  "EMAIL_FROM": "rafaliskomputerinfo@gmail.com",
+  "EMAIL_SMTP_USER": "rafaliskomputerinfo@gmail.com",
+  "EMAIL_SMTP_PASSWORD": "ylku xmle zxhn gept",
+  "EMAIL_SMTP_SECURE": "true",
+  "SMS_PROVIDER": "telkomsel",
+  "SMS_API_URL": "",
+  "SMS_API_TOKEN": "",
+  "SMS_FROM": "",
+  "WHATSAPP_PROVIDER": "generic",
+  "WHATSAPP_WEBHOOK_URL": "",
+  "WHATSAPP_API_TOKEN": ""
+}

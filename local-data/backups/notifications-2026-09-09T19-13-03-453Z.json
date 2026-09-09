@@ -1,0 +1,115 @@
+[
+  {
+    "id": "NOTIFY-1788966869566",
+    "text": "Izin admin divisi berhasil diperbarui.",
+    "type": "SECURITY",
+    "timestamp": "2026-09-09T15:14:29.566Z",
+    "read": true
+  },
+  {
+    "id": "NOTIFY-1788966871266",
+    "text": "Izin admin divisi berhasil diperbarui.",
+    "type": "SECURITY",
+    "timestamp": "2026-09-09T15:14:31.266Z",
+    "read": true
+  },
+  {
+    "id": "NOTIFY-1788978670775-6fe524fc27a678",
+    "channel": "sms",
+    "title": "Peringatan",
+    "message": "Tes notifikasi SMS/WhatsApp",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T18:31:10.775Z"
+  },
+  {
+    "id": "NOTIFY-1788978670791-e0ee455d527088",
+    "channel": "whatsapp",
+    "title": "Peringatan",
+    "message": "Tes notifikasi SMS/WhatsApp",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T18:31:10.791Z"
+  },
+  {
+    "id": "NOTIFY-1788979208538-f26f82fac949c8",
+    "channel": "sms",
+    "title": "Tes",
+    "message": "Uji notifikasi",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T18:40:08.538Z"
+  },
+  {
+    "id": "NOTIFY-1788979208552-7dc094de82b408",
+    "channel": "whatsapp",
+    "title": "Tes",
+    "message": "Uji notifikasi",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T18:40:08.552Z"
+  },
+  {
+    "id": "NOTIFY-1788980566229-b804af78a9233",
+    "channel": "sms",
+    "title": "Tes",
+    "message": "Notifikasi uji",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:02:46.229Z"
+  },
+  {
+    "id": "NOTIFY-1788980566245-cdcdca715e31c8",
+    "channel": "whatsapp",
+    "title": "Tes",
+    "message": "Notifikasi uji",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:02:46.245Z"
+  },
+  {
+    "id": "NOTIFY-1788980753731-47eb5864440f7",
+    "channel": "sms",
+    "title": "Tes SMS",
+    "message": "Uji notifikasi",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:05:53.731Z"
+  },
+  {
+    "id": "NOTIFY-1788980753977-d9efe6a792636",
+    "channel": "whatsapp",
+    "title": "Tes SMS",
+    "message": "Uji notifikasi",
+    "to": "6281234567890",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:05:53.978Z"
+  },
+  {
+    "id": "NOTIFY-1788981035639-f001c6dc0a6e5",
+    "channel": "sms",
+    "title": "Tes target per-user",
+    "message": "Peringatan ke nomor aktif user",
+    "to": "6281262639095",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:10:35.639Z"
+  },
+  {
+    "id": "NOTIFY-1788981035649-41c826d04c24c",
+    "channel": "whatsapp",
+    "title": "Tes target per-user",
+    "message": "Peringatan ke nomor aktif user",
+    "to": "6281262639095",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:10:35.649Z"
+  },
+  {
+    "id": "NOTIFY-1788981183442-18362753ff3f5",
+    "channel": "sms",
+    "title": "Tes SMS provider-agnostic",
+    "message": "Peringatan aktif",
+    "to": "6281262639095",
+    "status": "queued",
+    "createdAt": "2026-09-09T19:13:03.442Z"
+  }
+]

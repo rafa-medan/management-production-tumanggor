@@ -15,7 +15,7 @@
 
 // 1. Inisialisasi Sheet & Struktur Database
 function setupSheets() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   
   // Sheet Pesan / Order
   var sheetPesan = ss.getSheetByName("Pesan");
@@ -148,7 +148,7 @@ function setupSheets() {
 
 function catatLog(username, role, aktivitas, keterangan) {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     var sheetLog = ss.getSheetByName("LogAktivitas");
     if (!sheetLog) { setupSheets(); sheetLog = ss.getSheetByName("LogAktivitas"); }
     var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
@@ -159,18 +159,15 @@ function catatLog(username, role, aktivitas, keterangan) {
 }
 
 function doGet() {
-  setupSheets();
-  return HtmlService.createTemplateFromFile('Index')
-    .evaluate()
-    .setTitle('MultiCorp Enterprise Portal')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1.0')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true, message: 'MultiCorp API aktif' }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // 2. GET PUBLIC DATA UNTUK FRONTEND
 function getPublicPortalData() {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   
   // Settings
   var settings = {};
@@ -242,7 +239,7 @@ function uploadVideoDivisi(token, fileData, fileName, mimeType, divisi, kategori
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
     var videoUrl = file.getUrl();
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     var sheet = ss.getSheetByName("Videos");
     var id = "VID-" + new Date().getTime();
     var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
@@ -265,7 +262,7 @@ function updateSettingSocialAndContact(token, keyName, valueData) {
     return { success: false, message: "Akses ditolak." };
   }
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("Settings");
   var data = sheet.getDataRange().getValues();
 
@@ -295,7 +292,7 @@ function saveProduct(token, productObj) {
     return { success: false, message: "Akses ditolak!" };
   }
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("Products");
 
   if (productObj.id) {
@@ -322,7 +319,7 @@ function saveProduct(token, productObj) {
 // 6. FITUR LIVE CHAT 24 JAM & AUTO TRANSLATE (Poin 4)
 function sendLiveChatMessage(nama, noHP, pesan, senderRole, targetLang) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("LiveChats");
   var id = "CHAT-" + new Date().getTime();
   var waktu = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
@@ -344,7 +341,7 @@ function getLiveChatHistory(token) {
     return { success: false, message: "Akses Live Chat terbatas untuk Anggota Administrator saja." };
   }
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var data = ss.getSheetByName("LiveChats").getDataRange().getValues();
   var chats = [];
   for (var i = 1; i < data.length; i++) {
@@ -369,7 +366,7 @@ function addSalesData(token, divisi, total) {
     return { success: false, message: "Akses ditolak." };
   }
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("SalesData");
   var todayStr = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd");
 
@@ -381,7 +378,7 @@ function addSalesData(token, divisi, total) {
 // 8. FUNGSI STANDAR TERDAHULU (SIMPAN PESAN, LOGIN, VERIFIKASI)
 function simpanPesan(data) {
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     var sheet = ss.getSheetByName("Pesan");
     if (!sheet) { setupSheets(); sheet = ss.getSheetByName("Pesan"); }
 
@@ -420,7 +417,7 @@ function registerClientOrPartner(data) {
   }
 
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("ClientsPartners");
   var rows = sheet.getDataRange().getValues();
 
@@ -486,7 +483,7 @@ function registerAnggotaMandiri(token, data) {
   }
 
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheetUsers = ss.getSheetByName("Users");
   var rows = sheetUsers.getDataRange().getValues();
 
@@ -545,7 +542,7 @@ function registerAnggotaMandiri(token, data) {
 
 function resendKodeEmail(username) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var cleanU = String(username).trim().toLowerCase();
 
   var sheetUsers = ss.getSheetByName("Users");
@@ -611,7 +608,7 @@ function resendKodeEmail(username) {
 
 function loginUniversal(username, password) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var uClean = String(username).trim();
   var pClean = String(password).trim();
   
@@ -637,7 +634,7 @@ function loginUniversal(username, password) {
         expire: new Date().getTime() + (8 * 60 * 60 * 1000)
       };
       catatLog(uClean, dataUsers[i][3], "Login Berhasil", "Login Internal Users");
-      return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObj)), user: sessionObj };
+      return { success: true, token: createSessionToken(sessionObj), user: sessionObj };
     }
   }
 
@@ -663,7 +660,7 @@ function loginUniversal(username, password) {
         expire: new Date().getTime() + (8 * 60 * 60 * 1000)
       };
       catatLog(uClean, dataClients[j][3], "Login Berhasil", "Login Client/Partner");
-      return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObjC)), user: sessionObjC };
+      return { success: true, token: createSessionToken(sessionObjC), user: sessionObjC };
     }
   }
 
@@ -673,7 +670,7 @@ function loginUniversal(username, password) {
 
 function verifikasiKodeEmail(username, kodeInput) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var cleanU = String(username).trim().toLowerCase();
 
   var sheetUsers = ss.getSheetByName("Users");
@@ -697,7 +694,7 @@ function verifikasiKodeEmail(username, kodeInput) {
           expire: new Date().getTime() + (8 * 60 * 60 * 1000)
         };
         catatLog(username, dataUsers[i][3], "Verifikasi Email Berhasil", "Kode verifikasi valid");
-        return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObj)), user: sessionObj, message: "Verifikasi email berhasil! Selamat datang." };
+        return { success: true, token: createSessionToken(sessionObj), user: sessionObj, message: "Verifikasi email berhasil! Selamat datang." };
       } else {
         return { success: false, message: "Kode verifikasi salah! Periksa email Anda." };
       }
@@ -725,7 +722,7 @@ function verifikasiKodeEmail(username, kodeInput) {
           expire: new Date().getTime() + (8 * 60 * 60 * 1000)
         };
         catatLog(username, dataClients[j][3], "Verifikasi Email Berhasil", "Kode verifikasi valid");
-        return { success: true, token: Utilities.base64Encode(JSON.stringify(sessionObjC)), user: sessionObjC, message: "Verifikasi email berhasil! Selamat datang." };
+        return { success: true, token: createSessionToken(sessionObjC), user: sessionObjC, message: "Verifikasi email berhasil! Selamat datang." };
       } else {
         return { success: false, message: "Kode verifikasi salah! Periksa email Anda." };
       }
@@ -737,7 +734,7 @@ function verifikasiKodeEmail(username, kodeInput) {
 
 function requestPasswordReset(usernameOrEmail) {
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var val = String(usernameOrEmail).trim().toLowerCase();
   
   var sheetUsers = ss.getSheetByName("Users");
@@ -799,9 +796,35 @@ function requestPasswordReset(usernameOrEmail) {
   return { success: false, message: "Username atau Email tidak ditemukan dalam sistem!" };
 }
 
+function getSessionTokenSecret() {
+  var properties = PropertiesService.getScriptProperties();
+  var secret = properties.getProperty("SESSION_TOKEN_SECRET");
+  if (!secret) {
+    secret = Utilities.getUuid() + Utilities.getUuid();
+    properties.setProperty("SESSION_TOKEN_SECRET", secret);
+  }
+  return secret;
+}
+
+function createSessionToken(sessionObj) {
+  var payload = Utilities.base64EncodeWebSafe(JSON.stringify(sessionObj));
+  var signature = Utilities.base64EncodeWebSafe(
+    Utilities.computeHmacSha256Signature(payload, getSessionTokenSecret())
+  );
+  return payload + "." + signature;
+}
+
 function validateToken(token) {
   try {
-    var decoded = Utilities.newBlob(Utilities.base64Decode(token)).getDataAsString();
+    var tokenParts = String(token || "").split(".");
+    if (tokenParts.length !== 2) return null;
+
+    var expectedSignature = Utilities.base64EncodeWebSafe(
+      Utilities.computeHmacSha256Signature(tokenParts[0], getSessionTokenSecret())
+    );
+    if (expectedSignature !== tokenParts[1]) return null;
+
+    var decoded = Utilities.newBlob(Utilities.base64DecodeWebSafe(tokenParts[0])).getDataAsString();
     var sessionObj = JSON.parse(decoded);
     if (new Date().getTime() > sessionObj.expire) return null;
     return sessionObj;
@@ -814,7 +837,7 @@ function getAdminDashboardData(token) {
   var user = validateToken(token);
   if (!user) return { success: false, message: "Sesi telah berakhir. Silakan login kembali." };
 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   
   var settings = {};
   var sheetSettings = ss.getSheetByName("Settings");
@@ -856,7 +879,6 @@ function getAdminDashboardData(token) {
       if (user.role === "SUPER_ADMIN" || uRow[4] === user.divisi) {
         users.push({
           username: uRow[0],
-          password: uRow[1],
           nama: uRow[2],
           role: uRow[3],
           divisi: uRow[4],
@@ -877,7 +899,6 @@ function getAdminDashboardData(token) {
         var cRow = dataClients[c];
         clientsPartners.push({
           username: cRow[0],
-          password: cRow[1],
           nama: cRow[2],
           role: cRow[3],
           telepon: String(cRow[4] || "").replace("'", ""),
@@ -950,7 +971,7 @@ function uploadBuktiPembayaran(token, fileData, fileName, mimeType, jumlah, meto
     var file = folder.createFile(decodedBlob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     setupSheets();
     var sheetPayments = ss.getSheetByName("BuktiPembayaran");
 
@@ -981,7 +1002,7 @@ function updateNomorRekening(token, rekeningInfo) {
   if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak! Hanya Super Admin yang dapat mengganti nomor rekening." };
 
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     setupSheets();
     var sheetSettings = ss.getSheetByName("Settings");
     var data = sheetSettings.getDataRange().getValues();
@@ -1011,7 +1032,7 @@ function saveBrandingSettings(token, logoData, logoName, bgData, bgName) {
   if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak! Fitur ini hanya untuk Super Admin." };
 
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     var sheetSettings = ss.getSheetByName("Settings");
     if (!sheetSettings) { setupSheets(); sheetSettings = ss.getSheetByName("Settings"); }
     var folder = DriveApp.getRootFolder();
@@ -1067,7 +1088,7 @@ function updateDivisionLogo(token, divisi, logoData, logoName) {
   }
 
   try {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     setupSheets();
     var sheetSettings = ss.getSheetByName("Settings");
     var folder = DriveApp.getRootFolder();
@@ -1109,7 +1130,7 @@ function tambahAkunOlehAdmin(token, data) {
   if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak." };
 
   setupSheets();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   
   if (data.role === "PARTNER" || data.role === "CUSTOMER") {
     var sheetC = ss.getSheetByName("ClientsPartners");
@@ -1133,7 +1154,7 @@ function uploadFileToDrive(token, fileData, fileName, mimeType, keterangan) {
     var file = folder.createFile(decodedBlob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
     setupSheets();
     ss.getSheetByName("BerkasUpload").appendRow([
       file.getId(),
@@ -1156,7 +1177,7 @@ function updateStatusPesan(token, idPesan, statusBaru) {
   var user = validateToken(token);
   if (!user || (user.role !== "SUPER_ADMIN" && user.role !== "ADMIN_DIVISI")) return { success: false, message: "Akses ditolak." };
   
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("Pesan");
   var data = sheet.getDataRange().getValues();
   
@@ -1195,7 +1216,7 @@ function updateAdminCredentials(token, targetUsername, passwordBaru, teleponBaru
   var user = validateToken(token);
   if (!user) return { success: false, message: "Sesi berakhir." };
   
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("Users");
   var data = sheet.getDataRange().getValues();
   
@@ -1227,7 +1248,7 @@ function hapusAdmin(token, usernameTarget) {
   var user = validateToken(token);
   if (!user || user.role !== "SUPER_ADMIN") return { success: false, message: "Akses ditolak! Hanya Super Admin yang dapat menghapus akun." };
   
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById('1EOwFyPDUBrhzKcjNU0vT5IQ2qlKMJo6mxX05YYMakxk');
   var sheet = ss.getSheetByName("Users");
   var data = sheet.getDataRange().getValues();
   
@@ -1250,4 +1271,27 @@ function hapusAdmin(token, usernameTarget) {
   }
 
   return { success: false, message: "Target tidak ditemukan." };
+}
+
+function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents || '{}');
+    var action = data.action || '';
+
+    if (action === 'LOGIN') return jsonResponse(loginUniversal(data.username, data.password));
+    if (action === 'REGISTER') return jsonResponse(registerClientOrPartner(data));
+    if (action === 'REQUEST_PASSWORD_RESET') return jsonResponse(requestPasswordReset(data.usernameOrEmail));
+    if (action === 'SUBMIT_PESAN') return jsonResponse(simpanPesan(data));
+    if (action === 'PUBLIC_DATA') return jsonResponse(getPublicPortalData());
+
+    return jsonResponse({ success: false, message: 'Action tidak dikenal' });
+  } catch (error) {
+    return jsonResponse({ success: false, message: error.message });
+  }
+}
+
+function jsonResponse(value) {
+  return ContentService
+    .createTextOutput(JSON.stringify(value))
+    .setMimeType(ContentService.MimeType.JSON);
 }
