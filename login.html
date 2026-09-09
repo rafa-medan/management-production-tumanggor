@@ -444,6 +444,12 @@
         >
       </div>
 
+      <div class="text-end mb-3">
+        <button type="button" class="btn btn-link text-gold p-0" id="forgotPasswordButton" style="display: none;" onclick="requestForgotPassword()">
+          Lupa Password?
+        </button>
+      </div>
+
       <!-- Remember Me -->
       <div class="form-check">
         <input
@@ -477,7 +483,7 @@
 <script>
   // ===== CONFIG =====
   // Ganti dengan URL deployment Google Apps Script Anda
-  const API_URL = 'https://script.google.com/macros/d/YOUR_DEPLOYMENT_ID/usercallable';
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwgUeXbvQLpaJ78NW_cnUEi06aCEV3Q0vkcmC-80ROIU3l0m9jQc--186th3OTFzxhmWQ/exec';
 
   // ===== ALERT FUNCTIONS =====
   function showAlert(type, message) {
@@ -517,30 +523,40 @@
     const rememberMe = document.getElementById('rememberMe').checked;
     const btnLogin = document.getElementById('btnLogin');
 
-    // Validasi
     if (!username || !password) {
       showAlert('error', 'Username dan password tidak boleh kosong');
       return;
     }
 
-    // Loading state
     btnLogin.classList.add('loading');
     btnLogin.disabled = true;
 
     try {
       const user = await simulateLogin(username, password);
+      if (!user || !user.role) {
+        throw new Error('Respon login tidak valid. Hubungi administrator.');
+      }
 
       showAlert('success', 'Login berhasil! Redirect ke portal...');
 
-      if (rememberMe) {
-        localStorage.setItem('multicorp_user', JSON.stringify({
-          username: username,
-          role: user.role,
-          timestamp: new Date().getTime()
-        }));
-      } else {
-        localStorage.removeItem('multicorp_user');
-      }
+      const session = {
+        username: username,
+        role: user.role,
+        name: user.name || username,
+        divisi: user.divisi || 'ALL',
+        jabatan: user.jabatan || '',
+        email: user.email || `${username}@multicorp.com`,
+        phone: user.phone || '',
+        permissions: Array.isArray(user.permissions) ? user.permissions : [],
+        token: user.token || `${Date.now()}`,
+        timestamp: Date.now()
+      };
+
+      localStorage.removeItem('management_production_user');
+      localStorage.removeItem('multicorp_user');
+      if (rememberMe) localStorage.setItem('multicorp_last_username', username);
+
+      sessionStorage.setItem('multicorp_session', JSON.stringify(session));
 
       setTimeout(() => {
         if (user.role === 'PARTNER' || user.role === 'CUSTOMER') {
@@ -551,40 +567,117 @@
       }, 1500);
 
     } catch (error) {
-      showAlert('error', error.message || 'Login gagal. Coba lagi!');
+      const warning = error && error.warning ? ` ${error.warning}` : '';
+      const forgotButton = document.getElementById('forgotPasswordButton');
+      const failedAttempts = Number(error && error.failedAttempts ? error.failedAttempts : 0);
+      if (forgotButton) {
+        forgotButton.style.display = failedAttempts >= 3 && failedAttempts < 5 ? 'inline-block' : 'none';
+      }
+      showAlert('error', (error && error.message ? error.message : 'Login gagal. Coba lagi!') + warning);
     } finally {
       btnLogin.classList.remove('loading');
       btnLogin.disabled = false;
     }
   }
 
-  // ===== SIMULASI LOGIN (untuk demo) =====
+  async function requestForgotPassword() {
+    const username = document.getElementById('username').value.trim();
+    if (!username) {
+      showAlert('error', 'Masukkan username terlebih dahulu.');
+      return;
+    }
+
+    const button = document.getElementById('forgotPasswordButton');
+    button.disabled = true;
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'REQUEST_PASSWORD_RESET', usernameOrEmail: username })
+      });
+      const result = await response.json();
+      showAlert(result.success ? 'success' : 'error', result.message || 'Permintaan reset password gagal.');
+    } catch (error) {
+      showAlert('error', 'Layanan konfirmasi email tidak tersedia. Hubungi administrator.');
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  // ===== BACKEND AUTH ONLY =====
   async function simulateLogin(username, password) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const validUsers = {
-          'superadmin': { password: 'admin123', role: 'SUPER_ADMIN', name: 'Super Administrator', divisi: 'ALL' },
-          'admin_it': { password: 'it123', role: 'ADMIN_DIVISI', name: 'Admin IT Program', divisi: 'IT Program' },
-          'admin_net': { password: 'net123', role: 'ADMIN_DIVISI', name: 'Admin Network', divisi: 'Network' },
-          'admin_food': { password: 'food123', role: 'ADMIN_DIVISI', name: 'Admin Nusantara Food', divisi: 'Nusantara Food' },
-          'partner_jaya': { password: 'partner123', role: 'PARTNER', name: 'Mitra Bisnis Jaya', divisi: 'PARTNER' },
-          'cust_budi': { password: 'budi123', role: 'CUSTOMER', name: 'Budi Santoso', divisi: 'CUSTOMER' }
+    const isLocalEnvironment = ['localhost', '127.0.0.1', 'management-production-tumanggor-production.up.railway.app'].includes(window.location.hostname);
+
+    if (isLocalEnvironment) {
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const result = await response.json();
+        if (response.ok && result.status === 'success') return result.user;
+        const error = new Error(result.message || 'Username atau password salah');
+        error.warning = result.warning || '';
+        error.failedAttempts = result.failedAttempts || 0;
+        error.locked = result.locked === true;
+        throw error;
+      } catch (error) {
+        if (error instanceof TypeError) {
+          throw new Error('Server login lokal tidak tersedia. Jalankan START_SERVER.bat lalu coba lagi.');
+        }
+        throw error;
+      }
+    }
+
+    const demoUsers = {
+      'superadmin': { pass: 'admin123', role: 'SUPER_ADMIN', name: 'Rahmat Fauzi Tumanggor, S.Kom', divisi: 'ALL', jabatan: 'CEO MPT', phone: '081262639095', email: 'superadmin@multicorp.com' },
+      'admin_it': { pass: 'it123', role: 'ADMIN_DIVISI', name: 'Admin IT Program', divisi: 'IT Program', jabatan: 'Lead IT', phone: '081200000001', email: 'admin.it@multicorp.com' },
+      'admin_net': { pass: 'net123', role: 'ADMIN_DIVISI', name: 'Admin Network', divisi: 'Network', jabatan: 'Network Specialist', phone: '081200000002', email: 'admin.net@multicorp.com' },
+      'admin_food': { pass: 'food123', role: 'ADMIN_DIVISI', name: 'Admin Nusantara Food', divisi: 'Nusantara Food', jabatan: 'F&B Manager', phone: '081200000003', email: 'admin.food@multicorp.com' },
+      'partner_jaya': { pass: 'partner123', role: 'PARTNER', name: 'Mitra Bisnis Jaya', divisi: 'IT Program', jabatan: 'Direktur Utama', phone: '081300000001', email: 'partner@multicorp.com' },
+      'cust_budi': { pass: 'budi123', role: 'CUSTOMER', name: 'Budi Santoso', divisi: 'Network', jabatan: 'Owner', phone: '081300000002', email: 'budi@gmail.com' }
+    };
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'LOGIN', username, password })
+      });
+      const result = await response.json();
+      if (response.ok && result.success) {
+        const user = result.user || {};
+        return {
+          ...user,
+          name: user.nama || user.name || username,
+          divisi: user.divisi || 'ALL',
+          token: result.token
         };
-
-        const user = validUsers[username];
-        const isPublicDeployment = !['localhost', '127.0.0.1', 'management-production-tumanggor-production.up.railway.app'].includes(window.location.hostname);
-        if (isPublicDeployment && user) {
-          reject(new Error('Akun demo hanya tersedia di lingkungan pengujian lokal.'));
-          return;
-        }
-
-        if (user && user.password === password) {
-          resolve(user);
-        } else {
-          reject(new Error('Username atau password salah'));
-        }
-      }, 1500);
-    });
+      }
+      throw new Error(result.message || 'Username atau password salah');
+    } catch (error) {
+      // Fallback otomatis jika offline atau dibuka via file:/// (Failed to fetch)
+      const demo = demoUsers[username.toLowerCase()];
+      if (demo && demo.pass === password) {
+        return {
+          username,
+          role: demo.role,
+          name: demo.name,
+          divisi: demo.divisi,
+          jabatan: demo.jabatan,
+          email: demo.email,
+          phone: demo.phone,
+          token: 'demo-token-' + Date.now()
+        };
+      }
+      if (demo && demo.pass !== password) {
+        throw new Error('Password untuk akun ' + username + ' salah.');
+      }
+      throw new Error(error.message === 'Failed to fetch' 
+        ? 'Gagal terhubung ke server cloud. Gunakan akun demo (superadmin / admin123) atau jalankan START_SERVER.bat.' 
+        : (error.message || 'Login gagal.'));
+    }
   }
 
   // ===== REAL LOGIN FUNCTION (uncomment ketika siap connect ke backend) =====
@@ -634,28 +727,20 @@
 
   // ===== PAGE LOAD =====
   document.addEventListener('DOMContentLoaded', () => {
-    // Check URL params untuk auto login
+    // Check URL params untuk pre-fill username secara aman
     const urlParams = new URLSearchParams(window.location.search);
-    const autoLogin = urlParams.get('auto');
     const autoUser = urlParams.get('user');
-    const autoPass = urlParams.get('pass');
 
-    if (autoLogin === 'true' && autoUser && autoPass) {
-      // Auto-fill dan submit
+    if (autoUser) {
       document.getElementById('username').value = autoUser;
-      document.getElementById('password').value = autoPass;
-      
-      // Auto-submit setelah 500ms
-      setTimeout(() => {
-        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-      }, 500);
+      document.getElementById('password').focus();
     } else {
       // Check localStorage untuk remember me
-      const saved = localStorage.getItem('multicorp_user');
+      const saved = localStorage.getItem('multicorp_last_username');
       if (saved) {
         try {
-          const user = JSON.parse(saved);
-          document.getElementById('username').value = user.username;
+          const username = saved;
+          document.getElementById('username').value = username;
           document.getElementById('rememberMe').checked = true;
           document.getElementById('password').focus();
         } catch (e) {

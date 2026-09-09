@@ -7,333 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    :root {
-      --bg-dark: #0a0a0b;
-      --bg-card: #141416;
-      --bg-card-hover: #1c1c20;
-      --gold-primary: #d4af37;
-      --gold-light: #f3e5ab;
-      --gold-accent: #e5c158;
-      --text-main: #ffffff;
-      --text-muted: #dfe7f5;
-      --text-soft: #eef3ff;
-      --border-gold: rgba(212, 175, 55, 0.45);
-      --success: #51cf66;
-      --danger: #ff6b6b;
-      --warning: #ffd93d;
-      --panel-soft: rgba(20, 20, 22, 0.9);
-    }
-
-    body {
-      background: linear-gradient(rgba(10, 10, 11, 0.78), rgba(10, 10, 11, 0.86)), url('background-mpt-resized.png') center / cover fixed;
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      min-height: 100vh;
-    }
-
-    /* ===== NAVBAR ===== */
-    .navbar-dashboard {
-      background: rgba(10, 10, 11, 0.8);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-gold);
-      padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .navbar-brand-text {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--gold-primary);
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--bg-dark);
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .user-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .user-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .user-role {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      background: var(--bg-card);
-      border-right: 1px solid var(--border-gold);
-      min-height: calc(100vh - 70px);
-      padding: 30px 0;
-      position: sticky;
-      top: 70px;
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar-menu li {
-      margin: 0;
-    }
-
-    .sidebar-menu a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 15px 25px;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      border-left: 3px solid transparent;
-    }
-
-    .sidebar-menu a:hover {
-      color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.1);
-      border-left-color: var(--gold-primary);
-    }
-
-    .sidebar-menu a.active {
-      color: var(--gold-primary);
-      background: rgba(212, 175, 55, 0.1);
-      border-left-color: var(--gold-primary);
-    }
-
-    .sidebar-menu a i {
-      font-size: 1.1rem;
-      width: 20px;
-      text-align: center;
-    }
-
-    .sidebar-divider {
-      height: 1px;
-      background: var(--border-gold);
-      margin: 20px 0;
-    }
-
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      padding: 40px 30px;
-      min-height: calc(100vh - 70px);
-    }
-
-    .page-header {
-      margin-bottom: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .page-title {
-      font-size: 2rem;
-      font-weight: 800;
-      margin: 0;
-      color: var(--text-soft);
-    }
-
-    /* ===== CARD ===== */
-    .card-dashboard {
-      background: var(--panel-soft);
-      border: 1px solid var(--border-gold);
-      border-radius: 12px;
-      padding: 25px;
-      transition: all 0.3s ease;
-    }
-
-    .card-dashboard:hover {
-      background: var(--bg-card-hover);
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
-    }
-
-    /* ===== STAT CARD ===== */
-    .stat-card {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .stat-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .stat-icon {
-      font-size: 2.5rem;
-      color: var(--gold-primary);
-      margin-bottom: 15px;
-    }
-
-    .stat-label {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 600;
-    }
-
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .stat-change {
-      font-size: 0.85rem;
-      margin-top: 10px;
-      color: var(--success);
-    }
-
-    /* ===== TABLE ===== */
-    .table-responsive {
-      margin-top: 20px;
-    }
-
-    table {
-      color: var(--text-main);
-    }
-
-    table thead {
-      background: rgba(212, 175, 55, 0.1);
-      border: none;
-    }
-
-    table thead th {
-      color: var(--gold-primary);
-      font-weight: 700;
-      border: none;
-      padding: 15px;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-    }
-
-    table tbody td {
-      border-color: var(--border-gold);
-      padding: 15px;
-      vertical-align: middle;
-    }
-
-    table tbody tr:hover {
-      background: rgba(212, 175, 55, 0.05);
-    }
-
-    /* ===== BADGE ===== */
-    .badge-status {
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.8rem;
-    }
-
-    .badge-new {
-      background: rgba(255, 215, 0, 0.2);
-      color: var(--warning);
-    }
-
-    .badge-processing {
-      background: rgba(81, 207, 102, 0.2);
-      color: var(--success);
-    }
-
-    .badge-completed {
-      background: rgba(81, 207, 102, 0.2);
-      color: var(--success);
-    }
-
-    /* ===== BUTTON ===== */
-    .btn-dashboard {
-      background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-accent) 100%);
-      border: none;
-      color: var(--bg-dark);
-      font-weight: 700;
-      transition: all 0.3s ease;
-    }
-
-    .btn-dashboard:hover {
-      background: linear-gradient(135deg, var(--gold-accent) 0%, var(--gold-primary) 100%);
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
-      transform: translateY(-2px);
-    }
-
-    /* ===== CHART ===== */
-    .chart-container {
-      position: relative;
-      height: 300px;
-      margin: 20px 0;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 992px) {
-      .sidebar {
-        position: fixed;
-        left: -250px;
-        width: 250px;
-        height: 100vh;
-        z-index: 100;
-        transition: left 0.3s ease;
-      }
-
-      .sidebar.show {
-        left: 0;
-      }
-
-      .main-content {
-        padding: 20px;
-      }
-
-      .page-title {
-        font-size: 1.5rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .page-header {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-      }
-    }
-  </style>
+  <link href="dashboard.css?v=2.2" rel="stylesheet">
 </head>
 <body>
 
@@ -351,6 +25,19 @@
       </div>
 
       <div class="user-profile">
+        <div class="notification-wrap">
+          <button type="button" class="btn btn-link text-gold position-relative" onclick="toggleNotifications()" aria-label="Buka notifikasi">
+            <i class="fas fa-bell"></i>
+            <span id="notificationCount" class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
+          </button>
+          <div id="notificationPanel" class="notification-panel">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <strong class="text-gold">Notifikasi Lokal</strong>
+              <button type="button" class="btn btn-sm btn-link text-gold p-0" onclick="markNotificationsRead()">Tandai dibaca</button>
+            </div>
+            <div id="notificationList" class="text-muted">Belum ada notifikasi</div>
+          </div>
+        </div>
         <div class="user-avatar" id="userAvatar">M</div>
         <div class="user-info">
           <div class="user-name" id="userName">Managament Production Multicorp User</div>
@@ -368,16 +55,16 @@
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <ul class="sidebar-menu">
-      <li><a href="#" class="active" onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-      <li><a href="#" onclick="showSection('livechat')"><i class="fas fa-comments"></i> Live Chat</a></li>
-      <li><a href="#" onclick="showSection('pesan')"><i class="fas fa-envelope"></i> Pesan Masuk</a></li>
-      <li><a href="#" onclick="showSection('produk')"><i class="fas fa-box"></i> Katalog Produk</a></li>
+      <li><a href="#" class="active" onclick="showSection('dashboard', event)"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      <li><a href="#" onclick="showSection('livechat', event)"><i class="fas fa-comments"></i> Live Chat</a></li>
+      <li><a href="#" onclick="showSection('pesan', event)"><i class="fas fa-envelope"></i> Pesan Masuk</a></li>
+      <li><a href="#" onclick="showSection('produk', event)"><i class="fas fa-box"></i> Katalog Produk</a></li>
       <li id="adminProdukMenu" style="display: none;"><a href="admin-products.html"><i class="fas fa-cogs"></i> Admin Produk</a></li>
-      <li><a href="#" onclick="showSection('pembayaran')"><i class="fas fa-credit-card"></i> Pembayaran</a></li>
-      <li><a href="#" onclick="showSection('analytics')"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+      <li><a href="#" onclick="showSection('pembayaran', event)"><i class="fas fa-credit-card"></i> Pembayaran</a></li>
+      <li><a href="#" onclick="showSection('analytics', event)"><i class="fas fa-chart-bar"></i> Analytics</a></li>
       <div class="sidebar-divider"></div>
-      <li><a href="#" onclick="showSection('profil')"><i class="fas fa-user-circle"></i> Profil Saya</a></li>
-      <li><a href="#" onclick="showSection('pengaturan')"><i class="fas fa-cog"></i> Pengaturan</a></li>
+      <li><a href="#" onclick="showSection('profil', event)"><i class="fas fa-user-circle"></i> Profil Saya</a></li>
+      <li><a href="#" onclick="showSection('pengaturan', event)"><i class="fas fa-cog"></i> Pengaturan</a></li>
       <li><a href="#" onclick="handleLogout()"><i class="fas fa-door-open"></i> Logout</a></li>
     </ul>
   </nav>
@@ -700,6 +387,9 @@
     <div id="analytics-section" class="section-content" style="display: none;">
       <div class="page-header">
         <h1 class="page-title">Analytics & Laporan</h1>
+        <button type="button" class="btn btn-dashboard" onclick="exportLocalReport()">
+          <i class="fas fa-download me-1"></i> Export Data
+        </button>
       </div>
 
       <div class="row g-4">
@@ -730,6 +420,25 @@
           </div>
         </div>
       </div>
+
+      <div class="card-dashboard mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="text-gold mb-0">Tracking Status Order</h5>
+          <select id="orderStatusFilter" class="form-select form-select-sm w-auto" onchange="renderOrderStatusList()" aria-label="Filter status order">
+            <option value="ALL">Semua Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="PROCESSING">Diproses</option>
+            <option value="COMPLETED">Selesai</option>
+            <option value="CANCELLED">Dibatalkan</option>
+          </select>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Tanggal</th><th>Divisi</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody id="orderStatusTableBody"><tr><td colspan="4" class="text-center text-muted">Belum ada data order</td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- PROFIL SECTION -->
@@ -751,6 +460,30 @@
             </div>
 
             <div class="mb-3">
+              <label class="form-label text-gold">Jabatan</label>
+              <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" id="profileJobTitle" value="" placeholder="Masukkan jabatan">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold" for="profileNik">Nomor Induk Kependudukan (NIK)</label>
+              <input type="text" class="form-control" id="profileNik" inputmode="numeric" maxlength="16" placeholder="16 digit NIK">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold" for="profileKtpFile">KTP untuk Verifikasi</label>
+              <input type="file" class="form-control" id="profileKtpFile" accept="application/pdf,image/jpeg,image/png,image/webp">
+              <small class="text-muted">PDF, JPG, PNG, atau WEBP maksimal 5 MB.</small>
+              <div id="identityUploadStatus" class="small mt-2"></div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-gold">Tanda Tangan</label>
+              <input type="file" class="form-control" id="profileSignatureFile" accept="image/png,image/jpeg,image/webp" onchange="uploadOwnSignature(event)">
+              <small class="text-muted">Upload foto tanda tangan milik akun ini, maksimal 2 MB.</small>
+              <div id="signatureUploadStatus" class="small mt-2"></div>
+            </div>
+
+            <div class="mb-3">
               <label class="form-label text-gold">Username</label>
               <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="superadmin" readonly>
             </div>
@@ -765,13 +498,26 @@
               <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="ALL" readonly>
             </div>
 
+            <div id="memberDivisionChoice" class="mb-3" style="display: none;">
+              <label class="form-label text-gold">Divisi Layanan untuk Kartu</label>
+              <select id="profileDivisionChoice" class="form-select" onchange="saveSelectedDivision(this.value)">
+                <option value="IT Program">IT Program</option>
+                <option value="Network">Network</option>
+                <option value="Nusantara Food">Nusantara Food</option>
+              </select>
+              <small class="text-muted">Partner dan Customer dapat memilih logo divisi tujuan.</small>
+            </div>
+
             <div class="mb-3">
               <label class="form-label text-gold">Role</label>
               <input type="text" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" value="SUPER_ADMIN" readonly>
             </div>
 
-            <button class="btn btn-dashboard w-100">
+            <button type="button" class="btn btn-dashboard w-100 mb-2" onclick="saveOwnIdentity()">
               <i class="fas fa-edit"></i> Edit Profil
+            </button>
+            <button type="button" class="btn btn-outline-warning w-100" onclick="showBusinessCardPreview()">
+              <i class="fas fa-id-card me-1"></i> Cetak Kartu Nama
             </button>
           </div>
         </div>
@@ -782,22 +528,23 @@
 
             <div class="mb-3">
               <label class="form-label text-gold">Password Lama</label>
-              <input type="password" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Masukkan password lama">
+              <input type="password" id="currentPasswordInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Masukkan password lama">
             </div>
 
             <div class="mb-3">
               <label class="form-label text-gold">Password Baru</label>
-              <input type="password" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Masukkan password baru">
+              <input type="password" id="newPasswordInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Masukkan password baru">
             </div>
 
             <div class="mb-3">
               <label class="form-label text-gold">Konfirmasi Password</label>
-              <input type="password" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Konfirmasi password baru">
+              <input type="password" id="confirmPasswordInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Konfirmasi password baru">
             </div>
 
-            <button class="btn btn-dashboard w-100">
+            <button type="button" class="btn btn-dashboard w-100" onclick="changeOwnPassword()">
               <i class="fas fa-key"></i> Ubah Password
             </button>
+            <div id="passwordChangeStatus" class="small mt-2" role="status"></div>
           </div>
         </div>
       </div>
@@ -839,6 +586,71 @@
           </div>
         </div>
 
+        <div class="mt-4">
+          <h5 class="text-gold mb-3">Konfigurasi Email, SMS & WhatsApp</h5>
+          <div class="mb-3">
+            <label class="form-label text-gold">SMTP Host Email</label>
+            <input type="text" id="emailHostInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="smtp.gmail.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">SMTP Port</label>
+            <input type="number" id="emailPortInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="587">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Email Pengirim</label>
+            <input type="email" id="emailFromInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="noreply@yourdomain.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">SMTP User</label>
+            <input type="text" id="emailUserInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="username">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">SMTP Password</label>
+            <input type="password" id="emailPasswordInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="password aplikasi">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Provider SMS</label>
+            <select id="smsProviderSelect" class="form-select" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);">
+              <option value="telkomsel">Telkomsel</option>
+              <option value="generic">Generic REST API</option>
+              <option value="twilio">Twilio</option>
+              <option value="textlocal">TextLocal</option>
+              <option value="messagebird">MessageBird</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">URL API SMS</label>
+            <input type="url" id="smsApiUrlInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="https://gateway.example.com/sms">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Token / API Key SMS</label>
+            <input type="text" id="smsApiTokenInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Optional">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Sender SMS</label>
+            <input type="text" id="smsFromInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Optional: MPT atau +123456">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Provider WhatsApp</label>
+            <select id="whatsappProviderSelect" class="form-select" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);">
+              <option value="generic">Generic Webhook</option>
+              <option value="wati">WATI</option>
+              <option value="whatsapp-business">WhatsApp Business</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">URL Webhook WhatsApp</label>
+            <input type="url" id="whatsappApiUrlInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="https://gateway.example.com/whatsapp/webhook">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Token / API Key WhatsApp</label>
+            <input type="text" id="whatsappApiTokenInput" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: var(--text-main);" placeholder="Optional">
+          </div>
+          <button type="button" class="btn btn-dashboard" onclick="saveNotificationProviderConfig()">
+            <i class="fas fa-save"></i> Simpan Konfigurasi
+          </button>
+        </div>
+
         <hr style="border-color: var(--border-gold);">
 
         <h5 class="text-gold mb-4 mt-4">Keamanan</h5>
@@ -867,7 +679,6 @@
         <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-video me-2"></i>Upload Video / Berkas Divisi</h4>
         <form id="videoUploadForm" class="row g-3" onsubmit="return false;">
           <div class="col-md-4">
-            <label class="form-label text-gold">Divisi Target</label>
             <select class="form-select" id="uploadDivisiSelect">
               <option value="IT Program">IT Program</option>
               <option value="Network">Network</option>
@@ -912,6 +723,15 @@
             </table>
           </div>
         </div>
+      </div>
+
+      <div id="adminUserManagementCard" class="card-dashboard d-none mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="text-gold mb-0"><i class="fas fa-user-shield me-2"></i>Kontrol Admin Divisi</h5>
+          <button type="button" class="btn btn-sm btn-dashboard" onclick="loadManagedUsers()"><i class="fas fa-sync-alt me-1"></i> Muat Ulang</button>
+        </div>
+        <p class="text-muted small">Hanya Super Admin yang dapat mengaktifkan akun dan mengatur izin. Password tidak ditampilkan.</p>
+        <div class="table-responsive"><table class="table"><thead><tr><th>Akun</th><th>Divisi</th><th>Status</th><th>Izin Fitur</th></tr></thead><tbody id="managedUsersBody"><tr><td colspan="4">Memuat...</td></tr></tbody></table></div>
       </div>
 
       <div id="adminContactSocmedCard" class="card-dashboard d-none mb-4">
@@ -1004,8 +824,9 @@
         <h4 class="text-gold fw-bold mb-3"><i class="fa-solid fa-chart-column me-2"></i>Tambah Data Penjualan</h4>
         <form id="salesForm" class="row g-3" onsubmit="handleAddSalesData(event)">
           <div class="col-md-4"><label class="form-label text-gold">Divisi</label><select class="form-select" id="salesDivisi"><option value="IT Program">IT Program</option><option value="Network">Network</option><option value="Nusantara Food">Nusantara Food</option></select></div>
-          <div class="col-md-4"><label class="form-label text-gold">Total Penjualan (Rp)</label><input type="number" class="form-control" id="salesAmount" required></div>
-          <div class="col-md-4 d-grid align-items-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-plus me-1"></i> Simpan Data</button></div>
+          <div class="col-md-3"><label class="form-label text-gold">Total Penjualan (Rp)</label><input type="number" class="form-control" id="salesAmount" required></div>
+          <div class="col-md-3"><label class="form-label text-gold">Status Order</label><select class="form-select" id="salesStatus"><option value="PENDING">Pending</option><option value="PROCESSING">Diproses</option><option value="COMPLETED">Selesai</option><option value="CANCELLED">Dibatalkan</option></select></div>
+          <div class="col-md-2 d-grid align-items-end"><button type="submit" class="btn btn-dashboard"><i class="fa-solid fa-plus me-1"></i> Simpan Data</button></div>
         </form>
       </div>
 
@@ -1044,9 +865,17 @@
       <div id="paymentListCard" class="card-dashboard d-none mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="text-gold fw-bold mb-0"><i class="fa-solid fa-list me-2"></i>Daftar Bukti Pembayaran</h4>
-          <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearPayments()" title="Hapus semua bukti pembayaran">
-            <i class="fas fa-trash"></i> Hapus Semua
-          </button>
+          <div class="d-flex gap-2 align-items-center">
+            <select id="paymentStatusFilter" class="form-select form-select-sm" onchange="renderPaymentList()" aria-label="Filter status pembayaran">
+              <option value="ALL">Semua Status</option>
+              <option value="PENDING">Pending</option>
+              <option value="VERIFIED">Terverifikasi</option>
+              <option value="REJECTED">Ditolak</option>
+            </select>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="clearPayments()" title="Hapus semua bukti pembayaran">
+              <i class="fas fa-trash"></i> Hapus Semua
+            </button>
+          </div>
         </div>
         <div class="table-responsive">
           <table class="table">
@@ -1058,12 +887,13 @@
                 <th>Role</th>
                 <th>Jumlah</th>
                 <th>Metode</th>
+                <th>Status</th>
                 <th>Keterangan</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody id="paymentsTableBody">
-              <tr><td colspan="8" class="text-center text-muted">Belum ada bukti pembayaran</td></tr>
+              <tr><td colspan="9" class="text-center text-muted">Belum ada bukti pembayaran</td></tr>
             </tbody>
           </table>
         </div>
@@ -1073,106 +903,183 @@
   </div>
 </div>
 
+<div id="businessCardModal" class="business-card-modal" role="dialog" aria-modal="true" aria-label="Preview kartu nama">
+  <div class="business-card-sheet">
+    <div class="business-card-nav-tabs">
+      <button type="button" id="cardTabAll" class="business-card-nav-btn active" onclick="setCardTab('all')"><i class="fas fa-columns me-1"></i> Kedua Sisi</button>
+      <button type="button" id="cardTabFront" class="business-card-nav-btn" onclick="setCardTab('front')"><i class="fas fa-id-card me-1"></i> Sisi Depan</button>
+      <button type="button" id="cardTabBack" class="business-card-nav-btn" onclick="setCardTab('back')"><i class="fas fa-shield-alt me-1"></i> Sisi Belakang</button>
+    </div>
+    <div class="business-card-container">
+      <div id="wrapperCardFront" class="business-card-wrapper">
+        <span class="business-card-label">Sisi Depan (Identitas)</span>
+        <div id="businessCardPrintable" class="business-card-printable"></div>
+      </div>
+      <div id="wrapperCardBack" class="business-card-wrapper">
+        <span class="business-card-label">Sisi Belakang (Profil Korporasi)</span>
+        <div id="businessCardBack" class="business-card-back"></div>
+      </div>
+    </div>
+    <div class="business-card-actions mt-3 d-flex gap-2 justify-content-center">
+      <button type="button" class="btn btn-warning" onclick="printBusinessCardSinglePage()"><i class="fas fa-print me-1"></i> Cetak / Simpan PDF (1 Lembar)</button>
+      <button type="button" class="btn btn-secondary" onclick="closeBusinessCardPreview()">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ===== PAGE INITIALIZATION =====
-  document.addEventListener('DOMContentLoaded', () => {
-    // Load user info from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const username = urlParams.get('user') || 'superadmin';
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      await hydrateLocalData();
+    } catch (error) {
+      console.warn('Hydration data gagal, melanjutkan ke session check:', error);
+    }
 
-    const registeredUsers = (() => {
-      try {
-        const data = JSON.parse(localStorage.getItem('multicorp_registered_users') || '{}');
-        return {
-          ...(data.PARTNER || {}),
-          ...(data.CUSTOMER || {})
+    let storedSession = null;
+    try {
+      storedSession = JSON.parse(sessionStorage.getItem('multicorp_session') || 'null');
+    } catch (error) {
+      sessionStorage.removeItem('multicorp_session');
+      storedSession = null;
+    }
+
+    const sessionMaxAge = 8 * 60 * 60 * 1000;
+    const sessionIsCurrent = storedSession && storedSession.timestamp &&
+      Date.now() - Number(storedSession.timestamp) < sessionMaxAge;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestedUser = urlParams.get('user');
+
+    if (!storedSession || !sessionIsCurrent) {
+      if (window.location.protocol === 'file:' || requestedUser) {
+        const u = requestedUser || 'superadmin';
+        storedSession = {
+          username: u,
+          role: u === 'superadmin' ? 'SUPER_ADMIN' : 'ADMIN_DIVISI',
+          name: u === 'superadmin' ? 'Rahmat Fauzi Tumanggor, S.Kom' : u,
+          divisi: u === 'superadmin' ? 'ALL' : 'IT Program',
+          jabatan: u === 'superadmin' ? 'CEO MPT' : 'Staff',
+          email: `${u}@multicorp.com`,
+          phone: '081262639095',
+          timestamp: Date.now()
         };
-      } catch (e) {
-        return {};
+        sessionStorage.setItem('multicorp_session', JSON.stringify(storedSession));
+      } else {
+        sessionStorage.removeItem('multicorp_session');
+        localStorage.removeItem('management_production_user');
+        localStorage.removeItem('multicorp_user');
+        window.location.replace('login.html');
+        return;
       }
-    })();
+    }
+
+    const username = storedSession.username || 'superadmin';
 
     // Mock user data
     const userData = {
       'superadmin': {
-        name: 'Super Administrator',
+        name: 'Rahmat Fauzi Tumanggor, S.Kom',
+        jabatan: 'CEO MPT',
+        email: 'rahmatfauzi1988@gmail.com',
+        phone: '081262639095',
         role: 'SUPER_ADMIN',
         divisi: 'ALL',
         avatar: 'S'
       },
       'admin_it': {
         name: 'Admin IT Program',
+        jabatan: 'Lead IT',
+        email: 'admin.it@multicorp.com',
+        phone: '081200000001',
         role: 'ADMIN_DIVISI',
         divisi: 'IT Program',
         avatar: 'A'
       },
       'admin_net': {
         name: 'Admin Network',
+        jabatan: 'Network Specialist',
+        email: 'admin.net@multicorp.com',
+        phone: '081200000002',
         role: 'ADMIN_DIVISI',
         divisi: 'Network',
         avatar: 'A'
       },
       'admin_food': {
         name: 'Admin Nusantara Food',
+        jabatan: 'F&B Manager',
+        email: 'admin.food@multicorp.com',
+        phone: '081200000003',
         role: 'ADMIN_DIVISI',
         divisi: 'Nusantara Food',
         avatar: 'A'
       },
       'partner_jaya': {
         name: 'Mitra Bisnis Jaya',
+        jabatan: 'Direktur Utama',
+        email: 'partner@multicorp.com',
+        phone: '081300000001',
         role: 'PARTNER',
         divisi: 'PARTNER',
         avatar: 'P'
       },
       'cust_budi': {
         name: 'Budi Santoso',
+        jabatan: 'Owner',
+        email: 'budi@gmail.com',
+        phone: '081300000002',
         role: 'CUSTOMER',
         divisi: 'CUSTOMER',
         avatar: 'C'
       },
-      ...Object.fromEntries(Object.entries(registeredUsers).map(([key, value]) => [key, {
-        name: value.name || key,
-        role: value.role || 'CUSTOMER',
-        divisi: value.divisi || value.role || 'CUSTOMER',
-        avatar: (value.name || key).charAt(0).toUpperCase(),
-        phone: value.phone || '',
-        email: value.email || '',
-        company: value.company || ''
-      }]))
     };
-
-    const storedSession = (() => {
-      try {
-        return JSON.parse(localStorage.getItem('multicorp_user') || localStorage.getItem('management_production_user') || 'null');
-      }
-    })();
-
-    const isPublicDeployment = !['localhost', '127.0.0.1', 'management-production-tumanggor-production.up.railway.app'].includes(window.location.hostname);
-    if (isPublicDeployment && (!storedSession || storedSession.username !== username)) {
-      window.location.replace('login.html');
-      return;
-    }
 
     const user = storedSession && storedSession.username === username
       ? {
           name: storedSession.name || storedSession.username,
           role: storedSession.role || 'CUSTOMER',
           divisi: storedSession.divisi || 'CUSTOMER',
+          jabatan: storedSession.jabatan || '',
+          email: storedSession.email || '',
+          phone: storedSession.phone || '',
+          permissions: storedSession.permissions || [],
           avatar: (storedSession.name || storedSession.username).charAt(0).toUpperCase()
         }
       : userData[username] || userData['superadmin'];
+    window.currentDashboardUser = { ...user, username };
+    hydrateOwnSignature();
+    hydrateOwnIdentity();
 
     // Update UI with user info
     document.getElementById('userName').textContent = user.name;
     document.getElementById('userRole').textContent = user.role;
     document.getElementById('userAvatar').textContent = user.avatar;
     document.getElementById('profileName').value = user.name;
+    const setSafeInput = (selector, val) => {
+      const el = document.querySelector(selector);
+      if (el) el.value = val;
+    };
+    setSafeInput('#profil-section input[type="email"]', user.email || '');
+    setSafeInput('#profil-section input[value="superadmin"]', user.username || username);
+    setSafeInput('#profil-section input[value="ALL"]', user.divisi || '');
+    setSafeInput('#profil-section input[value="SUPER_ADMIN"]', user.role || '');
+    const jobTitleInput = document.getElementById('profileJobTitle');
+    if (jobTitleInput) jobTitleInput.value = user.jabatan || '';
+    if (user.role === 'PARTNER' || user.role === 'CUSTOMER') {
+      const savedDivision = localStorage.getItem(`multicorp_selected_division_${username}`) || 'IT Program';
+      document.getElementById('memberDivisionChoice').style.display = 'block';
+      document.getElementById('profileDivisionChoice').value = savedDivision;
+      user.selectedDivision = savedDivision;
+    }
+    renderNotifications();
 
     // Load dashboard data
     loadDashboardData();
-    applyRoleAccess(user.role);
+    renderOrderStatusList();
+    applyRoleAccess(user.role, user.permissions);
+    if (['SUPER_ADMIN', 'ADMIN_DIVISI'].includes(user.role)) loadManagedUsers();
     loadSavedSettings();
     renderPaymentList();
     renderFilesList();
@@ -1220,7 +1127,7 @@
     });
   }
 
-  function showSection(sectionName) {
+  function showSection(sectionName, event) {
     event.preventDefault();
 
     // Hide all sections
@@ -1242,18 +1149,35 @@
 
   // ===== LOAD DASHBOARD DATA =====
   function loadDashboardData() {
-    // Simulasi data
-    const deletedMessages = JSON.parse(localStorage.getItem('multicorp_deleted_messages') || '[]');
+    const deletedMessages = (() => {
+      try {
+        return readCachedData('multicorp_deleted_messages', []);
+      } catch (error) {
+        return [];
+      }
+    })();
+    const chats = loadChatMessages().map((chat, index) => ({
+      id: chat.id || `CHAT-${index + 1}`,
+      nama: chat.sender || chat.nama || 'Pengguna',
+      divisi: chat.divisi || 'Umum',
+      pesan: chat.text || chat.pesan || '',
+      tanggal: chat.timestamp ? new Date(chat.timestamp).toISOString().slice(0, 10) : '',
+      status: chat.replied ? 'COMPLETED' : 'NEW'
+    }));
+    const sales = (() => {
+      try {
+        const value = JSON.parse(localStorage.getItem('multicorp_sales') || '[]');
+        return Array.isArray(value) ? value : [];
+      } catch (error) {
+        return [];
+      }
+    })();
     const data = {
-      totalPesan: 24,
-      totalSelesai: 18,
-      totalProses: 4,
-      totalKlien: 12,
-      messages: [
-        {id: 'MSG-001', nama: 'Budi Santoso', divisi: 'IT Program', pesan: 'Konsultasi sistem', tanggal: '2026-08-31', status: 'NEW'},
-        {id: 'MSG-002', nama: 'Siti Nurhaliza', divisi: 'Network', pesan: 'Setup jaringan', tanggal: '2026-08-30', status: 'PROCESSING'},
-        {id: 'MSG-003', nama: 'Rezza Habibi', divisi: 'Nusantara Food', pesan: 'Catering acara', tanggal: '2026-08-29', status: 'COMPLETED'}
-      ].filter(message => !deletedMessages.includes(message.id))
+      totalPesan: chats.length,
+      totalSelesai: sales.filter(item => item.status === 'COMPLETED').length,
+      totalProses: sales.filter(item => ['PROCESSING', 'PENDING'].includes(item.status)).length,
+      totalKlien: new Set(chats.map(message => message.nama)).size,
+      messages: chats.filter(message => !deletedMessages.includes(message.id))
     };
 
     // Update stat cards
@@ -1265,12 +1189,12 @@
     // Update messages table
     const tableHtml = data.messages.map(msg => `
       <tr>
-        <td>${msg.id}</td>
-        <td>${msg.nama}</td>
-        <td>${msg.divisi}</td>
-        <td>${msg.pesan}</td>
-        <td>${msg.tanggal}</td>
-        <td><span class="badge badge-status badge-${msg.status.toLowerCase()}">${msg.status}</span></td>
+        <td>${escapeHtml(msg.id)}</td>
+        <td>${escapeHtml(msg.nama)}</td>
+        <td>${escapeHtml(msg.divisi)}</td>
+        <td>${escapeHtml(msg.pesan)}</td>
+        <td>${escapeHtml(msg.tanggal)}</td>
+        <td><span class="badge badge-status badge-${escapeHtml(msg.status.toLowerCase())}">${escapeHtml(msg.status)}</span></td>
       </tr>
     `).join('');
 
@@ -1279,13 +1203,13 @@
     // Update pesan section
     const pesanTableHtml = data.messages.map(msg => `
       <tr>
-        <td>${msg.id}</td>
-        <td>${msg.nama}</td>
-        <td>${msg.divisi}</td>
-        <td>${msg.nama}</td>
-        <td>${msg.pesan}</td>
-        <td>${msg.tanggal}</td>
-        <td><span class="badge badge-status badge-${msg.status.toLowerCase()}">${msg.status}</span></td>
+        <td>${escapeHtml(msg.id)}</td>
+        <td>${escapeHtml(msg.nama)}</td>
+        <td>${escapeHtml(msg.divisi)}</td>
+        <td>${escapeHtml(msg.nama)}</td>
+        <td>${escapeHtml(msg.pesan)}</td>
+        <td>${escapeHtml(msg.tanggal)}</td>
+        <td><span class="badge badge-status badge-${escapeHtml(msg.status.toLowerCase())}">${escapeHtml(msg.status)}</span></td>
         <td>
           <button class="btn btn-sm btn-dashboard">Detail</button>
           <button class="btn btn-sm btn-outline-danger" onclick="deleteMessage('${msg.id}')" title="Hapus pesan"><i class="fas fa-trash"></i></button>
@@ -1304,6 +1228,49 @@
       text: '#ffffff',
       grid: 'rgba(212, 175, 55, 0.1)'
     };
+    const sales = (() => {
+      try {
+        const value = JSON.parse(localStorage.getItem('multicorp_sales') || '[]');
+        return Array.isArray(value) ? value : [];
+      } catch (error) {
+        return [];
+      }
+    })();
+    const dailyDates = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date();
+      date.setHours(0, 0, 0, 0);
+      date.setDate(date.getDate() - (6 - index));
+      return date;
+    });
+    const dailyLabels = dailyDates.map(date => date.toLocaleDateString('id-ID', { weekday: 'short' }));
+    const dailyValues = dailyDates.map(date => {
+      const key = date.toISOString().slice(0, 10);
+      return sales.filter(item => item.tanggal === key).length;
+    });
+    const divisionLabels = ['IT Program', 'Network', 'Nusantara Food'];
+    const divisionValues = divisionLabels.map(division => sales.filter(item => item.divisi === division).length);
+    const monthlyDates = Array.from({ length: 8 }, (_, index) => {
+      const date = new Date();
+      date.setDate(1);
+      date.setMonth(date.getMonth() - (7 - index));
+      return date;
+    });
+    const monthlyLabels = monthlyDates.map(date => date.toLocaleDateString('id-ID', { month: 'short' }));
+    const monthlyValues = monthlyDates.map(date => sales
+      .filter(item => item.tanggal && item.tanggal.slice(0, 7) === date.toISOString().slice(0, 7))
+      .reduce((total, item) => total + Number(item.total || 0), 0));
+    const statusLabels = ['Selesai', 'Proses', 'Pending'];
+    const statusValues = [
+      sales.filter(item => item.status === 'COMPLETED').length,
+      sales.filter(item => item.status === 'PROCESSING').length,
+      sales.filter(item => item.status === 'PENDING').length
+    ];
+    const categoryTotals = sales.reduce((totals, item) => {
+      if (item.kategori) totals[item.kategori] = (totals[item.kategori] || 0) + 1;
+      return totals;
+    }, {});
+    const categoryLabels = Object.keys(categoryTotals);
+    const categoryValues = Object.values(categoryTotals);
 
     // Daily Chart
     const dailyCtx = document.getElementById('dailyChart');
@@ -1311,10 +1278,10 @@
       new Chart(dailyCtx, {
         type: 'line',
         data: {
-          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          labels: dailyLabels,
           datasets: [{
             label: 'Pesanan',
-            data: [3, 5, 4, 7, 5, 8, 6],
+            data: dailyValues,
             borderColor: chartColor.primary,
             backgroundColor: 'rgba(212, 175, 55, 0.1)',
             tension: 0.4,
@@ -1345,9 +1312,9 @@
       new Chart(divisiCtx, {
         type: 'doughnut',
         data: {
-          labels: ['IT Program', 'Network', 'Nusantara Food'],
+          labels: divisionLabels,
           datasets: [{
-            data: [8, 10, 6],
+            data: divisionValues,
             backgroundColor: ['#d4af37', '#e5c158', '#c9b233']
           }]
         },
@@ -1369,10 +1336,10 @@
       new Chart(monthlyCtx, {
         type: 'bar',
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          labels: monthlyLabels,
           datasets: [{
             label: 'Penjualan',
-            data: [12, 19, 8, 15, 23, 16, 20, 24],
+            data: monthlyValues,
             backgroundColor: chartColor.primary
           }]
         },
@@ -1400,9 +1367,9 @@
       new Chart(categoryCtx, {
         type: 'pie',
         data: {
-          labels: ['Konsultasi', 'Setup', 'Support', 'Training'],
+          labels: categoryLabels,
           datasets: [{
-            data: [30, 25, 20, 25],
+            data: categoryValues,
             backgroundColor: ['#d4af37', '#e5c158', '#c9b233', '#f3e5ab']
           }]
         },
@@ -1420,9 +1387,9 @@
       new Chart(statusCtx, {
         type: 'doughnut',
         data: {
-          labels: ['Selesai', 'Proses', 'Pending'],
+          labels: statusLabels,
           datasets: [{
-            data: [18, 4, 2],
+            data: statusValues,
             backgroundColor: ['#51cf66', '#ffd93d', '#ff6b6b']
           }]
         },
@@ -1443,14 +1410,169 @@
     }
   }
 
+  function readLocalData(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  const sensitiveLocalKeys = new Set([
+    'multicorp_payments',
+    'multicorp_files',
+    'multicorp_chats',
+    'multicorp_audit_log',
+    'multicorp_notifications',
+    'multicorp_deleted_messages'
+  ]);
+
+  function readCachedData(key, fallback) {
+    try {
+      const storage = sensitiveLocalKeys.has(key) ? sessionStorage : localStorage;
+      const raw = storage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function writeCachedData(key, value) {
+    const storage = sensitiveLocalKeys.has(key) ? sessionStorage : localStorage;
+    storage.setItem(key, JSON.stringify(value));
+  }
+
+  function removeCachedData(key) {
+    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[character]));
+  }
+
+  function safeResourceUrl(value) {
+    const url = String(value || '');
+    return /^(https?:\/\/|data:(image\/(png|jpeg|jpg|webp)|application\/pdf);base64,)/i.test(url)
+      ? escapeHtml(url)
+      : '#';
+  }
+
+  function readSession() {
+    return readSessionStorage('multicorp_session', {});
+  }
+
+  function readSessionStorage(key, fallback) {
+    try {
+      const raw = sessionStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function persistLocalData(resource, value) {
+    fetch(`/api/data/${resource}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...getLocalAuthHeaders() },
+      body: JSON.stringify(value)
+    }).catch(() => {
+      // Browser storage remains the fallback when the local server is unavailable.
+    });
+  }
+
+  async function hydrateLocalData() {
+    sensitiveLocalKeys.forEach(key => localStorage.removeItem(key));
+    const resources = {
+      settings: 'management_production_settings',
+      sales: 'multicorp_sales',
+      payments: 'multicorp_payments',
+      files: 'multicorp_files',
+      messages: 'multicorp_chats',
+      'audit-log': 'multicorp_audit_log',
+      notifications: 'multicorp_notifications'
+    };
+
+    await Promise.all(Object.entries(resources).map(async ([resource, storageKey]) => {
+      try {
+        const response = await fetch(`/api/data/${resource}`, {
+          cache: 'no-store',
+          headers: getLocalAuthHeaders()
+        });
+        if (!response.ok) return;
+        const value = await response.json();
+        const hasData = Array.isArray(value) ? value.length > 0 : Object.keys(value || {}).length > 0;
+        if (hasData) writeCachedData(storageKey, value);
+      } catch (error) {
+        // Browser storage remains the fallback when the local server is unavailable.
+      }
+    }));
+  }
+
   function saveSettings(nextSettings) {
     const current = getSavedSettings();
     const merged = { ...current, ...nextSettings };
     localStorage.setItem('management_production_settings', JSON.stringify(merged));
+    persistLocalData('settings', merged);
     return merged;
   }
 
-  function applyRoleAccess(role) {
+  function loadNotifications() {
+    try {
+      return readCachedData('multicorp_notifications', []);
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function addLocalNotification(text, type = 'INFO') {
+    const notifications = loadNotifications();
+    notifications.push({
+      id: `NOTIFY-${Date.now()}`,
+      text,
+      type,
+      timestamp: new Date().toISOString(),
+      read: false
+    });
+    const recent = notifications.slice(-50);
+    writeCachedData('multicorp_notifications', recent);
+    persistLocalData('notifications', recent);
+    renderNotifications();
+  }
+
+  function renderNotifications() {
+    const list = document.getElementById('notificationList');
+    const count = document.getElementById('notificationCount');
+    if (!list || !count) return;
+
+    const notifications = loadNotifications().slice().reverse();
+    const unreadCount = notifications.filter(item => !item.read).length;
+    count.textContent = unreadCount;
+    count.style.display = unreadCount ? 'inline-block' : 'none';
+    list.innerHTML = notifications.length
+      ? notifications.map(item => `<div class="notification-item ${item.read ? '' : 'unread'}"><div>${item.text}</div><small class="text-muted">${new Date(item.timestamp).toLocaleString('id-ID')}</small></div>`).join('')
+      : 'Belum ada notifikasi';
+  }
+
+  function toggleNotifications() {
+    document.getElementById('notificationPanel')?.classList.toggle('show');
+  }
+
+  function markNotificationsRead() {
+    const notifications = loadNotifications().map(item => ({ ...item, read: true }));
+    writeCachedData('multicorp_notifications', notifications);
+    persistLocalData('notifications', notifications);
+    renderNotifications();
+  }
+
+  function applyRoleAccess(role, permissions = []) {
     const adminCards = [
       'adminVideoUploadCard',
       'adminContactSocmedCard',
@@ -1482,11 +1604,21 @@
 
     if (role === 'SUPER_ADMIN') {
       [...adminCards, ...partnerCustomerCards].forEach(id => setCardVisible(id, true));
+      setCardVisible('adminUserManagementCard', true);
       return;
     }
 
     if (role === 'ADMIN_DIVISI') {
-      ['adminVideoUploadCard', 'adminContactSocmedCard', 'adminProductsCard', 'adminCompanyProfileCard', 'adminSalesCard', 'divisiLogoAdminCard', 'rekeningAdminCard'].forEach(id => setCardVisible(id, true));
+      setCardVisible('adminUserManagementCard', true);
+      const permissionCards = {
+        UPLOAD: ['adminVideoUploadCard', 'divisiLogoAdminCard'],
+        CONTACT: ['adminContactSocmedCard', 'adminCompanyProfileCard'],
+        PRODUCTS: ['adminProductsCard'],
+        PAYMENTS: ['rekeningAdminCard'],
+        ANALYTICS: ['adminSalesCard']
+      };
+      const granted = permissions.length ? permissions : Object.keys(permissionCards);
+      granted.flatMap(permission => permissionCards[permission] || []).forEach(id => setCardVisible(id, true));
       return;
     }
 
@@ -1495,8 +1627,962 @@
     }
   }
 
+  const managedPermissionOptions = ['UPLOAD', 'CONTACT', 'PRODUCTS', 'PAYMENTS', 'ANALYTICS'];
+
+  async function loadManagedUsers() {
+    const body = document.getElementById('managedUsersBody');
+    if (!body) return;
+    try {
+      const response = await fetch('/api/admin/users', {
+        cache: 'no-store',
+        headers: { Authorization: `Bearer ${getLocalSessionToken()}` }
+      });
+      if (!response.ok) throw new Error('Data user tidak tersedia.');
+      const users = await response.json();
+      const currentRole = readSession().role;
+      body.innerHTML = users.filter(user => user.username !== 'superadmin').map(user => `
+        <tr>
+          <td><strong>${user.username}</strong><br><small>${user.name}</small></td>
+          <td>${user.divisi}</td>
+          <td>${currentRole === 'SUPER_ADMIN' ? `<label class="form-check form-switch"><input class="form-check-input" type="checkbox" ${user.enabled !== false ? 'checked' : ''} onchange="updateManagedUser('${user.username}', 'enabled', this.checked)"><span>${user.lockedReason === 'LOGIN_FAILURE' ? 'Terkunci' : (user.enabled !== false ? 'Aktif' : 'Nonaktif')}</span></label>` : (user.lockedReason === 'LOGIN_FAILURE' ? `<button type="button" class="btn btn-sm btn-dashboard" onclick="reactivateManagedUser('${user.username}')">Aktifkan</button>` : 'Aktif')}</td>
+          <td>${currentRole === 'SUPER_ADMIN' ? managedPermissionOptions.map(permission => `<label class="form-check form-check-inline"><input class="form-check-input" type="checkbox" ${user.permissions?.includes(permission) ? 'checked' : ''} onchange="toggleManagedPermission('${user.username}', '${permission}', this.checked)"><span>${permission}</span></label>`).join('') : 'Konfirmasi reaktivasi divisi'}</td>
+        </tr>
+      `).join('') || '<tr><td colspan="4">Belum ada admin divisi.</td></tr>';
+    } catch (error) {
+      body.innerHTML = `<tr><td colspan="4" class="text-danger">${error.message}</td></tr>`;
+    }
+  }
+
+  async function updateManagedUser(username, field, value) {
+    const users = await fetch('/api/admin/users', { headers: { Authorization: `Bearer ${getLocalSessionToken()}` } }).then(response => response.json());
+    const user = users.find(item => item.username === username);
+    if (!user) return;
+    user[field] = value;
+    await saveManagedUsers(users);
+  }
+
+  async function reactivateManagedUser(username) {
+    if (!confirm(`Aktifkan kembali akun ${username}?`)) return;
+    const response = await fetch('/api/admin/users/reactivate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getLocalSessionToken()}` },
+      body: JSON.stringify({ username })
+    });
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({}));
+      alert(result.error || 'Akun tidak dapat diaktifkan kembali.');
+      return;
+    }
+    addLocalNotification(`Akun ${username} berhasil diaktifkan kembali.`, 'SECURITY');
+    loadManagedUsers();
+  }
+
+  async function toggleManagedPermission(username, permission, enabled) {
+    const users = await fetch('/api/admin/users', { headers: { Authorization: `Bearer ${getLocalSessionToken()}` } }).then(response => response.json());
+    const user = users.find(item => item.username === username);
+    if (!user) return;
+    const permissions = new Set(user.permissions || []);
+    enabled ? permissions.add(permission) : permissions.delete(permission);
+    user.permissions = [...permissions];
+    await saveManagedUsers(users);
+  }
+
+  async function saveManagedUsers(users) {
+    await fetch('/api/admin/users', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getLocalSessionToken()}` },
+      body: JSON.stringify(users)
+    });
+    recordAudit('UPDATE_ADMIN_PERMISSION', 'Memperbarui status atau izin admin divisi');
+    addLocalNotification('Izin admin divisi berhasil diperbarui.', 'SECURITY');
+    loadManagedUsers();
+  }
+
+  function getLocalSessionToken() {
+    return readSession().token || '';
+  }
+
+  function getLocalAuthHeaders() {
+    const token = getLocalSessionToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
+  function saveSelectedDivision(division) {
+    const allowedDivisions = ['IT Program', 'Network', 'Nusantara Food'];
+    if (!allowedDivisions.includes(division)) return;
+    const username = window.currentDashboardUser?.username || 'member';
+    localStorage.setItem(`multicorp_selected_division_${username}`, division);
+    if (window.currentDashboardUser) window.currentDashboardUser.selectedDivision = division;
+    addLocalNotification(`Divisi kartu diubah menjadi ${division}.`, 'PROFILE');
+  }
+
+  async function uploadOwnSignature(event) {
+    const file = event.target.files[0];
+    const status = document.getElementById('signatureUploadStatus');
+    if (!file) return;
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+      status.textContent = 'Gunakan PNG, JPG, atau WEBP.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      status.textContent = 'Ukuran tanda tangan maksimal 2 MB.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const response = await fetch('/api/profile/signature', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getLocalSessionToken()}` },
+          body: JSON.stringify({ signatureData: reader.result })
+        });
+        if (!response.ok) throw new Error('Gagal menyimpan tanda tangan. Login ulang jika diperlukan.');
+        localStorage.removeItem('management_production_user');
+        localStorage.removeItem('multicorp_user');
+        if (window.currentDashboardUser) window.currentDashboardUser.signatureData = reader.result;
+        status.textContent = 'Tanda tangan berhasil disimpan.';
+        status.className = 'small mt-2 text-success';
+        recordAudit('UPLOAD_SIGNATURE', 'Mengunggah tanda tangan akun');
+      } catch (error) {
+        status.textContent = error.message;
+        status.className = 'small mt-2 text-danger';
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function hydrateOwnSignature() {
+    try {
+      const response = await fetch('/api/profile/signature', { headers: getLocalAuthHeaders() });
+      if (!response.ok) return;
+      const result = await response.json();
+      if (window.currentDashboardUser) window.currentDashboardUser.signatureData = result.signatureData || '';
+    } catch (error) {
+      // Signature loading is optional and must not block dashboard access.
+    }
+  }
+
+  async function changeOwnPassword() {
+    const currentPassword = document.getElementById('currentPasswordInput').value;
+    const newPassword = document.getElementById('newPasswordInput').value;
+    const confirmPassword = document.getElementById('confirmPasswordInput').value;
+    const status = document.getElementById('passwordChangeStatus');
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      status.textContent = 'Semua password harus diisi.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+    if (newPassword.length < 8) {
+      status.textContent = 'Password baru minimal 8 karakter.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      status.textContent = 'Konfirmasi password tidak cocok.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+    try {
+      const response = await fetch('/api/profile/password', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getLocalSessionToken()}` },
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.message || 'Password gagal diubah.');
+      status.textContent = 'Password berhasil diubah.';
+      status.className = 'small mt-2 text-success';
+      document.getElementById('currentPasswordInput').value = '';
+      document.getElementById('newPasswordInput').value = '';
+      document.getElementById('confirmPasswordInput').value = '';
+    } catch (error) {
+      status.textContent = error.message;
+      status.className = 'small mt-2 text-danger';
+    }
+  }
+
+  async function hydrateOwnIdentity() {
+    try {
+      const response = await fetch('/api/profile/identity', { headers: getLocalAuthHeaders() });
+      if (!response.ok) return;
+      const result = await response.json();
+      document.getElementById('profileJobTitle').value = result.jabatan || '';
+      document.getElementById('profileNik').value = result.nik || '';
+      if (result.identityStatus && result.identityStatus !== 'NOT_SUBMITTED') {
+        const status = document.getElementById('identityUploadStatus');
+        status.textContent = result.hasKtp ? `Status identitas: ${result.identityStatus}` : 'NIK tersimpan. Upload KTP untuk verifikasi.';
+        status.className = 'small mt-2 text-warning';
+      }
+    } catch (error) {
+      // Identity loading is optional and must not block dashboard access.
+    }
+  }
+
+  async function saveOwnIdentity() {
+    const status = document.getElementById('identityUploadStatus');
+    const nik = document.getElementById('profileNik').value.trim();
+    const jabatan = document.getElementById('profileJobTitle').value.trim();
+    const file = document.getElementById('profileKtpFile').files[0];
+    if (!/^\d{16}$/.test(nik)) {
+      status.textContent = 'NIK harus terdiri dari 16 digit angka.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+    if (jabatan.length < 2) {
+      status.textContent = 'Jabatan wajib diisi.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+    if (file && (!['application/pdf', 'image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024)) {
+      status.textContent = 'KTP harus PDF/JPG/PNG/WEBP maksimal 5 MB.';
+      status.className = 'small mt-2 text-danger';
+      return;
+    }
+
+    const submit = async ktpData => {
+      try {
+        const response = await fetch('/api/profile/identity', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getLocalSessionToken()}` },
+          body: JSON.stringify({ nik, jabatan, ktpData })
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.message || 'Data identitas gagal disimpan.');
+        status.textContent = result.message || 'Data identitas tersimpan.';
+        status.className = 'small mt-2 text-success';
+        recordAudit('UPDATE_IDENTITY', 'Memperbarui jabatan, NIK, atau KTP');
+      } catch (error) {
+        status.textContent = error.message;
+        status.className = 'small mt-2 text-danger';
+      }
+    };
+    if (!file) return submit('');
+    const reader = new FileReader();
+    reader.onload = () => submit(reader.result);
+    reader.readAsDataURL(file);
+  }
+
+  function setCardTab(tab) {
+    const wrapFront = document.getElementById('wrapperCardFront');
+    const wrapBack = document.getElementById('wrapperCardBack');
+    const tabAll = document.getElementById('cardTabAll');
+    const tabFront = document.getElementById('cardTabFront');
+    const tabBack = document.getElementById('cardTabBack');
+
+    [tabAll, tabFront, tabBack].forEach(btn => btn?.classList.remove('active'));
+
+    if (tab === 'front') {
+      if (wrapFront) wrapFront.style.display = 'flex';
+      if (wrapBack) wrapBack.style.display = 'none';
+      tabFront?.classList.add('active');
+    } else if (tab === 'back') {
+      if (wrapFront) wrapFront.style.display = 'none';
+      if (wrapBack) wrapBack.style.display = 'flex';
+      tabBack?.classList.add('active');
+    } else {
+      if (wrapFront) wrapFront.style.display = 'flex';
+      if (wrapBack) wrapBack.style.display = 'flex';
+      tabAll?.classList.add('active');
+    }
+  }
+
+  function generateQRCodeDataURI(text) {
+    const exp = new Uint8Array(512);
+    const log = new Uint8Array(256);
+    let x = 1;
+    for (let i = 0; i < 255; i++) {
+      exp[i] = x;
+      exp[i + 255] = x;
+      log[x] = i;
+      x = (x << 1) ^ (x >= 128 ? 0x11d : 0);
+    }
+    log[0] = 0;
+
+    function gfMul(a, b) {
+      return a === 0 || b === 0 ? 0 : exp[log[a] + log[b]];
+    }
+
+    function getPoly(deg) {
+      let p = [1];
+      for (let i = 0; i < deg; i++) {
+        const next = [1, exp[i]];
+        const res = new Uint8Array(p.length + 1);
+        for (let j = 0; j < p.length; j++) {
+          res[j] ^= p[j];
+          res[j + 1] ^= gfMul(p[j], next[1]);
+        }
+        p = Array.from(res);
+      }
+      return p;
+    }
+
+    const utf8 = [];
+    for (let i = 0; i < text.length; i++) {
+      const c = text.charCodeAt(i);
+      if (c < 128) utf8.push(c);
+      else if (c < 2048) {
+        utf8.push(0xc0 | (c >> 6), 0x80 | (c & 0x3f));
+      } else {
+        utf8.push(0xe0 | (c >> 12), 0x80 | ((c >> 6) & 0x3f), 0x80 | (c & 0x3f));
+      }
+    }
+
+    let version = 4;
+    let totalCodewords = 100;
+    let dataCodewords = 64;
+    let ecCodewords = 36;
+    let numBlocks = 2;
+    let align = [6, 26];
+
+    if (utf8.length > 60) {
+      version = 6;
+      totalCodewords = 172;
+      dataCodewords = 108;
+      ecCodewords = 64;
+      numBlocks = 4;
+      align = [6, 34];
+    }
+
+    const bits = [];
+    function pushBits(val, len) {
+      for (let b = len - 1; b >= 0; b--) bits.push((val >> b) & 1);
+    }
+
+    pushBits(4, 4);
+    pushBits(utf8.length, 8);
+    for (let b of utf8) pushBits(b, 8);
+
+    const totalDataBits = dataCodewords * 8;
+    const term = Math.min(4, totalDataBits - bits.length);
+    pushBits(0, term);
+    while (bits.length % 8 !== 0) bits.push(0);
+
+    const pads = [0xec, 0x11];
+    let pIdx = 0;
+    while (bits.length < totalDataBits) {
+      pushBits(pads[pIdx % 2], 8);
+      pIdx++;
+    }
+
+    const dataBytes = [];
+    for (let k = 0; k < bits.length; k += 8) {
+      let byteVal = 0;
+      for (let bit = 0; bit < 8; bit++) byteVal = (byteVal << 1) | bits[k + bit];
+      dataBytes.push(byteVal);
+    }
+
+    const blockSize = Math.floor(dataCodewords / numBlocks);
+    const remainder = dataCodewords % numBlocks;
+    const ecPerBlock = Math.floor(ecCodewords / numBlocks);
+    const genPoly = getPoly(ecPerBlock);
+
+    const dataBlocks = [];
+    const ecBlocks = [];
+    let offset = 0;
+
+    for (let b = 0; b < numBlocks; b++) {
+      const bLen = blockSize + (b >= numBlocks - remainder ? 1 : 0);
+      const blockData = dataBytes.slice(offset, offset + bLen);
+      offset += bLen;
+      dataBlocks.push(blockData);
+
+      const ec = new Uint8Array(ecPerBlock);
+      for (let i = 0; i < blockData.length; i++) {
+        const factor = blockData[i] ^ ec[0];
+        for (let j = 0; j < ecPerBlock - 1; j++) {
+          ec[j] = ec[j + 1] ^ gfMul(genPoly[j + 1], factor);
+        }
+        ec[ecPerBlock - 1] = gfMul(genPoly[ecPerBlock], factor);
+      }
+      ecBlocks.push(Array.from(ec));
+    }
+
+    const finalCodewords = [];
+    const maxDataBlockLen = blockSize + (remainder > 0 ? 1 : 0);
+    for (let d = 0; d < maxDataBlockLen; d++) {
+      for (let bIdx = 0; bIdx < numBlocks; bIdx++) {
+        if (d < dataBlocks[bIdx].length) finalCodewords.push(dataBlocks[bIdx][d]);
+      }
+    }
+    for (let e = 0; e < ecPerBlock; e++) {
+      for (let ebIdx = 0; ebIdx < numBlocks; ebIdx++) {
+        finalCodewords.push(ecBlocks[ebIdx][e]);
+      }
+    }
+
+    const size = version * 4 + 17;
+    const matrix = Array.from({length: size}, () => new Int8Array(size));
+    const reserved = Array.from({length: size}, () => new Uint8Array(size));
+
+    function setFinder(r0, c0) {
+      for (let r = -1; r <= 7; r++) {
+        for (let c = -1; c <= 7; c++) {
+          const nr = r0 + r, nc = c0 + c;
+          if (nr >= 0 && nr < size && nc >= 0 && nc < size) {
+            const val = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+                        (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+                        (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+            matrix[nr][nc] = val ? 1 : 0;
+            reserved[nr][nc] = 1;
+          }
+        }
+      }
+    }
+
+    setFinder(0, 0);
+    setFinder(0, size - 7);
+    setFinder(size - 7, 0);
+
+    for (let ar of align) {
+      for (let ac of align) {
+        if (reserved[ar][ac]) continue;
+        for (let dr = -2; dr <= 2; dr++) {
+          for (let dc = -2; dc <= 2; dc++) {
+            const aVal = Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0);
+            matrix[ar + dr][ac + dc] = aVal ? 1 : 0;
+            reserved[ar + dr][ac + dc] = 1;
+          }
+        }
+      }
+    }
+
+    for (let t = 8; t < size - 8; t++) {
+      if (!reserved[6][t]) { matrix[6][t] = (t % 2 === 0) ? 1 : 0; reserved[6][t] = 1; }
+      if (!reserved[t][6]) { matrix[t][6] = (t % 2 === 0) ? 1 : 0; reserved[t][6] = 1; }
+    }
+
+    matrix[size - 8][8] = 1;
+    reserved[size - 8][8] = 1;
+
+    for (let f1 = 0; f1 <= 8; f1++) {
+      if (f1 !== 6) { reserved[8][f1] = 1; reserved[f1][8] = 1; }
+    }
+    for (let f2 = size - 8; f2 < size; f2++) {
+      reserved[8][f2] = 1; reserved[f2][8] = 1;
+    }
+
+    const allBits = [];
+    for (let cw of finalCodewords) {
+      for (let bi = 7; bi >= 0; bi--) allBits.push((cw >> bi) & 1);
+    }
+
+    let bitIdx = 0;
+    let upward = true;
+    for (let col = size - 1; col > 0; col -= 2) {
+      if (col === 6) col--;
+      const rows = [];
+      for (let row = 0; row < size; row++) rows.push(upward ? (size - 1 - row) : row);
+      upward = !upward;
+
+      for (let rPos of rows) {
+        for (let cOffset = 0; cOffset < 2; cOffset++) {
+          const cPos = col - cOffset;
+          if (!reserved[rPos][cPos]) {
+            let bitVal = bitIdx < allBits.length ? allBits[bitIdx++] : 0;
+            if ((rPos + cPos) % 2 === 0) bitVal ^= 1;
+            matrix[rPos][cPos] = bitVal;
+          }
+        }
+      }
+    }
+
+    const formatBits = 0x5412;
+    const tl = [
+      [8,0], [8,1], [8,2], [8,3], [8,4], [8,5], [8,7], [8,8],
+      [7,8], [5,8], [4,8], [3,8], [2,8], [1,8], [0,8]
+    ];
+    for (let fi = 0; fi < 15; fi++) {
+      const fBit = (formatBits >> (14 - fi)) & 1;
+      matrix[tl[fi][0]][tl[fi][1]] = fBit;
+    }
+    for (let fi2 = 0; fi2 < 7; fi2++) {
+      matrix[size - 1 - fi2][8] = (formatBits >> fi2) & 1;
+    }
+    for (let fi3 = 7; fi3 < 15; fi3++) {
+      matrix[8][size - 15 + fi3] = (formatBits >> fi3) & 1;
+    }
+
+    const margin = 1;
+    const total = size + margin * 2;
+    let path = '';
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (matrix[r][c] === 1) {
+          path += `M${c + margin},${r + margin}h1v1h-1z `;
+        }
+      }
+    }
+
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${total} ${total}" width="120" height="120" shape-rendering="crispEdges"><rect width="${total}" height="${total}" fill="#fff"/><path d="${path}" fill="#000"/></svg>`;
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
+  function showBusinessCardPreview() {
+    let session = window.currentDashboardUser || {};
+    try {
+      if (!session.username) {
+        session = JSON.parse(sessionStorage.getItem('multicorp_session') || '{}');
+      }
+    } catch (error) {
+      alert('Data akun tidak dapat dibaca.');
+      return;
+    }
+
+    const roleLabels = {
+      SUPER_ADMIN: 'SUPER ADMIN',
+      ADMIN_DIVISI: 'ADMIN DIVISI',
+      ANGGOTA: 'ANGGOTA DIVISI',
+      ANGGOTA_DIVISI: 'ANGGOTA DIVISI',
+      ANGGOTA_SUPER_ADMIN: 'ANGGOTA SUPER ADMIN',
+      STAFF: 'STAFF',
+      PARTNER: 'PARTNER / MITRA BISNIS',
+      CUSTOMER: 'CUSTOMER / KONSUMEN'
+    };
+    const safeName = String(session.name || session.username || 'Pengguna').replace(/[<>]/g, '');
+    const safeRole = roleLabels[session.role] || session.role || 'MEMBER';
+    const cardDivision = session.selectedDivision || (['PARTNER', 'CUSTOMER'].includes(session.role) ? (localStorage.getItem(`multicorp_selected_division_${session.username}`) || 'IT Program') : session.divisi);
+    const safeDivision = String(cardDivision || 'MULTICORP').replace(/[<>]/g, '');
+    const safeUsername = String(session.username || '').replace(/[<>]/g, '');
+    const safeJob = String(
+      session.jabatan ||
+      (session.role === 'SUPER_ADMIN' ? 'CEO MPT' :
+        session.role === 'ANGGOTA_SUPER_ADMIN' ? 'Anggota Super Admin' :
+        session.role === 'ADMIN_DIVISI' ? 'Admin Divisi' :
+        session.role === 'ANGGOTA' || session.role === 'ANGGOTA_DIVISI' ? 'Anggota Divisi' :
+        'Staff')
+    ).replace(/[<>]/g, '');
+    const safeEmail = String(session.email || (session.role === 'SUPER_ADMIN' ? 'superadmin@multicorp.com' : `${safeUsername}@multicorp.com`)).replace(/[<>]/g, '');
+    const userPhoneLookup = {
+      'superadmin': '0812-6263-9095',
+      'admin_it': '0812-0000-0001',
+      'admin_net': '0812-0000-0002',
+      'admin_food': '0812-0000-0003',
+      'partner_jaya': '0813-0000-0001',
+      'cust_budi': '0813-0000-0002'
+    };
+    const safePhone = String(session.phone || session.telepon || userPhoneLookup[safeUsername.toLowerCase()] || '0812-6263-9095').replace(/[<>]/g, '');
+
+    function resolveDivisionLogo(divName, role) {
+      const d = String(divName || '').toLowerCase().trim();
+      const r = String(role || '').toUpperCase().trim();
+      if (r === 'SUPER_ADMIN' || d === 'all') {
+        return {
+          file: 'logo-mpt-resized.png',
+          encoded: 'logo-mpt-resized.png',
+          alt: 'Management Production Tumanggor'
+        };
+      }
+      if (d.includes('it') || d.includes('program') || d.includes('rf')) {
+        return {
+          file: 'RF Production-transparent.png',
+          encoded: 'RF%20Production-transparent.png',
+          alt: 'Logo IT Program RF Production'
+        };
+      }
+      if (d.includes('net') || d.includes('ndp')) {
+        return {
+          file: 'NDP_Network Production-transparent.png',
+          encoded: 'NDP_Network%20Production-transparent.png',
+          alt: 'Logo Network NDP'
+        };
+      }
+      if (d.includes('food') || d.includes('kuliner') || d.includes('dnf') || d.includes('nusantara')) {
+        return {
+          file: 'DNF_Nusantara Food-transparent.png',
+          encoded: 'DNF_Nusantara%20Food-transparent.png',
+          alt: 'Logo Nusantara Food DNF'
+        };
+      }
+      return {
+        file: 'logo-mpt-resized.png',
+        encoded: 'logo-mpt-resized.png',
+        alt: 'Logo Management Production Tumanggor'
+      };
+    }
+
+    const divLogo = resolveDivisionLogo(cardDivision, session.role);
+    const backLogo = session.role === 'SUPER_ADMIN'
+      ? { file: 'logo-mpt-resized.png', encoded: 'logo-mpt-resized.png', alt: 'Management Production Tumanggor' }
+      : divLogo;
+
+    const divisionTaglines = {
+      'IT Program': '"Divisi Teknologi Informasi, Rekayasa Perangkat Lunak & Sistem Enterprise"',
+      'Network': '"Divisi Infrastruktur Jaringan Telekomunikasi, Cloud & Server"',
+      'Nusantara Food': '"Divisi Layanan Kuliner Nusantara, Katering Event & Cita Rasa Otentik"',
+      'ALL': '"Solusi Terpadu Teknologi, Jaringan & Kuliner Nusantara"'
+    };
+    const backTagline = divisionTaglines[cardDivision] || (session.role === 'SUPER_ADMIN' 
+      ? '"Solusi Terpadu Teknologi, Jaringan & Kuliner Nusantara"' 
+      : `"Divisi Layanan Resmi: ${safeDivision}"`);
+
+    const isIT = cardDivision === 'IT Program';
+    const isNet = cardDivision === 'Network';
+    const isFood = cardDivision === 'Nusantara Food';
+
+    const qrValue = `MPT-SIGNATURE|${safeUsername}|${safeName}|${safeJob}|${safePhone}`;
+    let qrSrc = '';
+    try {
+      qrSrc = generateQRCodeDataURI(qrValue);
+    } catch(e) {
+      qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(qrValue)}`;
+    }
+    const serialCode = `MPT-${(session.role || 'USR').slice(0, 3)}-${safeUsername.toUpperCase()}-2026`;
+
+    // Sisi Depan
+    document.getElementById('businessCardPrintable').innerHTML = `
+      <img class="card-company-logo" src="logo-mpt-resized.png" alt="Management Production Tumanggor" onerror="this.onerror=null; this.src='logo-mpt-resized.png';">
+      <h2 class="card-name">${safeName}</h2><div class="card-role">${safeRole}</div>
+      <div class="card-meta">Jabatan: ${safeJob}<br>Divisi: ${safeDivision}<br>WA/Telp: ${safePhone}<br>Email: ${safeEmail}</div>
+      <img class="card-division-logo" src="${divLogo.encoded}" alt="${divLogo.alt}" title="${divLogo.alt}" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='${divLogo.file}';}else{this.src='logo-mpt-resized.png';}">
+      <img class="card-qr" src="${qrSrc}" alt="QR verifikasi tanda tangan">
+      <div class="card-brand">MANAGEMENT PRODUCTION<br>TUMANGGOR</div>`;
+
+    // Sisi Belakang (Profil Korporasi & Spesifik Divisi / Akun)
+    document.getElementById('businessCardBack').innerHTML = `
+      <div class="back-header">
+        <img class="back-logo" src="${backLogo.encoded}" alt="${backLogo.alt}" title="${backLogo.alt}" onerror="if(!this.dataset.retried){this.dataset.retried='1';this.src='${backLogo.file}';}else{this.src='logo-mpt-resized.png';}">
+        <h3 class="back-title">${session.role === 'SUPER_ADMIN' ? 'MANAGEMENT PRODUCTION TUMANGGOR' : `MPT - DIVISI ${safeDivision.toUpperCase()}`}</h3>
+        <p class="back-tagline">${backTagline}</p>
+      </div>
+      <div class="back-divisions">
+        <div class="back-div-item" style="${isIT ? 'color: #d4af37; font-weight: bold;' : ''}"><i class="fas fa-code"></i> IT Program</div>
+        <div class="back-div-item" style="${isNet ? 'color: #d4af37; font-weight: bold;' : ''}"><i class="fas fa-network-wired"></i> Network</div>
+        <div class="back-div-item" style="${isFood ? 'color: #d4af37; font-weight: bold;' : ''}"><i class="fas fa-utensils"></i> Nusantara Food</div>
+      </div>
+      <div class="back-contact">
+        <strong>Headquarters:</strong> Gd. Management Production Tumanggor Lt. 10, Jakarta<br>
+        <strong>Kontak & WA:</strong> ${safePhone} &bull; <strong>Email:</strong> ${safeEmail}<br>
+        <strong>Unit Divisi:</strong> ${safeDivision} &bull; <strong>Website:</strong> www.managementproductiontumanggor.com
+      </div>
+      <div class="back-footer">
+        <div class="back-serial">${serialCode}</div>
+        <div class="back-badge">${session.role === 'SUPER_ADMIN' ? 'EXECUTIVE BOARD' : (session.role === 'ADMIN_DIVISI' ? 'OFFICIAL DIVISION HEAD' : 'REGISTERED MEMBER')}</div>
+      </div>`;
+
+    setCardTab('all');
+    document.getElementById('businessCardModal').classList.add('show');
+    recordAudit('PRINT_BUSINESS_CARD', `Mencetak kartu nama ${safeUsername}`);
+  }
+
+  function printBusinessCardSinglePage() {
+    const frontCard = document.getElementById('businessCardPrintable')?.innerHTML || '';
+    const backCard = document.getElementById('businessCardBack')?.innerHTML || '';
+
+    const printWindow = window.open('', '_blank', 'width=1200,height=820');
+    if (!printWindow) {
+      alert('Popup diblokir. Izinkan popup browser lalu coba kembali.');
+      return;
+    }
+
+    printWindow.document.open();
+    printWindow.document.write(`<!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Cetak Kartu Nama - MultiCorp MPT</title>
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+          <style>
+            * { box-sizing: border-box; }
+            html, body {
+              margin: 0;
+              padding: 0;
+              background: #ffffff;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            .sheet {
+              width: 100%;
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 10mm;
+              background: #fff;
+            }
+            .sheet-inner {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              justify-content: center;
+              gap: 15mm;
+            }
+            .business-card-printable {
+              width: 90mm !important;
+              height: 55mm !important;
+              padding: 7mm !important;
+              color: #fff !important;
+              background: linear-gradient(135deg, #0a0a0b, #252116) !important;
+              border: 1px solid #d4af37 !important;
+              border-radius: 3mm !important;
+              position: relative !important;
+              overflow: hidden !important;
+              text-align: left !important;
+              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45) !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .business-card-printable .card-company-logo {
+              position: absolute !important;
+              left: 7mm !important;
+              top: 5.5mm !important;
+              max-width: 32mm !important;
+              max-height: 10.5mm !important;
+              object-fit: contain !important;
+              object-position: left center !important;
+            }
+            .business-card-printable .card-name {
+              position: absolute !important;
+              left: 7mm !important;
+              top: 18mm !important;
+              max-width: 56mm !important;
+              font-size: 3.8mm !important;
+              line-height: 1.08 !important;
+              margin: 0 !important;
+              color: #f3e5ab !important;
+              font-weight: bold !important;
+            }
+            .business-card-printable .card-role {
+              position: absolute !important;
+              left: 7mm !important;
+              top: 28mm !important;
+              max-width: 56mm !important;
+              font-size: 2.5mm !important;
+              color: #d4af37 !important;
+              font-weight: bold !important;
+              letter-spacing: .3mm !important;
+            }
+            .business-card-printable .card-meta {
+              position: absolute !important;
+              bottom: 7mm !important;
+              left: 7mm !important;
+              max-width: 49mm !important;
+              font-size: 2.35mm !important;
+              line-height: 1.55 !important;
+              color: #e5e5e5 !important;
+            }
+            .business-card-printable .card-division-logo {
+              position: absolute !important;
+              right: 7mm !important;
+              top: 23.5mm !important;
+              width: 20mm !important;
+              height: 13.5mm !important;
+              object-fit: contain !important;
+              background: transparent !important;
+            }
+            .business-card-printable .card-qr {
+              position: absolute !important;
+              right: 7mm !important;
+              top: 7mm !important;
+              width: 15mm !important;
+              height: 15mm !important;
+              object-fit: contain !important;
+              background: #fff !important;
+              padding: 1mm !important;
+            }
+            .business-card-printable .card-brand {
+              position: absolute !important;
+              right: 7mm !important;
+              bottom: 7mm !important;
+              color: #d4af37 !important;
+              font-size: 2.1mm !important;
+              font-weight: bold !important;
+              line-height: 1.25 !important;
+              text-align: right !important;
+            }
+            .business-card-back {
+              width: 90mm !important;
+              height: 55mm !important;
+              padding: 5mm 6mm !important;
+              color: #fff !important;
+              background: linear-gradient(135deg, #0a0a0b 0%, #201b10 50%, #0a0a0b 100%) !important;
+              border: 1px solid #d4af37 !important;
+              border-radius: 3mm !important;
+              position: relative !important;
+              overflow: hidden !important;
+              text-align: center !important;
+              display: flex !important;
+              flex-direction: column !important;
+              justify-content: space-between !important;
+              box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45) !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .business-card-back .back-header {
+              display: flex !important;
+              flex-direction: column !important;
+              align-items: center !important;
+              gap: 1.5mm !important;
+            }
+            .business-card-back .back-logo {
+              height: 13mm !important;
+              max-width: 45mm !important;
+              object-fit: contain !important;
+              margin-bottom: 1mm !important;
+            }
+            .business-card-back .back-title {
+              font-size: 2.6mm !important;
+              font-weight: 800 !important;
+              color: #d4af37 !important;
+              letter-spacing: 0.6px !important;
+              margin: 0 !important;
+              line-height: 1.1 !important;
+              text-transform: uppercase !important;
+            }
+            .business-card-back .back-tagline {
+              font-size: 1.8mm !important;
+              color: #f3e5ab !important;
+              font-style: italic !important;
+              margin: 0 !important;
+              opacity: 0.9 !important;
+            }
+            .business-card-back .back-divisions {
+              display: flex !important;
+              justify-content: center !important;
+              gap: 3.5mm !important;
+              margin: 1mm 0 !important;
+              padding: 1.2mm 0 !important;
+              border-top: 0.25mm solid rgba(212, 175, 55, 0.35) !important;
+              border-bottom: 0.25mm solid rgba(212, 175, 55, 0.35) !important;
+            }
+            .business-card-back .back-div-item {
+              font-size: 1.85mm !important;
+              color: #ffffff !important;
+              font-weight: 600 !important;
+              display: flex !important;
+              align-items: center !important;
+              gap: 1.2mm !important;
+            }
+            .business-card-back .back-contact {
+              font-size: 1.75mm !important;
+              line-height: 1.5 !important;
+              color: #e5e5e5 !important;
+              text-align: center !important;
+            }
+            .business-card-back .back-contact strong {
+              color: #d4af37 !important;
+            }
+            .business-card-back .back-footer {
+              display: flex !important;
+              justify-content: space-between !important;
+              align-items: center !important;
+              border-top: 0.2mm solid rgba(212, 175, 55, 0.25) !important;
+              padding-top: 1mm !important;
+              margin-top: 0.5mm !important;
+            }
+            .business-card-back .back-serial {
+              font-size: 1.6mm !important;
+              color: #d4af37 !important;
+              font-family: monospace !important;
+              font-weight: bold !important;
+              letter-spacing: 0.3px !important;
+            }
+            .business-card-back .back-badge {
+              font-size: 1.4mm !important;
+              color: #000 !important;
+              background: linear-gradient(135deg, #d4af37, #f3e5ab) !important;
+              padding: 0.4mm 1.6mm !important;
+              border-radius: 1mm !important;
+              font-weight: bold !important;
+              letter-spacing: 0.3px !important;
+              text-transform: uppercase !important;
+            }
+            @media print {
+              @page { size: A4 portrait; margin: 10mm; }
+              html, body { background: #fff !important; margin: 0 !important; padding: 0 !important; }
+              .sheet { padding: 0 !important; min-height: auto !important; }
+              .sheet-inner { gap: 12mm !important; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="sheet">
+            <div class="sheet-inner">
+              <div class="business-card-printable">${frontCard}</div>
+              <div class="business-card-back">${backCard}</div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+
+    const triggerPrint = () => {
+      try {
+        printWindow.focus();
+        printWindow.print();
+      } catch (e) {
+        console.warn('Print error:', e);
+      }
+    };
+
+    printWindow.onafterprint = () => {
+      try {
+        printWindow.close();
+      } catch (e) {}
+    };
+
+    const imgs = Array.from(printWindow.document.images || []);
+    if (imgs.length === 0) {
+      setTimeout(triggerPrint, 350);
+    } else {
+      let pending = imgs.length;
+      const onDone = () => {
+        pending--;
+        if (pending <= 0) setTimeout(triggerPrint, 250);
+      };
+      imgs.forEach(img => {
+        if (img.complete) {
+          onDone();
+        } else {
+          img.onload = onDone;
+          img.onerror = onDone;
+        }
+      });
+      setTimeout(triggerPrint, 1500);
+    }
+  }
+
+  function closeBusinessCardPreview() {
+    document.getElementById('businessCardModal')?.classList.remove('show');
+  }
+
   function loadSavedSettings() {
     const settings = getSavedSettings();
+
+    const notifSMS = document.getElementById('notifSMS');
+    const notifWhatsapp = document.getElementById('notifWhatsapp');
+    const emailHostInput = document.getElementById('emailHostInput');
+    const emailPortInput = document.getElementById('emailPortInput');
+    const emailFromInput = document.getElementById('emailFromInput');
+    const emailUserInput = document.getElementById('emailUserInput');
+    const emailPasswordInput = document.getElementById('emailPasswordInput');
+    const smsApiUrlInput = document.getElementById('smsApiUrlInput');
+    const smsApiTokenInput = document.getElementById('smsApiTokenInput');
+    const smsFromInput = document.getElementById('smsFromInput');
+    const whatsappApiUrlInput = document.getElementById('whatsappApiUrlInput');
+    const whatsappApiTokenInput = document.getElementById('whatsappApiTokenInput');
+    const smsProviderSelect = document.getElementById('smsProviderSelect');
+    const whatsappProviderSelect = document.getElementById('whatsappProviderSelect');
+    if (notifSMS) notifSMS.checked = settings.NOTIF_SMS !== false;
+    if (notifWhatsapp) notifWhatsapp.checked = settings.NOTIF_WHATSAPP !== false;
+    if (emailHostInput) emailHostInput.value = settings.EMAIL_SMTP_HOST || '';
+    if (emailPortInput) emailPortInput.value = settings.EMAIL_SMTP_PORT || 587;
+    if (emailFromInput) emailFromInput.value = settings.EMAIL_FROM || '';
+    if (emailUserInput) emailUserInput.value = settings.EMAIL_SMTP_USER || '';
+    if (emailPasswordInput) emailPasswordInput.value = settings.EMAIL_SMTP_PASSWORD || '';
+    const emailSecureValue = String(settings.EMAIL_SMTP_SECURE || 'false').toLowerCase() === 'true';
+    if (emailPortInput && emailPortInput.value === '') {
+      emailPortInput.value = settings.EMAIL_SMTP_PORT || (emailSecureValue ? 465 : 587);
+    }
+    if (smsApiUrlInput) smsApiUrlInput.value = settings.SMS_API_URL || '';
+    if (smsApiTokenInput) smsApiTokenInput.value = settings.SMS_API_TOKEN || '';
+    if (smsFromInput) smsFromInput.value = settings.SMS_FROM || '';
+    if (whatsappApiUrlInput) whatsappApiUrlInput.value = settings.WHATSAPP_WEBHOOK_URL || '';
+    if (whatsappApiTokenInput) whatsappApiTokenInput.value = settings.WHATSAPP_API_TOKEN || '';
+    if (smsProviderSelect) smsProviderSelect.value = settings.SMS_PROVIDER || 'telkomsel';
+    if (whatsappProviderSelect) whatsappProviderSelect.value = settings.WHATSAPP_PROVIDER || 'generic';
 
     const passwordInfo = settings.REKENING_INFO || 'GOPAY: 0812-6263-9095 | DANA: 0812-6263-9095 | BCA: 123-456-7890 (a.n Management Production) | BRI: 0987-6543-21 (a.n Management Production) | BNI: 555-444-333';
     const contactPerson = settings.CONTACT_PERSON || 'Hotline: 0812-6263-9095 | Email: support@managementproduction.com | Alamat HQ: Gd. Management Production Lt. 10, Jakarta';
@@ -1554,6 +2640,66 @@
     document.getElementById('smFB').value = targetValue.fb || '';
     document.getElementById('smIG').value = targetValue.ig || '';
     document.getElementById('smTT').value = targetValue.tiktok || '';
+  }
+
+  function saveNotificationPreferences() {
+    saveSettings({
+      NOTIF_EMAIL: document.getElementById('notifEmail')?.checked !== false,
+      NOTIF_SMS: document.getElementById('notifSMS')?.checked !== false,
+      NOTIF_WHATSAPP: document.getElementById('notifWhatsapp')?.checked !== false
+    });
+  }
+
+  function saveNotificationProviderConfig() {
+    const emailHost = document.getElementById('emailHostInput')?.value?.trim() || '';
+    const emailPort = document.getElementById('emailPortInput')?.value?.trim() || '587';
+    const emailFrom = document.getElementById('emailFromInput')?.value?.trim() || '';
+    const emailUser = document.getElementById('emailUserInput')?.value?.trim() || '';
+    const emailPassword = document.getElementById('emailPasswordInput')?.value?.trim() || '';
+    const smsUrl = document.getElementById('smsApiUrlInput')?.value?.trim() || '';
+    const smsToken = document.getElementById('smsApiTokenInput')?.value?.trim() || '';
+    const smsFrom = document.getElementById('smsFromInput')?.value?.trim() || '';
+    const whatsappUrl = document.getElementById('whatsappApiUrlInput')?.value?.trim() || '';
+    const whatsappToken = document.getElementById('whatsappApiTokenInput')?.value?.trim() || '';
+    const smsProvider = document.getElementById('smsProviderSelect')?.value || 'generic';
+    const whatsappProvider = document.getElementById('whatsappProviderSelect')?.value || 'generic';
+    saveSettings({
+      EMAIL_SMTP_HOST: emailHost,
+      EMAIL_SMTP_PORT: emailPort,
+      EMAIL_FROM: emailFrom,
+      EMAIL_SMTP_USER: emailUser,
+      EMAIL_SMTP_PASSWORD: emailPassword,
+      SMS_PROVIDER: smsProvider,
+      SMS_API_URL: smsUrl,
+      SMS_API_TOKEN: smsToken,
+      SMS_FROM: smsFrom,
+      WHATSAPP_PROVIDER: whatsappProvider,
+      WHATSAPP_WEBHOOK_URL: whatsappUrl,
+      WHATSAPP_API_TOKEN: whatsappToken
+    });
+    alert('Konfigurasi email, SMS, dan WhatsApp berhasil disimpan.');
+  }
+
+  function sendNotificationChannels(title, message, phone = '') {
+    const prefs = getSavedSettings();
+    const payload = {
+      title,
+      message,
+      phone,
+      channels: {
+        sms: Boolean(prefs.NOTIF_SMS !== false),
+        whatsapp: Boolean(prefs.NOTIF_WHATSAPP !== false),
+        email: Boolean(prefs.NOTIF_EMAIL !== false)
+      }
+    };
+
+    fetch('/api/notifications/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getLocalAuthHeaders() },
+      body: JSON.stringify(payload)
+    }).catch(() => {
+      addLocalNotification(`${title}: ${message}`, 'INFO');
+    });
   }
 
   function handleSaveContactSocmed(event) {
@@ -1668,27 +2814,99 @@
     reader.readAsDataURL(file);
   }
 
+  document.addEventListener('change', function(event) {
+    if (event.target && (event.target.id === 'notifEmail' || event.target.id === 'notifSMS' || event.target.id === 'notifWhatsapp')) {
+      saveNotificationPreferences();
+    }
+    if (event.target && (
+      event.target.id === 'emailHostInput' ||
+      event.target.id === 'emailPortInput' ||
+      event.target.id === 'emailFromInput' ||
+      event.target.id === 'emailUserInput' ||
+      event.target.id === 'emailPasswordInput' ||
+      event.target.id === 'smsApiUrlInput' ||
+      event.target.id === 'smsApiTokenInput' ||
+      event.target.id === 'smsFromInput' ||
+      event.target.id === 'whatsappApiUrlInput' ||
+      event.target.id === 'whatsappApiTokenInput' ||
+      event.target.id === 'smsProviderSelect' ||
+      event.target.id === 'whatsappProviderSelect'
+    )) {
+      saveNotificationProviderConfig();
+    }
+  });
+
   function handleAddSalesData(event) {
     event.preventDefault();
-    const sales = JSON.parse(localStorage.getItem('multicorp_sales') || '[]');
+    const storedSales = readLocalData('multicorp_sales', []);
+    const sales = Array.isArray(storedSales) ? storedSales : [];
     sales.push({
       tanggal: new Date().toISOString().slice(0, 10),
       divisi: document.getElementById('salesDivisi').value,
-      total: Number(document.getElementById('salesAmount').value)
+      total: Number(document.getElementById('salesAmount').value),
+      status: document.getElementById('salesStatus').value
     });
     localStorage.setItem('multicorp_sales', JSON.stringify(sales));
+    persistLocalData('sales', sales);
+    recordAudit('ADD_SALE', 'Menambahkan data penjualan');
+    addLocalNotification(`Order baru dari divisi ${document.getElementById('salesDivisi').value}.`, 'ORDER');
+    renderOrderStatusList();
     alert('Data penjualan berhasil ditambahkan.');
     event.target.reset();
+  }
+
+  function renderOrderStatusList() {
+    const tableBody = document.getElementById('orderStatusTableBody');
+    if (!tableBody) return;
+
+    const storedSales = readLocalData('multicorp_sales', []);
+    const sales = Array.isArray(storedSales) ? storedSales : [];
+    const statusFilter = document.getElementById('orderStatusFilter')?.value || 'ALL';
+    const visibleSales = sales.filter(item => statusFilter === 'ALL' || (item.status || 'PENDING') === statusFilter);
+
+    if (!visibleSales.length) {
+      tableBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Belum ada data order</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = visibleSales.map(item => {
+      const status = item.status || 'PENDING';
+      const statusLabel = {
+        PENDING: 'Pending',
+        PROCESSING: 'Diproses',
+        COMPLETED: 'Selesai',
+        CANCELLED: 'Dibatalkan'
+      }[status] || status;
+      return `<tr><td>${escapeHtml(item.tanggal || '-')}</td><td>${escapeHtml(item.divisi || '-')}</td><td>Rp ${Number(item.total || 0).toLocaleString('id-ID')}</td><td><span class="badge badge-status">${escapeHtml(statusLabel)}</span></td></tr>`;
+    }).join('');
+  }
+
+  function validateUploadFile(file, allowedTypes, maxSizeMb) {
+    if (!file) {
+      return 'Silakan pilih file terlebih dahulu.';
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+      return 'Jenis file tidak didukung.';
+    }
+
+    if (file.size > maxSizeMb * 1024 * 1024) {
+      return `Ukuran file maksimal ${maxSizeMb} MB.`;
+    }
+
+    return '';
   }
 
   function handleUploadPayment(event) {
     event.preventDefault();
     const file = document.getElementById('payFile').files[0];
-    if (!file) return alert('Silakan pilih bukti pembayaran.');
+    const fileError = validateUploadFile(file, ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'], 3);
+    if (fileError) return alert(fileError);
 
     const reader = new FileReader();
     reader.onload = () => {
-      const payments = JSON.parse(localStorage.getItem('multicorp_payments') || '[]');
+      const storedPayments = readCachedData('multicorp_payments', []);
+      const payments = Array.isArray(storedPayments) ? storedPayments : [];
       payments.push({
         id: 'PAY-' + Date.now(),
         waktu: new Date().toLocaleString('sv-SE'),
@@ -1696,10 +2914,14 @@
         role: document.getElementById('userRole').textContent,
         jumlah: Number(document.getElementById('payAmount').value),
         metode: document.getElementById('payMethod').value,
+        status: 'PENDING',
         keterangan: document.getElementById('payKet').value,
         file: reader.result
       });
-      localStorage.setItem('multicorp_payments', JSON.stringify(payments));
+      writeCachedData('multicorp_payments', payments);
+      persistLocalData('payments', payments);
+      recordAudit('SUBMIT_PAYMENT', 'Mengirim bukti pembayaran');
+      addLocalNotification('Bukti pembayaran baru menunggu pemeriksaan.', 'PAYMENT');
       renderPaymentList();
       alert('Bukti pembayaran berhasil dikirim.');
       event.target.reset();
@@ -1711,37 +2933,108 @@
     const tableBody = document.getElementById('paymentsTableBody');
     if (!tableBody) return;
 
-    const payments = JSON.parse(localStorage.getItem('multicorp_payments') || '[]');
-    if (!payments.length) {
-      tableBody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">Belum ada bukti pembayaran</td></tr>';
+    const storedPayments = readCachedData('multicorp_payments', []);
+    const payments = Array.isArray(storedPayments) ? storedPayments : [];
+    const statusFilter = document.getElementById('paymentStatusFilter')?.value || 'ALL';
+    const visiblePayments = payments.filter(item => statusFilter === 'ALL' || (item.status || 'PENDING') === statusFilter);
+    if (!visiblePayments.length) {
+      tableBody.innerHTML = '<tr><td colspan="9" class="text-center text-muted">Belum ada bukti pembayaran</td></tr>';
       return;
     }
 
-    tableBody.innerHTML = payments.map(item => `
+    const session = readSession();
+    const canManagePayments = ['SUPER_ADMIN', 'ADMIN_DIVISI'].includes(session.role);
+
+    tableBody.innerHTML = visiblePayments.map(item => `
       <tr>
-        <td>${item.id}</td>
-        <td>${item.waktu}</td>
-        <td>${item.pengirim}</td>
-        <td>${item.role}</td>
+        <td>${escapeHtml(item.id)}</td>
+        <td>${escapeHtml(item.waktu)}</td>
+        <td>${escapeHtml(item.pengirim)}</td>
+        <td>${escapeHtml(item.role)}</td>
         <td>Rp ${Number(item.jumlah).toLocaleString('id-ID')}</td>
-        <td>${item.metode}</td>
-        <td>${item.keterangan || '-'}</td>
+        <td>${escapeHtml(item.metode)}</td>
+        <td>${canManagePayments ? `
+          <select class="form-select form-select-sm" onchange="updatePaymentStatus('${item.id}', this.value)">
+            ${['PENDING', 'VERIFIED', 'REJECTED'].map(status => `<option value="${status}" ${item.status === status || (!item.status && status === 'PENDING') ? 'selected' : ''}>${status}</option>`).join('')}
+          </select>
+        ` : `<span class="badge badge-status badge-${(item.status || 'PENDING').toLowerCase()}">${item.status || 'PENDING'}</span>`}</td>
+        <td>${escapeHtml(item.keterangan || '-')}</td>
         <td>
-          <a href="${item.file}" target="_blank" class="btn btn-sm btn-dashboard">Lihat</a>
+          <a href="${safeResourceUrl(item.file)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-dashboard">Lihat</a>
           <button type="button" class="btn btn-sm btn-outline-danger" onclick="deletePayment('${item.id}')" title="Hapus bukti pembayaran"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
     `).join('');
   }
 
+  function exportLocalReport() {
+    const report = {
+      exportedAt: new Date().toISOString(),
+      payments: readCachedData('multicorp_payments', []),
+      sales: readLocalData('multicorp_sales', []),
+      files: readCachedData('multicorp_files', []),
+      messages: readCachedData('multicorp_chats', []),
+      auditLog: readCachedData('multicorp_audit_log', [])
+    };
+    const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `management-production-report-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    recordAudit('EXPORT_REPORT', 'Mengekspor laporan lokal');
+  }
+
+  function updatePaymentStatus(id, status) {
+    if (!['PENDING', 'VERIFIED', 'REJECTED'].includes(status)) return;
+
+    const storedPayments = readCachedData('multicorp_payments', []);
+    const payments = Array.isArray(storedPayments) ? storedPayments : [];
+    const payment = payments.find(item => item.id === id);
+    if (!payment) return;
+
+    payment.status = status;
+    writeCachedData('multicorp_payments', payments);
+    persistLocalData('payments', payments);
+    recordAudit('UPDATE_PAYMENT_STATUS', `${id} menjadi ${status}`);
+    addLocalNotification(`Status pembayaran ${id} diubah menjadi ${status}.`, 'PAYMENT');
+    renderPaymentList();
+  }
+
+  function recordAudit(action, details) {
+    const session = readSession();
+    const storedAuditLog = readCachedData('multicorp_audit_log', []);
+    const auditLog = Array.isArray(storedAuditLog) ? storedAuditLog : [];
+    auditLog.push({
+      id: 'AUDIT-' + Date.now(),
+      timestamp: new Date().toISOString(),
+      username: session.username || 'anonymous',
+      role: session.role || 'UNKNOWN',
+      action,
+      details
+    });
+    writeCachedData('multicorp_audit_log', auditLog.slice(-200));
+    persistLocalData('audit-log', auditLog.slice(-200));
+  }
+
   function handleUploadFile(event) {
     event.preventDefault();
     const file = document.getElementById('upFile').files[0];
-    if (!file) return alert('Pilih berkas terlebih dahulu.');
+    const fileError = validateUploadFile(file, [
+      'application/pdf',
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'video/mp4',
+      'video/webm',
+      'video/quicktime'
+    ], 3);
+    if (fileError) return alert(fileError);
 
     const reader = new FileReader();
     reader.onload = () => {
-      const files = JSON.parse(localStorage.getItem('multicorp_files') || '[]');
+      const storedFiles = readCachedData('multicorp_files', []);
+      const files = Array.isArray(storedFiles) ? storedFiles : [];
       files.push({
         id: 'FILE-' + Date.now(),
         waktu: new Date().toLocaleString('sv-SE'),
@@ -1751,7 +3044,9 @@
         keterangan: document.getElementById('upKet').value,
         link: reader.result
       });
-      localStorage.setItem('multicorp_files', JSON.stringify(files));
+      writeCachedData('multicorp_files', files);
+      persistLocalData('files', files);
+      recordAudit('UPLOAD_FILE', `Mengupload ${file.name}`);
       renderFilesList();
       alert('Berkas berhasil diupload.');
       event.target.reset();
@@ -1763,7 +3058,8 @@
     const tableBody = document.getElementById('filesTableBody');
     if (!tableBody) return;
 
-    const files = JSON.parse(localStorage.getItem('multicorp_files') || '[]');
+    const storedFiles = readCachedData('multicorp_files', []);
+    const files = Array.isArray(storedFiles) ? storedFiles : [];
     if (!files.length) {
       tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">Belum ada berkas yang diupload</td></tr>';
       return;
@@ -1774,7 +3070,8 @@
       id: file.id || `FILE-LEGACY-${index}`
     }));
     if (normalizedFiles.some((file, index) => file.id !== files[index].id)) {
-      localStorage.setItem('multicorp_files', JSON.stringify(normalizedFiles));
+      writeCachedData('multicorp_files', normalizedFiles);
+      persistLocalData('files', normalizedFiles);
     }
 
     tableBody.innerHTML = normalizedFiles.map(file => `
@@ -1803,42 +3100,48 @@
 
   function deleteMessage(id) {
     if (!confirm('Hapus pesan ini?')) return;
-    const deleted = JSON.parse(localStorage.getItem('multicorp_deleted_messages') || '[]');
+    const deleted = readCachedData('multicorp_deleted_messages', []);
     if (!deleted.includes(id)) deleted.push(id);
-    localStorage.setItem('multicorp_deleted_messages', JSON.stringify(deleted));
+    writeCachedData('multicorp_deleted_messages', deleted);
     loadDashboardData();
   }
 
   function clearMessages() {
     if (!confirm('Hapus semua pesan yang tampil?')) return;
     const ids = ['MSG-001', 'MSG-002', 'MSG-003'];
-    localStorage.setItem('multicorp_deleted_messages', JSON.stringify(ids));
+    writeCachedData('multicorp_deleted_messages', ids);
     loadDashboardData();
   }
 
   function deletePayment(id) {
     if (!confirm('Hapus bukti pembayaran ini?')) return;
-    const payments = JSON.parse(localStorage.getItem('multicorp_payments') || '[]');
-    localStorage.setItem('multicorp_payments', JSON.stringify(payments.filter(item => item.id !== id)));
+    const payments = readCachedData('multicorp_payments', []);
+    const remainingPayments = payments.filter(item => item.id !== id);
+    writeCachedData('multicorp_payments', remainingPayments);
+    persistLocalData('payments', remainingPayments);
     renderPaymentList();
   }
 
   function clearPayments() {
     if (!confirm('Hapus semua bukti pembayaran lokal?')) return;
-    localStorage.removeItem('multicorp_payments');
+    removeCachedData('multicorp_payments');
+    persistLocalData('payments', []);
     renderPaymentList();
   }
 
   function deleteFile(id) {
     if (!confirm('Hapus berkas ini?')) return;
-    const files = JSON.parse(localStorage.getItem('multicorp_files') || '[]');
-    localStorage.setItem('multicorp_files', JSON.stringify(files.filter(file => file.id !== id)));
+    const files = readCachedData('multicorp_files', []);
+    const remainingFiles = files.filter(file => file.id !== id);
+    writeCachedData('multicorp_files', remainingFiles);
+    persistLocalData('files', remainingFiles);
     renderFilesList();
   }
 
   function clearFiles() {
     if (!confirm('Hapus semua berkas lokal?')) return;
-    localStorage.removeItem('multicorp_files');
+    removeCachedData('multicorp_files');
+    persistLocalData('files', []);
     renderFilesList();
   }
 
@@ -1897,8 +3200,22 @@
     document.getElementById('adminChatInput').focus();
   }
 
+  async function syncChatMessagesFromServer() {
+    try {
+      const response = await fetch('/api/chat/history', { cache: 'no-store', headers: getLocalAuthHeaders() });
+      if (!response.ok) return;
+      const result = await response.json();
+      const chats = Array.isArray(result?.chats) ? result.chats : [];
+      writeCachedData('multicorp_chats', chats);
+      return chats;
+    } catch (error) {
+      return loadChatMessages();
+    }
+  }
+
   function loadChatMessages() {
-    const chats = JSON.parse(localStorage.getItem('multicorp_chats') || '[]');
+    const storedChats = readCachedData('multicorp_chats', []);
+    const chats = Array.isArray(storedChats) ? storedChats : [];
     return chats.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   }
 
@@ -1912,7 +3229,8 @@
       timestamp: new Date().toISOString(),
       replied: false
     });
-    localStorage.setItem('multicorp_chats', JSON.stringify(chats));
+    writeCachedData('multicorp_chats', chats);
+    persistLocalData('messages', chats);
     return chats[chats.length - 1];
   }
 
@@ -1934,8 +3252,8 @@
       return `
         <div class="mb-3" style="text-align: ${isAdmin ? 'right' : 'left'};">
           <div style="display: inline-block; max-width: 70%; background: ${isAdmin ? '#d4af37' : 'rgba(255,255,255,0.1)'}; padding: 10px 15px; border-radius: 12px; color: ${isAdmin ? '#000' : '#fff'};">
-            <strong style="font-size: 0.85rem; opacity: 0.7;">${chat.sender}</strong><br>
-            ${chat.text}
+            <strong style="font-size: 0.85rem; opacity: 0.7;">${escapeHtml(chat.sender)}</strong><br>
+            ${escapeHtml(chat.text)}
             <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 5px;">
               ${new Date(chat.timestamp).toLocaleTimeString('id-ID')}
             </div>
@@ -1952,24 +3270,45 @@
   function deleteChatMessage(id) {
     if (!confirm('Hapus pesan chat ini?')) return;
     const chats = loadChatMessages().filter(chat => chat.id !== id);
-    localStorage.setItem('multicorp_chats', JSON.stringify(chats));
+    writeCachedData('multicorp_chats', chats);
+    persistLocalData('messages', chats);
     renderAdminChatThread();
   }
 
   function clearChatMessages() {
     if (!confirm('Hapus seluruh riwayat chat?')) return;
-    localStorage.removeItem('multicorp_chats');
+    const cleared = [];
+    writeCachedData('multicorp_chats', cleared);
+    persistLocalData('messages', cleared);
     renderAdminChatThread();
   }
 
-  function handleAdminChatReply(event) {
+  async function handleAdminChatReply(event) {
     event.preventDefault();
     const input = document.getElementById('adminChatInput');
     const text = input.value.trim();
     if (!text) return;
 
     const user = document.getElementById('userName').textContent;
-    saveChatMessage(user, text, 'admin');
+    const saved = saveChatMessage(user, text, 'admin');
+    try {
+      await fetch('/api/chat/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getLocalAuthHeaders() },
+        body: JSON.stringify({
+          messages: [{
+            id: saved?.id || `CHAT-${Date.now()}`,
+            sender: user,
+            senderType: 'admin',
+            text,
+            timestamp: new Date().toISOString(),
+            replied: true
+          }]
+        })
+      });
+    } catch (error) {
+      // Local fallback remains when server is unavailable.
+    }
     renderAdminChatThread();
     input.value = '';
   }
@@ -1993,7 +3332,8 @@
 
   // Load chat messages on page load
   document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
+    setTimeout(async () => {
+      await syncChatMessagesFromServer();
       renderAdminChatThread();
     }, 500);
   });
@@ -2002,6 +3342,8 @@
   function handleLogout() {
     if (confirm('Apakah Anda yakin ingin logout?')) {
       sessionStorage.removeItem('multicorp_session');
+      localStorage.removeItem('management_production_user');
+      localStorage.removeItem('multicorp_user');
       window.location.href = 'login.html';
     }
   }

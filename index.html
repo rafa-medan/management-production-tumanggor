@@ -629,6 +629,15 @@
                 <label class="form-label" for="partnerRegCompany">Nama Institusi / Perusahaan</label>
                 <input type="text" class="form-control" id="partnerRegCompany" required>
               </div>
+              <div class="mb-3">
+                <label class="form-label" for="partnerRegDivision">Kebutuhan Divisi</label>
+                <select class="form-select" id="partnerRegDivision" required>
+                  <option value="">Pilih divisi tujuan</option>
+                  <option value="IT Program">IT Program</option>
+                  <option value="Network">Network</option>
+                  <option value="Nusantara Food">Nusantara Food</option>
+                </select>
+              </div>
               <button type="submit" class="btn btn-gold w-100">Daftar Partner</button>
             </form>
           </div>
@@ -684,9 +693,82 @@
                 <label class="form-label" for="customerRegAddress">Alamat</label>
                 <input type="text" class="form-control" id="customerRegAddress" required>
               </div>
+              <div class="mb-3">
+                <label class="form-label" for="customerRegDivision">Kebutuhan Divisi</label>
+                <select class="form-select" id="customerRegDivision" required>
+                  <option value="">Pilih divisi tujuan</option>
+                  <option value="IT Program">IT Program</option>
+                  <option value="Network">Network</option>
+                  <option value="Nusantara Food">Nusantara Food</option>
+                </select>
+              </div>
               <button type="submit" class="btn btn-gold w-100">Daftar Customer</button>
             </form>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5 g-4">
+      <div class="col-12">
+        <div class="portal-card">
+          <h4 class="text-gold mb-3"><i class="fas fa-shield-alt me-2"></i>Registrasi Tim Internal</h4>
+          <p class="text-muted-clear mb-4">Pendaftaran akun untuk Super Admin, Admin Divisi, Anggota Super Admin, Anggota Divisi, dan Staff. Kode undangan wajib diisi untuk jalur masuk tim internal.</p>
+          <form id="internalRegisterForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegRole">Role</label>
+                <select class="form-select" id="internalRegRole" required>
+                  <option value="">Pilih role</option>
+                  <option value="SUPER_ADMIN">Super Admin</option>
+                  <option value="ADMIN_DIVISI">Admin Divisi</option>
+                  <option value="ANGGOTA_SUPER_ADMIN">Anggota Super Admin</option>
+                  <option value="ANGGOTA_DIVISI">Anggota Divisi</option>
+                  <option value="STAFF">Staff</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegInviteCode">Kode Undangan</label>
+                <input type="text" class="form-control" id="internalRegInviteCode" placeholder="Kode undangan dari superadmin">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegUsername">Username</label>
+                <input type="text" class="form-control" id="internalRegUsername" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegPassword">Password</label>
+                <input type="password" class="form-control" id="internalRegPassword" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegName">Nama Lengkap</label>
+                <input type="text" class="form-control" id="internalRegName" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegPhone">Nomor Telepon</label>
+                <input type="tel" class="form-control" id="internalRegPhone" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegEmail">Email</label>
+                <input type="email" class="form-control" id="internalRegEmail" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="internalRegDivision">Divisi</label>
+                <select class="form-select" id="internalRegDivision" required>
+                  <option value="">Pilih divisi</option>
+                  <option value="IT Program">IT Program</option>
+                  <option value="Network">Network</option>
+                  <option value="Nusantara Food">Nusantara Food</option>
+                  <option value="ALL">ALL</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label" for="internalRegJabatan">Jabatan</label>
+                <input type="text" class="form-control" id="internalRegJabatan" placeholder="Contoh: Staff IT, Supervisor Network, Manager Food">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold w-100 mt-3">Daftar Tim Internal</button>
+            <div id="internalStatus" class="portal-status"></div>
+          </form>
         </div>
       </div>
     </div>
@@ -703,7 +785,7 @@
     <div class="divisi-container mt-5">
       <!-- Divisi 1: IT Program -->
       <div class="divisi-card card-enterprise">
-        <img src="" alt="IT Program" class="divisi-logo">
+        <img src="RF Production-transparent.png" alt="Logo IT Program" class="divisi-logo">
         <h4 class="text-gold">IT Program</h4>
         <p class="text-muted-clear">Solusi Teknologi Informasi terpadu untuk bisnis Anda</p>
         <small class="text-muted-clear">Klik untuk selengkapnya →</small>
@@ -711,7 +793,7 @@
 
       <!-- Divisi 2: Network -->
       <div class="divisi-card card-enterprise">
-        <img src="" alt="Network" class="divisi-logo">
+        <img src="NDP_Network Production-transparent.png" alt="Logo Network" class="divisi-logo">
         <h4 class="text-gold">Network</h4>
         <p class="text-muted-clear">Infrastruktur Jaringan Komunikasi terpercaya</p>
         <small class="text-muted-clear">Klik untuk selengkapnya →</small>
@@ -719,7 +801,7 @@
 
       <!-- Divisi 3: Nusantara Food -->
       <div class="divisi-card card-enterprise">
-        <img src="" alt="Nusantara Food" class="divisi-logo">
+        <img src="DNF_Nusantara Food-transparent.png" alt="Logo Nusantara Food" class="divisi-logo">
         <h4 class="text-gold">Nusantara Food</h4>
         <p class="text-muted-clear">Layanan Kuliner Nusantara berkualitas premium</p>
         <small class="text-muted-clear">Klik untuk selengkapnya →</small>
@@ -945,8 +1027,8 @@
 
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="app.js"></script>
 <script>
+  const PORTAL_API_URL = 'https://script.google.com/macros/s/AKfycbwgUeXbvQLpaJ78NW_cnUEi06aCEV3Q0vkcmC-80ROIU3l0m9jQc--186th3OTFzxhmWQ/exec';
   const floatingChat = document.getElementById('floatingChat');
   const chatToggle = document.getElementById('chatToggle');
   const chatClose = document.querySelector('.chat-close');
@@ -989,8 +1071,28 @@
     }
   }
 
+  async function loadServerChatHistory() {
+    try {
+      const response = await fetch('/api/chat/history', { cache: 'no-store' });
+      if (!response.ok) return;
+      const result = await response.json();
+      const chats = Array.isArray(result?.chats) ? result.chats : [];
+      if (chats.length) {
+        sessionStorage.setItem('multicorp_chats', JSON.stringify(chats));
+        renderChatHistory();
+      }
+    } catch (error) {
+      // Keep local fallback when the server is unavailable.
+    }
+  }
+
   function renderChatHistory() {
-    const chats = JSON.parse(localStorage.getItem('multicorp_chats') || '[]');
+    let chats = [];
+    try {
+      chats = JSON.parse(sessionStorage.getItem('multicorp_chats') || '[]');
+    } catch (error) {
+      chats = [];
+    }
     
     if (!chats.length) {
       chatHistoryView.innerHTML = '<p class="text-muted text-center mt-3">Belum ada riwayat chat</p>';
@@ -1003,8 +1105,8 @@
       return `
         <div style="margin-bottom: 12px; text-align: ${isUser ? 'right' : 'left'};">
           <div style="display: inline-block; max-width: 85%; background: ${isUser ? '#d4af37' : 'rgba(255,255,255,0.1)'}; padding: 8px 12px; border-radius: 10px; color: ${isUser ? '#000' : '#fff'}; font-size: 0.85rem;">
-            <small style="opacity: 0.7;"><strong>${chat.sender}</strong></small><br>
-            ${chat.text}
+            <small style="opacity: 0.7;"><strong>${escapeHtml(chat.sender)}</strong></small><br>
+            ${escapeHtml(chat.text)}
             <div style="font-size: 0.7rem; opacity: 0.5; margin-top: 3px;">${time}</div>
           </div>
         </div>
@@ -1023,7 +1125,12 @@
   }
 
   function saveChatToStorage(sender, text, senderType = 'customer') {
-    const chats = JSON.parse(localStorage.getItem('multicorp_chats') || '[]');
+    let chats = [];
+    try {
+      chats = JSON.parse(sessionStorage.getItem('multicorp_chats') || '[]');
+    } catch (error) {
+      chats = [];
+    }
     chats.push({
       id: 'CHAT-' + Date.now(),
       sender: sender || 'Customer',
@@ -1032,10 +1139,36 @@
       timestamp: new Date().toISOString(),
       replied: false
     });
-    localStorage.setItem('multicorp_chats', JSON.stringify(chats));
+    sessionStorage.setItem('multicorp_chats', JSON.stringify(chats));
+
+    fetch('/api/chat/history', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: 'CHAT-' + Date.now(),
+        sender: sender || 'Customer',
+        senderType: senderType,
+        text: text,
+        timestamp: new Date().toISOString(),
+        replied: false
+      })
+    }).catch(() => {});
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[character]));
   }
 
   function addWhatsAppButton(label, phone, text) {
+    const existing = chatThread.querySelector('.chat-wa-link');
+    if (existing) existing.remove();
+
     const link = document.createElement('a');
     link.href = `https://wa.me/${phone}?text=${text}`;
     link.target = '_blank';
@@ -1044,6 +1177,7 @@
     link.innerHTML = '<i class="fab fa-whatsapp"></i> ' + label;
     chatThread.appendChild(link);
     chatThread.scrollTop = chatThread.scrollHeight;
+    return link;
   }
 
   function findBestCS(text) {
@@ -1054,57 +1188,195 @@
     return 'general';
   }
 
-  function generateAIReply(userText) {
-    const text = userText.toLowerCase();
+  function normalizeUserText(value) {
+    return String(value || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
 
-    if (text.includes('halo') || text.includes('hai') || text.includes('hello')) {
-      return 'Halo! Saya AI Managament Production Multicorp. Ada yang ingin Anda tanyakan seputar layanan, produk, atau kebutuhan bisnis Anda?';
+  const chatContext = {
+    lastIntent: 'greeting',
+    lastTopic: 'general'
+  };
+
+  function detectIntent(userText) {
+    const text = normalizeUserText(userText);
+
+    const greetingWords = ['hai', 'halo', 'hello', 'hi', 'hallo'];
+    const isGreeting = greetingWords.some(word => text === word || text.startsWith(word + ' ') || text.includes(' ' + word + ' ') || text.includes(word + '!')) ||
+      /(selamat (pagi|siang|sore|malam)|selamat datang|selamat tidur)/.test(text);
+
+    if (isGreeting) {
+      return 'greeting';
     }
 
-    if (text.includes('customer service') || text.includes('cs') || text.includes('hubungi admin') || text.includes('kontak')) {
-      const key = findBestCS(userText);
-      const cs = csContacts[key];
+    if (/(terima kasih|makasih|thanks|thank you|sama sama)/.test(text)) {
+      return 'thanks';
+    }
+
+    if (/(baik|oke|ok|siap|terima|paham)/.test(text) && chatContext.lastIntent) {
+      return 'ack';
+    }
+
+    const intentChecks = [
+      { name: 'support', patterns: ['customer service', 'cs', 'kontak', 'hubungi admin', 'whatsapp', 'chat', 'support', 'bantuan', 'help', 'assistant', 'admin'] },
+      { name: 'it', patterns: ['it', 'website', 'web', 'aplikasi', 'software', 'system', 'sistem', 'program', 'digital', 'developer', 'app', 'apps'] },
+      { name: 'network', patterns: ['jaringan', 'network', 'wifi', 'internet', 'server', 'vpn', 'cloud', 'infrastruktur', 'lan'] },
+      { name: 'food', patterns: ['food', 'kuliner', 'catering', 'menu', 'makanan', 'restoran', 'nasi'] },
+      { name: 'pricing', patterns: ['harga', 'biaya', 'paket', 'quote', 'price', 'cost', 'budget', 'tarif'] },
+      { name: 'problem', patterns: ['error', 'bug', 'gagal', 'masalah', 'tidak bisa', 'ngga bisa', 'broken', 'problem', 'rusak', 'errornya'] }
+    ];
+
+    for (const intent of intentChecks) {
+      if (intent.patterns.some(pattern => text.includes(pattern))) {
+        return intent.name;
+      }
+    }
+
+    return 'general';
+  }
+
+  function generateAIReply(userText) {
+    const text = normalizeUserText(userText);
+    const intent = detectIntent(userText);
+    chatContext.lastIntent = intent;
+
+    const wantsDirectContact = /(hubungi|kontak|cs|customer service|whatsapp|wa|chat admin|admin|langsung ke admin|bisa chat admin|hubungi admin|hubungin admin|langsung chat)/.test(text);
+
+    const responseStyles = {
+      greeting: [
+        'Halo! Saya AI support Managament Production Multicorp. Saya siap membantu kebutuhan Anda dengan ramah dan cepat.',
+        'Selamat datang! Saya di sini untuk membantu kebutuhan IT, jaringan, dan layanan kuliner Anda dengan jelas dan cepat.'
+      ],
+      support: [
+        'Tentu, saya bisa membantu mengarahkan kebutuhan Anda ke tim yang tepat agar prosesnya lebih cepat dan nyaman.',
+        'Saya siap membantu Anda menemukan jalur terbaik untuk kebutuhan yang sedang Anda cari.'
+      ],
+      it: [
+        'Layanan IT Program kami mencakup website, aplikasi, sistem, dan support digital sesuai kebutuhan bisnis Anda.',
+        'Kami siap membantu kebutuhan digital Anda mulai dari website, sistem, hingga perbaikan teknis yang lebih kompleks.'
+      ],
+      network: [
+        'Untuk kebutuhan jaringan, kami siap membantu setup WiFi, server, keamanan jaringan, dan maintenance infrastruktur.',
+        'Kami bisa membantu merancang solusi jaringan yang sesuai dengan skala dan kebutuhan operasional Anda.'
+      ],
+      food: [
+        'Layanan Nusantara Food kami mencakup catering, menu spesial, dan kebutuhan kuliner untuk kebutuhan bisnis Anda.',
+        'Kami siap membantu Anda memilih solusi kuliner yang sesuai dengan kebutuhan acara atau operasional Anda.'
+      ],
+      pricing: [
+        'Detail harga dan paket biasanya disesuaikan dengan kebutuhan Anda, jadi kami bisa memberikan rekomendasi yang lebih tepat bila Anda jelaskan kebutuhan singkatnya.',
+        'Untuk paket dan biaya, kami akan sesuaikan dengan kebutuhan masing-masing klien agar lebih efisien dan relevan.'
+      ],
+      problem: [
+        'Saya memahami kendala yang Anda hadapi. Jelaskan kronologi singkatnya agar kami bisa membantu dengan solusi yang lebih tepat.',
+        'Baik, saya siap membantu. Mohon jelaskan masalahnya secara singkat agar tim kami bisa membantu lebih cepat.'
+      ],
+      thanks: [
+        'Sama-sama. Saya siap membantu Anda kapan saja dengan layanan yang ramah dan responsif.',
+        'Senang bisa membantu. Managament Production Multicorp selalu siap mendukung kebutuhan Anda.'
+      ],
+      ack: [
+        'Siap membantu. Silakan jelaskan kebutuhan Anda secara singkat agar saya bisa membantunya dengan lebih tepat.',
+        'Baik, saya masih siap membantu. Coba jelaskan kebutuhan Anda dengan detail yang cukup agar kami bisa memberi solusi optimal.'
+      ],
+      general: [
+        'Terima kasih atas pertanyaannya. Saya bisa membantu menjelaskan layanan kami untuk IT, jaringan, dan kuliner dengan cara yang jelas dan sederhana.',
+        'Saya siap membantu menjelaskan layanan yang paling sesuai dengan kebutuhan Anda. Coba sebutkan kebutuhan Anda secara singkat.'
+      ]
+    };
+
+    if (intent === 'greeting') {
+      const match = text.match(/selamat (pagi|siang|sore|malam|datang|tidur)/);
+      const choice = responseStyles.greeting[Math.floor(Math.random() * responseStyles.greeting.length)];
+      const greetingText = match ? `Selamat ${match[1]}! ${choice}` : choice;
       return {
-        text: `Saya bisa menghubungkan Anda langsung ke ${cs.name}. Klik tombol di bawah ini untuk lanjut ke WhatsApp customer service.`,
-        cta: { label: `Hubungi ${cs.name}`, phone: cs.phone, text: cs.text }
+        text: greetingText,
+        cta: wantsDirectContact ? { label: 'Hubungi WhatsApp Support', phone: csContacts.general.phone, text: csContacts.general.text } : null
       };
     }
 
-    if (text.includes('it') || text.includes('website') || text.includes('aplikasi') || text.includes('software')) {
-      return 'Layanan IT Program kami mencakup konsultasi, pengembangan sistem, website, dan support teknis. Jika Anda mau, saya bisa bantu menghubungkan ke admin IT.';
+    if (intent === 'support') {
+      const key = findBestCS(userText);
+      const cs = csContacts[key];
+      const choice = responseStyles.support[Math.floor(Math.random() * responseStyles.support.length)];
+      return {
+        text: `${choice} Tim ${cs.name} siap membantu Anda dengan cepat dan ramah.`,
+        cta: wantsDirectContact ? { label: `Hubungi ${cs.name}`, phone: cs.phone, text: cs.text } : null
+      };
     }
 
-    if (text.includes('jaringan') || text.includes('network') || text.includes('wifi') || text.includes('server')) {
-      return 'Untuk kebutuhan jaringan, kami menyediakan setup jaringan, cloud, keamanan jaringan, dan maintenance infra. Saya bisa bantu hubungkan ke admin jaringan.';
+    if (intent === 'it') {
+      const cs = csContacts.it;
+      chatContext.lastTopic = 'it';
+      return {
+        text: `${responseStyles.it[Math.floor(Math.random() * responseStyles.it.length)]} Saya bisa membantu menjelaskan kebutuhan Anda lebih lanjut.`,
+        cta: wantsDirectContact ? { label: 'Hubungi Admin IT', phone: cs.phone, text: cs.text } : null
+      };
     }
 
-    if (text.includes('food') || text.includes('kuliner') || text.includes('catering') || text.includes('menu')) {
-      return 'Layanan Nusantara Food kami mencakup catering, menu spesial, dan konsultasi kuliner. Jika Anda mau, saya bisa arahkan ke admin food.';
+    if (intent === 'network') {
+      const cs = csContacts.network;
+      chatContext.lastTopic = 'network';
+      return {
+        text: `${responseStyles.network[Math.floor(Math.random() * responseStyles.network.length)]} Saya bisa membantu menentukan solusi yang paling cocok untuk kondisi Anda.`,
+        cta: wantsDirectContact ? { label: 'Hubungi Admin Network', phone: cs.phone, text: cs.text } : null
+      };
     }
 
-    if (text.includes('harga') || text.includes('biaya') || text.includes('paket')) {
-      return 'Untuk detail harga dan paket, kami akan menyesuaikan kebutuhan Anda. Silakan jelaskan kebutuhan bisnis Anda, lalu saya akan arahkan ke customer service yang tepat.';
+    if (intent === 'food') {
+      const cs = csContacts.food;
+      chatContext.lastTopic = 'food';
+      return {
+        text: `${responseStyles.food[Math.floor(Math.random() * responseStyles.food.length)]} Saya bisa membantu menjelaskan opsi yang paling sesuai.`,
+        cta: wantsDirectContact ? { label: 'Hubungi Admin Food', phone: cs.phone, text: cs.text } : null
+      };
     }
 
-    if (text.includes('selamat') || text.includes('terima kasih')) {
-      return 'Sama-sama. Managament Production Multicorp siap membantu kebutuhan Anda kapan saja.';
+    if (intent === 'pricing') {
+      const cs = csContacts.general;
+      chatContext.lastTopic = 'pricing';
+      return {
+        text: `${responseStyles.pricing[Math.floor(Math.random() * responseStyles.pricing.length)]}`,
+        cta: wantsDirectContact ? { label: 'Hubungi WhatsApp Support', phone: cs.phone, text: cs.text } : null
+      };
     }
 
-    return 'Terima kasih untuk pertanyaannya. Saat ini saya bisa membantu menjelaskan layanan Managament Production Multicorp. Jika Anda ingin langsung terhubung dengan customer service, silakan sebutkan kebutuhan Anda seperti IT, jaringan, atau kuliner.';
-  }
-
-  const registeredUsersKey = 'multicorp_registered_users';
-
-  function getRegisteredUsers() {
-    try {
-      return JSON.parse(localStorage.getItem(registeredUsersKey) || '{}');
-    } catch (e) {
-      return {};
+    if (intent === 'problem') {
+      const cs = csContacts.general;
+      chatContext.lastTopic = 'problem';
+      return {
+        text: `${responseStyles.problem[Math.floor(Math.random() * responseStyles.problem.length)]}`,
+        cta: wantsDirectContact ? { label: 'Hubungi WhatsApp Support', phone: cs.phone, text: cs.text } : null
+      };
     }
-  }
 
-  function setRegisteredUsers(users) {
-    localStorage.setItem(registeredUsersKey, JSON.stringify(users));
+    if (intent === 'thanks') {
+      return { text: responseStyles.thanks[Math.floor(Math.random() * responseStyles.thanks.length)] };
+    }
+
+    if (intent === 'ack') {
+      const contextLabel = {
+        it: 'layanan IT',
+        network: 'jaringan',
+        food: 'kuliner',
+        pricing: 'harga dan paket',
+        problem: 'masalah yang sedang Anda hadapi',
+        general: 'kebutuhan Anda'
+      }[chatContext.lastTopic] || 'kebutuhan Anda';
+
+      return { text: `${responseStyles.ack[Math.floor(Math.random() * responseStyles.ack.length)]} Saya masih siap membahas ${contextLabel} lebih lanjut.` };
+    }
+
+    const cs = csContacts.general;
+    return {
+      text: `${responseStyles.general[Math.floor(Math.random() * responseStyles.general.length)]}`,
+      cta: wantsDirectContact ? { label: 'Hubungi WhatsApp Support', phone: cs.phone, text: cs.text } : null
+    };
   }
 
   function showPortalStatus(elementId, type, message) {
@@ -1122,45 +1394,67 @@
     statusEl.textContent = '';
   }
 
-  function getRoleUsers() {
-    return {
-      PARTNER: {
-        partner_jaya: { password: 'partner123', role: 'PARTNER', name: 'Mitra Bisnis Jaya', divisi: 'PARTNER' },
-        ...getRegisteredUsers()['PARTNER']
-      },
-      CUSTOMER: {
-        cust_budi: { password: 'budi123', role: 'CUSTOMER', name: 'Budi Santoso', divisi: 'CUSTOMER' },
-        ...getRegisteredUsers()['CUSTOMER']
+  async function performPortalLogin(role, username, password, statusId) {
+    const isLocalEnvironment = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+    if (isLocalEnvironment) {
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const result = await response.json();
+        if (response.ok && result.status === 'success') {
+          const user = result.user || {};
+          const userSession = {
+            username: user.username || username,
+            role: user.role,
+            name: user.name || user.nama || username,
+            divisi: user.divisi,
+            jabatan: user.jabatan,
+            email: user.email,
+            phone: user.phone || user.telepon,
+            token: result.token,
+            timestamp: Date.now()
+          };
+          sessionStorage.setItem('multicorp_session', JSON.stringify(userSession));
+          showPortalStatus(statusId, 'success', 'Login berhasil. Mengarahkan ke dashboard...');
+          return userSession;
+        }
+        throw new Error(result.message || 'Username atau password salah.');
+      } catch (error) {
+        if (error.message && !error.message.includes('fetch')) throw error;
       }
-    };
-  }
-
-  function performPortalLogin(role, username, password, statusId) {
-    const userMap = getRoleUsers();
-    const account = userMap[role]?.[username];
-    const demoAccounts = ['partner_jaya', 'cust_budi'];
-    const isPublicDeployment = !['localhost', '127.0.0.1'].includes(window.location.hostname);
-    if (isPublicDeployment && demoAccounts.includes(username)) {
-      showPortalStatus(statusId, 'error', 'Akun demo hanya tersedia di lingkungan pengujian lokal.');
-      return null;
     }
 
-    if (!account || account.password !== password) {
-      showPortalStatus(statusId, 'error', 'Username atau password ' + role.toLowerCase() + ' salah.');
-      return null;
+    try {
+      const response = await fetch(PORTAL_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'LOGIN', username, password })
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Username atau password salah.');
+      }
+      const user = result.user || {};
+      const userSession = {
+        username: user.username || username,
+        role: user.role,
+        name: user.nama || user.name || username,
+        divisi: user.divisi,
+        jabatan: user.jabatan,
+        email: user.email,
+        phone: user.telepon || user.phone,
+        token: result.token,
+        timestamp: Date.now()
+      };
+      sessionStorage.setItem('multicorp_session', JSON.stringify(userSession));
+      showPortalStatus(statusId, 'success', 'Login berhasil. Mengarahkan ke dashboard...');
+      return userSession;
+    } catch (error) {
+      throw new Error(error.message || 'Gagal terhubung ke server autentikasi.');
     }
-
-    const userSession = {
-      username: username,
-      role: account.role,
-      name: account.name,
-      divisi: account.divisi,
-      timestamp: new Date().getTime()
-    };
-
-    localStorage.setItem('multicorp_user', JSON.stringify(userSession));
-    showPortalStatus(statusId, 'success', 'Login berhasil. Mengarahkan ke dashboard...');
-    return userSession;
   }
 
   function toggleRegisterBox(role) {
@@ -1170,13 +1464,14 @@
     box.classList.toggle('show');
   }
 
-  function handleRegister(role) {
+  async function handleRegister(role) {
     const usernameId = role === 'PARTNER' ? 'partnerRegUsername' : 'customerRegUsername';
     const passwordId = role === 'PARTNER' ? 'partnerRegPassword' : 'customerRegPassword';
     const nameId = role === 'PARTNER' ? 'partnerRegName' : 'customerRegName';
     const phoneId = role === 'PARTNER' ? 'partnerRegPhone' : 'customerRegPhone';
     const emailId = role === 'PARTNER' ? 'partnerRegEmail' : 'customerRegEmail';
     const companyId = role === 'PARTNER' ? 'partnerRegCompany' : 'customerRegAddress';
+    const divisionId = role === 'PARTNER' ? 'partnerRegDivision' : 'customerRegDivision';
     const statusId = role === 'PARTNER' ? 'partnerStatus' : 'customerStatus';
 
     const username = document.getElementById(usernameId).value.trim();
@@ -1185,44 +1480,136 @@
     const phone = document.getElementById(phoneId).value.trim();
     const email = document.getElementById(emailId).value.trim();
     const company = document.getElementById(companyId).value.trim();
+    const division = document.getElementById(divisionId).value;
 
-    if (!username || !password || !name || !phone || !email || !company) {
+    if (!username || !password || !name || !phone || !email || !company || !division) {
       showPortalStatus(statusId, 'error', 'Semua field pendaftaran harus diisi.');
       return;
     }
 
-    const users = getRegisteredUsers();
-    const roleUsers = users[role] || {};
-
-    if (roleUsers[username]) {
-      showPortalStatus(statusId, 'error', 'Username sudah terdaftar. Gunakan username lain.');
+    if (!['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+      const result = await fetch(PORTAL_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'REGISTER',
+          role,
+          username,
+          password,
+          nama: name,
+          telepon: phone,
+          email,
+          alamat: company,
+          institusi: company,
+          divisi: division
+        })
+      }).then(response => response.json());
+      if (!result.success) {
+        showPortalStatus(statusId, 'error', result.message || 'Pendaftaran gagal.');
+        return;
+      }
+      document.getElementById(role === 'PARTNER' ? 'partnerRegisterForm' : 'customerRegisterForm').reset();
+      showPortalStatus(statusId, 'success', result.message || 'Pendaftaran berhasil.');
       return;
     }
 
-    roleUsers[username] = {
-      password,
-      role,
-      name,
-      divisi: role,
-      phone,
-      email,
-      company
+    try {
+      const result = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role,
+          username,
+          password,
+          name,
+          phone,
+          email,
+          divisi: division,
+          company: role === 'PARTNER' ? company : '',
+          address: role === 'CUSTOMER' ? company : ''
+        })
+      }).then(response => response.json());
+      if (!result.success) {
+        showPortalStatus(statusId, 'error', result.message || 'Pendaftaran gagal.');
+        return;
+      }
+      document.getElementById(role === 'PARTNER' ? 'partnerRegisterForm' : 'customerRegisterForm').reset();
+      showPortalStatus(statusId, 'success', result.message || 'Pendaftaran berhasil! Silakan login.');
+    } catch (error) {
+      showPortalStatus(statusId, 'error', 'Server lokal tidak tersedia. Jalankan START_SERVER.bat lalu coba lagi.');
+    }
+  }
+
+  async function handleInternalRegister() {
+    const form = document.getElementById('internalRegisterForm');
+    if (!form) return;
+
+    const role = document.getElementById('internalRegRole').value;
+    const inviteCode = document.getElementById('internalRegInviteCode').value.trim();
+    const username = document.getElementById('internalRegUsername').value.trim();
+    const password = document.getElementById('internalRegPassword').value.trim();
+    const name = document.getElementById('internalRegName').value.trim();
+    const phone = document.getElementById('internalRegPhone').value.trim();
+    const email = document.getElementById('internalRegEmail').value.trim();
+    const division = document.getElementById('internalRegDivision').value;
+    const jabatan = document.getElementById('internalRegJabatan').value.trim();
+    const statusId = 'internalStatus';
+
+    if (!role || !username || !password || !name || !phone || !email || !division) {
+      showPortalStatus(statusId, 'error', 'Semua field internal harus diisi.');
+      return;
+    }
+
+    const requiredInviteCodeByRole = {
+      SUPER_ADMIN: 'MPT-SUPERADMIN-2026',
+      ANGGOTA_SUPER_ADMIN: 'MPT-ANGGOTA-SUPERADMIN-2026',
+      ADMIN_DIVISI: 'MPT-ADMIN-DIVISI-2026',
+      ANGGOTA_DIVISI: 'MPT-ANGGOTA-DIVISI-2026',
+      STAFF: 'MPT-STAFF-2026'
     };
 
-    users[role] = roleUsers;
-    setRegisteredUsers(users);
+    const expectedInviteCode = requiredInviteCodeByRole[role];
+    if (expectedInviteCode && (!inviteCode || inviteCode !== expectedInviteCode)) {
+      showPortalStatus(statusId, 'error', 'Kode undangan tidak valid untuk role yang dipilih.');
+      return;
+    }
 
-    document.getElementById(role === 'PARTNER' ? 'partnerRegisterForm' : 'customerRegisterForm').reset();
-    showPortalStatus(statusId, 'success', 'Pendaftaran berhasil! Silakan login dengan akun baru Anda.');
+    try {
+      const result = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role,
+          username,
+          password,
+          name,
+          phone,
+          email,
+          divisi: division,
+          jabatan,
+          inviteCode
+        })
+      }).then(response => response.json());
+
+      if (!result.success) {
+        showPortalStatus(statusId, 'error', result.message || 'Pendaftaran internal gagal.');
+        return;
+      }
+
+      form.reset();
+      showPortalStatus(statusId, 'success', result.message || 'Pendaftaran internal berhasil. Menunggu persetujuan superadmin.');
+    } catch (error) {
+      showPortalStatus(statusId, 'error', 'Server lokal tidak tersedia. Jalankan START_SERVER.bat lalu coba lagi.');
+    }
   }
 
   function bindPortalHandlers() {
-    document.getElementById('partnerLoginForm').addEventListener('submit', function(e) {
+    document.getElementById('partnerLoginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       hidePortalStatus('partnerStatus');
       const username = document.getElementById('partnerUsername').value.trim();
       const password = document.getElementById('partnerPassword').value.trim();
-      const session = performPortalLogin('PARTNER', username, password, 'partnerStatus');
+      const session = await performPortalLogin('PARTNER', username, password, 'partnerStatus');
       if (session) {
         setTimeout(() => {
           window.location.href = 'dashboard.html?user=' + encodeURIComponent(username);
@@ -1230,12 +1617,12 @@
       }
     });
 
-    document.getElementById('customerLoginForm').addEventListener('submit', function(e) {
+    document.getElementById('customerLoginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       hidePortalStatus('customerStatus');
       const username = document.getElementById('customerUsername').value.trim();
       const password = document.getElementById('customerPassword').value.trim();
-      const session = performPortalLogin('CUSTOMER', username, password, 'customerStatus');
+      const session = await performPortalLogin('CUSTOMER', username, password, 'customerStatus');
       if (session) {
         setTimeout(() => {
           window.location.href = 'dashboard.html?user=' + encodeURIComponent(username);
@@ -1243,15 +1630,23 @@
       }
     });
 
-    document.getElementById('partnerRegisterForm').addEventListener('submit', function(e) {
+    document.getElementById('partnerRegisterForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      handleRegister('PARTNER');
+      await handleRegister('PARTNER');
     });
 
-    document.getElementById('customerRegisterForm').addEventListener('submit', function(e) {
+    document.getElementById('customerRegisterForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      handleRegister('CUSTOMER');
+      await handleRegister('CUSTOMER');
     });
+
+    const internalRegisterForm = document.getElementById('internalRegisterForm');
+    if (internalRegisterForm) {
+      internalRegisterForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await handleInternalRegister();
+      });
+    }
 
     document.querySelectorAll('[data-register-role]').forEach(button => {
       button.addEventListener('click', () => toggleRegisterBox(button.dataset.registerRole));
@@ -1264,6 +1659,13 @@
       setTimeout(() => chatInput.focus(), 50);
     }
   }
+
+  setTimeout(() => {
+    floatingChat.classList.add('open');
+    setTimeout(() => chatInput.focus(), 80);
+  }, 400);
+
+  loadServerChatHistory();
 
   chatToggle.addEventListener('click', toggleChat);
 
@@ -1299,7 +1701,25 @@
   enablePasswordToggles();
   bindPortalHandlers();
 
-  chatForm.addEventListener('submit', function(event) {
+  async function requestCustomerReply(message) {
+    try {
+      const response = await fetch('/api/chat/answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      const result = await response.json();
+      if (response.ok && result && result.reply) {
+        return result;
+      }
+    } catch (error) {
+      // fallback below if backend is unavailable
+    }
+
+    return { reply: generateAIReply(message) };
+  }
+
+  chatForm.addEventListener('submit', async function(event) {
     event.preventDefault();
     const text = chatInput.value.trim();
     if (!text) return;
@@ -1308,18 +1728,34 @@
     saveChatToStorage('Portal User', text, 'customer');
     chatInput.value = '';
 
-    setTimeout(() => {
-      const reply = generateAIReply(text);
+    const botBubble = addMessage('Saya sedang menyiapkan jawaban untuk Anda...', 'bot');
+    botBubble.classList.add('pending');
 
-      if (reply && typeof reply === 'object') {
-        addMessage(reply.text, 'bot');
-        saveChatToStorage('AI Managament Production Multicorp', reply.text, 'bot');
-        addWhatsAppButton(reply.cta.label, reply.cta.phone, reply.cta.text);
-      } else {
-        addMessage(reply, 'bot');
-        saveChatToStorage('AI Managament Production Multicorp', reply, 'bot');
+    try {
+      const backendReply = await requestCustomerReply(text);
+      const reply = backendReply && backendReply.reply && typeof backendReply.reply === 'object'
+        ? backendReply.reply
+        : { text: backendReply.reply || generateAIReply(text).text };
+
+      const pendingElement = document.querySelector('.chat-message.bot.pending');
+      if (pendingElement) {
+        pendingElement.remove();
       }
-    }, 700);
+
+      addMessage(reply.text, 'bot');
+      saveChatToStorage('AI Managament Production Multicorp', reply.text, 'bot');
+
+      if (reply.cta && reply.cta.label && reply.cta.phone && reply.cta.text) {
+        const waLink = addWhatsAppButton(reply.cta.label, reply.cta.phone, reply.cta.text);
+        waLink.setAttribute('title', 'Buka WhatsApp support');
+      }
+    } catch (error) {
+      const pendingElement = document.querySelector('.chat-message.bot.pending');
+      if (pendingElement) pendingElement.remove();
+      const fallback = generateAIReply(text);
+      addMessage(fallback.text, 'bot');
+      saveChatToStorage('AI Managament Production Multicorp', fallback.text, 'bot');
+    }
   });
 
   document.addEventListener('click', function(event) {
